@@ -1,0 +1,7 @@
+jubilaciones_declaraciones:
+    resource: "@JubilacionesDeclaracionesBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation

@@ -1,0 +1,3 @@
+jubilaciones_declaraciones_homepage:
+    path:     /
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Default:index }
