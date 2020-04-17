@@ -50,7 +50,7 @@ class Declaracionjurada {
     protected $comentarios;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", columnDefinition="enum('Procesando', 'Correcto', 'Incorrecto')")
      */
     protected $estado;
     

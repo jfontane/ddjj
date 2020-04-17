@@ -34,7 +34,7 @@ class Representante {
     protected $fechaIngreso;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", columnDefinition="enum('Dni', 'Lc', 'Le')")
      */
     protected $documentoTipo;
 
@@ -54,7 +54,7 @@ class Representante {
     protected $nombres;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", columnDefinition="enum('Masculino', 'Femenino')")
      */
     protected $sexo;
 
@@ -87,17 +87,17 @@ class Representante {
     protected $login;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
      */
     protected $habilitado;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
      */
     protected $entregoFormularios;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
      */
     protected $confirmoDatos;
     

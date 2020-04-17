@@ -73,13 +73,13 @@ class Organismo {
     protected $email;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
      * @Assert\Choice({"Si","No"})
      */
     protected $amparo;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", columnDefinition="enum('Norte', 'Sur')")
      */
     protected $zona;
 
