@@ -9,7 +9,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Jubilaciones\DeclaracionesBundle\Entity\Declaracionjurada;
 use Jubilaciones\DeclaracionesBundle\Form\DeclaracionjuradaType;
 use Jubilaciones\DeclaracionesBundle\Entity\Organismo;
-use Jubilaciones\DeclaracionesBundle\Controller\AbstractAdminBaseController;
+use Jubilaciones\DeclaracionesBundle\Controller\AbstractBaseController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class DeclaracionjuradaController extends Controller {
 
@@ -45,7 +47,25 @@ class DeclaracionjuradaController extends Controller {
 // AGREGAR AL FORM BOTÓN DE SUBMIT CON ETIQUETA “Guardar”
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            //$jubidat = $form->get('jubidat')->getData();
 
+            // Recogemos el fichero
+            $file = $form['jubidat']->getData();
+            dump($file);die;
+
+// Sacamos la extensión del fichero
+            $ext = $file->guessExtension();
+
+// Le ponemos un nombre al fichero
+            $file_name = time() . "." . $ext;
+
+// Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
+            $file->move("uploads", $file_name);
+
+
+
+            //dump($jubidat);
+            die;
             //dump($declaracionjurada->getPeriodoAnio().'/'.$declaracionjurada->getPeriodoMes());die;
             $fechaEntrega = date('Y-m-d');
             //$declaracionjurada->setFechaEntrega($fechaEntrega);

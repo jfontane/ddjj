@@ -60,6 +60,16 @@ class Declaracionjurada {
      * @ORM\Column(type="string", columnDefinition="enum('Procesando', 'Correcto', 'Incorrecto')")
      */
     protected $estado;
+
+    /**
+     * @ORM\Column(type="blob", nullable=true)
+     */
+    protected $jubidat;
+    
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $jubi1ind;
     
     /**
      * @ORM\ManyToOne(targetEntity="Organismo", inversedBy="declaracionjuradas")
@@ -248,6 +258,54 @@ class Declaracionjurada {
         return $this->estado;
     }
 
+    /**
+     * Set jubidat
+     *
+     * @param string $jubidat
+     *
+     * @return Declaracionjurada
+     */
+    public function setJubidat($jubidat)
+    {
+        $this->jubidat = $jubidat;
+
+        return $this;
+    }
+
+    /**
+     * Get jubidat
+     *
+     * @return string
+     */
+    public function getJubidat()
+    {
+        return $this->jubidat;
+    }
+    
+    /**
+     * Set jubi1ind
+     *
+     * @param string $jubi1ind
+     *
+     * @return Declaracionjurada
+     */
+    public function setJubi1ind($jubi1ind)
+    {
+        $this->jubi1ind = $jubi1ind;
+
+        return $this;
+    }
+
+    /**
+     * Get jubi1ind
+     *
+     * @return string
+     */
+    public function getJubi1ind()
+    {
+        return $this->jubi1ind;
+    }
+    
     /**
      * Set organismo
      *

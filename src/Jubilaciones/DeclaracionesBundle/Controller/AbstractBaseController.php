@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  *
  * @author Alumno
  */
-class AbstractAdminBaseController extends Controller {
+class AbstractBaseController extends Controller {
 
     public function addInfoMessage($msg) {
         return $this->get('session')->getFlashBag()->add('info', $msg);

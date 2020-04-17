@@ -15,31 +15,77 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class DeclaracionjuradaType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('tipoLiquidacion', ChoiceType::class, array(
                     'choices' => array('Normal' => '1', 'Correctiva' => '2',
-                                       'Complementaria 1' => '3', 'Complementaria 2' => '4',
-                                       'Complementaria 3' => '5', 'Complementaria 4' => '6')
+                        'Complementaria 1' => '3', 'Complementaria 2' => '4',
+                        'Complementaria 3' => '5', 'Complementaria 4' => '6')
                 ))
                 ->add('periodoAnio', ChoiceType::class, array(
                     'choices' => array('2020' => '2020', '2019' => '2019',
-                                       '2018' => '2018', '2017' => '2017',
-                                       '2016' => '2016', '2015' => '2015')
+                        '2018' => '2018', '2017' => '2017',
+                        '2016' => '2016', '2015' => '2015')
                 ))
                 ->add('periodoMes', ChoiceType::class, array(
                     'choices' => array('Ene' => '01', 'Feb' => '02',
-                                       'Mar' => '03', 'Abr' => '04',
-                                       'May' => '05', 'Jun' => '06',
-                                       '1er SAC' => '13', 'Jul' => '07',
-                                       'Ago' => '08', 'Sep' => '09',
-                                       'Oct' => '10', 'Nov' => '11',
-                                       'Dic' => '12', '2do SAC' => '14')
-                ));
+                        'Mar' => '03', 'Abr' => '04',
+                        'May' => '05', 'Jun' => '06',
+                        '1er SAC' => '13', 'Jul' => '07',
+                        'Ago' => '08', 'Sep' => '09',
+                        'Oct' => '10', 'Nov' => '11',
+                        'Dic' => '12', '2do SAC' => '14')
+                ))
+                 ->add('jubidat', FileType::class,array(
+                "label" => "Jubi.dat",
+                "attr" =>array("class" => "form-control")
+            ));
+
                 
+                /*
+                ->add('jubidat', FileType::class, [
+                    'label' => 'Jubi.dat',
+                    // unmapped means that this field is not associated to any entity property
+                    'mapped' => false,
+                    // make it optional so you don't have to re-upload the PDF file
+                    // every time you edit the Product details
+                    'required' => false,
+                    // unmapped fields can't define their validation using annotations
+                    // in the associated entity, so you can use the PHP constraint classes
+                    'constraints' => [
+                        new File([
+                            'maxSize' => '1024k',
+                            'mimeTypes' => [
+                                'application/txt',
+                            ],
+                            'mimeTypesMessage' => 'Please upload a valid TXT document',
+                                ])
+                    ],
+                ])
+                ->add('jubi1ind', FileType::class, [
+                    'label' => 'Jubi1.ind',
+                    // unmapped means that this field is not associated to any entity property
+                    'mapped' => false,
+                    // make it optional so you don't have to re-upload the PDF file
+                    // every time you edit the Product details
+                    'required' => false,
+                    // unmapped fields can't define their validation using annotations
+                    // in the associated entity, so you can use the PHP constraint classes
+                    'constraints' => [
+                        new File([
+                            'maxSize' => '1024k',
+                            'mimeTypes' => [
+                                'application/pdf',
+                                'application/x-pdf',
+                            ],
+                            'mimeTypesMessage' => 'Please upload a valid PDF document',
+                                ])
+                    ],
+        ]);*/
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
