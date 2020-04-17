@@ -1,3 +1,7 @@
 organismo_declaraciones_juradas:
-    path:     /listar
+    path:     /declaraciones
     defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:listar }
+    
+organismo_declaracion_jurada:
+    path:     /declaracion/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:declaracion }    

@@ -1,36 +1,56 @@
 {% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
-{% block title %}Declaraciones Juradas{% endblock %}
-{% block metadesc %}Se impartiran las charlas: 
-    
-{% endblock %}
-{% block pageid 'eventos' %}
+{% block title %}Listado de Declaraciones Juradas{% endblock %}
+{% block pageid 'admin' %}
 
-    {% block contenido %}
+    {% block body %}
         {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
 
-        <h1>Declaraciones Juradas</h1>
-        <div>
-                <div class="grid_2 alpha">
-                    <b>Periodo</b> <b>Tipo</b>
-                </div>
-                <div class="grid_10 omega">
-                    <b>Estado</b>
-                </div>
-            </div>
-        {% for declaracion in declaraciones %}
-            <div>
-                <div class="grid_2 alpha">
-                    {{ declaracion.periodo[0:4] }} / {{ declaracion.periodo[4:2] }}
-                    {{ declaracion.tipoLiquidacion }}
-                </div>
-                <div class="grid_10 omega">
-                    {{ declaracion.estado }}
-                </div>
-            </div>
-        {% endfor %}
+
+        <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
+        
+        <div class="grid_16">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Periodo</th>
+                        <th>Tipo Liquidacion</th>
+                        <th>Fecha Entrega</th>
+                        <th>Fecha Ingreso</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for declaracion in declaraciones %}
+                        <tr>
+                            <td>
+                                <a href="{{ path ('organismo_declaracion_jurada', {'id' : declaracion.id}) }}">  {{ declaracion.periodo[0:4] }}/{{ declaracion.periodo[4:2] }}</a>
+                            </td>
+                            <td>{{ declaracion.tipoLiquidacion }}</td>
+                            <td>fecha 1</td>
+                            <td>fecha 2</td>
+                            <td>{{ declaracion.estado }}</td>
+                            <td>
+                                <a href="">Ver inscriptos</a>
+                                <a href="">Borrar</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="5">No existe ningún evento</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="nuevo"> Nuevo </a>
+        </div>
     {% endblock %}
-    {% block lateral %}
-        <h3>Falta alg&uacute;n evento?</h3>
-        <p>Accede a la secci&oacute;n <a href="#"><em>Call for papers</em></a> y env&iacute;anos tu propuesta</p>
-        {{ parent() }}
-    {% endblock %}  
+{% block javascripts %}
+        <script>
+            function confirmaBorrar() {
+                if (confirm("Desea Eliminar un Evento???")) {
+                    //location.href
+                }
+            }
+        </script>
+    {% endblock %}    
