@@ -23,9 +23,16 @@ class Declaracionjurada {
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
-     * @Assert\Length(min="6",max="6")
+     * @Assert\Length(min="4",max="4")
      */
-    protected $periodo;
+    protected $periodoAnio;
+    
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="2",max="2")
+     */
+    protected $periodoMes;
 
     /**
      * @ORM\Column(type="string")
@@ -33,13 +40,13 @@ class Declaracionjurada {
     protected $tipoLiquidacion;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      * @Assert\Date()
      */
     protected $fechaEntrega;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      * @Assert\Date()
      */
     protected $fechaIngreso;
@@ -73,29 +80,54 @@ class Declaracionjurada {
     }
 
     /**
-     * Set periodo
+     * Set periodoAnio
      *
-     * @param string $periodo
+     * @param string $periodoAnio
      *
      * @return Declaracionjurada
      */
-    public function setPeriodo($periodo)
+    public function setPeriodoAnio($periodoAnio)
     {
-        $this->periodo = $periodo;
+        $this->periodoAnio = $periodoAnio;
 
         return $this;
     }
 
     /**
-     * Get periodo
+     * Get periodoAnio
      *
      * @return string
      */
-    public function getPeriodo()
+    public function getPeriodoAnio()
     {
-        return $this->periodo;
+        return $this->periodoAnio;
     }
 
+    /**
+     * Set periodoMes
+     *
+     * @param string $periodoMes
+     *
+     * @return Declaracionjurada
+     */
+    public function setPeriodoMes($periodoMes)
+    {
+        $this->periodoMes = $periodoMes;
+
+        return $this;
+    }
+
+    /**
+     * Get periodoMes
+     *
+     * @return string
+     */
+    public function getPeriodoMes()
+    {
+        return $this->periodoMes;
+    }
+
+    
     /**
      * Set tipoLiquidacion
      *
@@ -166,30 +198,6 @@ class Declaracionjurada {
     public function getFechaIngreso()
     {
         return $this->fechaIngreso;
-    }
-
-    /**
-     * Set encabezado
-     *
-     * @param string $encabezado
-     *
-     * @return Declaracionjurada
-     */
-    public function setEncabezado($encabezado)
-    {
-        $this->encabezado = $encabezado;
-
-        return $this;
-    }
-
-    /**
-     * Get encabezado
-     *
-     * @return string
-     */
-    public function getEncabezado()
-    {
-        return $this->encabezado;
     }
 
     /**

@@ -7,6 +7,11 @@
 
 
         <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
+        <div class="flash_admin">
+            {% for mensaje in app.session.flashbag.get('warn') %}
+                <p class="warn">{{ mensaje }}</p>
+            {% endfor %}
+        </div>
         
         <div class="grid_16">
             <table>
@@ -24,7 +29,7 @@
                     {% for declaracion in declaraciones %}
                         <tr>
                             <td>
-                                <a href="{{ path ('organismo_declaracion_jurada', {'id' : declaracion.id}) }}">  {{ declaracion.periodo[0:4] }}/{{ declaracion.periodo[4:2] }}</a>
+                                <a href="{{ path ('organismo_declaracion_jurada', {'id' : declaracion.id}) }}">  {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}</a>
                             </td>
                             <td>{{ declaracion.tipoLiquidacion }}</td>
                             <td>fecha 1</td>
@@ -42,7 +47,7 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <a href="nuevo"> Nuevo </a>
+            <a href="{{path('organismo_declaracion_nuevo')}}"> Nuevo </a>
         </div>
     {% endblock %}
 {% block javascripts %}
