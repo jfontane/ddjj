@@ -62,7 +62,7 @@ class Declaracionjurada {
     protected $estado;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="blob", nullable=true)
      */
     protected $jubidat;
     

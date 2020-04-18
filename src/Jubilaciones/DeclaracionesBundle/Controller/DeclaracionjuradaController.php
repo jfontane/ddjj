@@ -12,6 +12,7 @@ use Jubilaciones\DeclaracionesBundle\Entity\Organismo;
 use Jubilaciones\DeclaracionesBundle\Controller\AbstractBaseController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+//use Symfony\Component\Validator\Constraints\Length; 
 
 class DeclaracionjuradaController extends Controller {
 
@@ -51,10 +52,10 @@ class DeclaracionjuradaController extends Controller {
             // Recogemos el fichero
             $fileJubidat = $form['jubidat']->getData();
             //$contenidoJubidat=file_get_contents($fileJubidat);
-            $contenidoJubidat = base64_encode(file_get_contents($fileJubidat));
-
+            $contenidoJubidat = file_get_contents($fileJubidat);
+            $declaracionjurada->setJubidat($contenidoJubidat);
 // Sacamos la extensión del fichero
-            $ext = $fileJubidat->guessExtension();
+           /* $ext = $fileJubidat->guessExtension();
 
 // Le ponemos un nombre al fichero
             $file_name = time() . "." . $ext;
@@ -66,10 +67,10 @@ class DeclaracionjuradaController extends Controller {
 
             //dump($jubidat);
             //dump($declaracionjurada->getPeriodoAnio().'/'.$declaracionjurada->getPeriodoMes());die;
-            $fechaEntrega = date('Y-m-d');
+            $fechaEntrega = date('Y-m-d');*/
             //$declaracionjurada->setFechaEntrega($fechaEntrega);
             $declaracionjurada->setEstado('Procesando');
-            $declaracionjurada->setJubidat($contenidoJubidat);
+            
             $declaracionjurada->setOrganismo($organismo);
 
             if (($declaracionjurada->getPeriodoMes() == '13') or ( $declaracionjurada->getPeriodoMes() == '14')) {
@@ -109,10 +110,13 @@ class DeclaracionjuradaController extends Controller {
     public function getJubidatAction($id) {
         $em = $this->getDoctrine()->getManager();
         $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
-        $file = $declaracion->getJubidat();
-        $response = new Response(base64_decode($file), 200, array(
+        $file = stream_get_contents($declaracion->getJubidat(),-1,0);
+        //dump(strlen($file));die;
+        $size=strlen($file);
+        
+        $response = new Response($file, 200, array(
             'Content-Type' => 'application/octet-stream',
-            'Content-Length' => sizeof($file),
+            'Content-Length' => $size,
             'Content-Disposition' => 'attachment; filename="jubi.dat"',
         ));
         return $response;
