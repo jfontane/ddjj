@@ -11,3 +11,7 @@ organismo_declaracion_jurada:
 organismo_declaracion_nuevo:
     path:     /declaracion/nuevo
     defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:nuevo }     
+
+organismo_declaracion_jubidat:
+    path:     /declaracion/jubidat/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:getJubidat }     

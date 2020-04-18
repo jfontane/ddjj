@@ -48,28 +48,28 @@ class DeclaracionjuradaController extends Controller {
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //$jubidat = $form->get('jubidat')->getData();
-
             // Recogemos el fichero
-            $file = $form['jubidat']->getData();
-            dump($file);die;
+            $fileJubidat = $form['jubidat']->getData();
+            //$contenidoJubidat=file_get_contents($fileJubidat);
+            $contenidoJubidat = base64_encode(file_get_contents($fileJubidat));
 
 // Sacamos la extensión del fichero
-            $ext = $file->guessExtension();
+            $ext = $fileJubidat->guessExtension();
 
 // Le ponemos un nombre al fichero
             $file_name = time() . "." . $ext;
 
 // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
-            $file->move("uploads", $file_name);
+            $fileJubidat->move("uploads", $file_name);
 
 
 
             //dump($jubidat);
-            die;
             //dump($declaracionjurada->getPeriodoAnio().'/'.$declaracionjurada->getPeriodoMes());die;
             $fechaEntrega = date('Y-m-d');
             //$declaracionjurada->setFechaEntrega($fechaEntrega);
             $declaracionjurada->setEstado('Procesando');
+            $declaracionjurada->setJubidat($contenidoJubidat);
             $declaracionjurada->setOrganismo($organismo);
 
             if (($declaracionjurada->getPeriodoMes() == '13') or ( $declaracionjurada->getPeriodoMes() == '14')) {
@@ -104,6 +104,18 @@ class DeclaracionjuradaController extends Controller {
 // AGREGAR CÓDIGO FALTANTE
         return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/nuevo.html.twig', array('form' => $form->createView(),
         ));
+    }
+
+    public function getJubidatAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
+        $file = $declaracion->getJubidat();
+        $response = new Response(base64_decode($file), 200, array(
+            'Content-Type' => 'application/octet-stream',
+            'Content-Length' => sizeof($file),
+            'Content-Disposition' => 'attachment; filename="jubi.dat"',
+        ));
+        return $response;
     }
 
 }
