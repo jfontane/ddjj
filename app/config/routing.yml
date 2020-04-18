@@ -2,6 +2,10 @@ jubilaciones_declaraciones:
     resource: "@JubilacionesDeclaracionesBundle/Resources/config/routing.yml"
     prefix:   /
 
+jubilaciones_declaraciones_admin:
+    resource: "@JubilacionesDeclaracionesBundle/Resources/config/routing-admin.yml"
+    prefix:   /admin 
+
 app:
     resource: '@AppBundle/Controller/'
     type: annotation

@@ -1,0 +1,7 @@
+admin_portada:
+    path: /
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:listar }
+    
+admin_declaraciones_listar:
+    path: /evento/listar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:listar }    
