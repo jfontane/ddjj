@@ -17,10 +17,11 @@
             <table>
                 <thead>
                     <tr>
+                        <th>Organismo</th>
                         <th>Periodo</th>
-                        <th>Tipo Liquidacion</th>
-                        <th>Fecha Entrega</th>
-                        <th>Fecha Ingreso</th>
+                        <th>T.Liq.</th>
+                        <th>F.Entrega</th>
+                        <th>F.Ingreso</th>
                         <th>Estado</th>
                         <th>Archivos</th>
                         <th>Acciones</th>
@@ -29,6 +30,7 @@
                 <tbody>
                     {% for declaracion in declaraciones %}
                         <tr>
+                            <td>{{ declaracion.organismo.codigo }}</td>
                             <td>
                                 <a href="{{ path ('organismo_declaracion_jurada', {'id' : declaracion.id }) }}">  {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}</a>
                             </td>
@@ -44,7 +46,7 @@
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="7">No existe ningún evento</td>
+                            <td colspan="8">No existe ningún evento</td>
                         </tr>
                     {% endfor %}
                 </tbody>

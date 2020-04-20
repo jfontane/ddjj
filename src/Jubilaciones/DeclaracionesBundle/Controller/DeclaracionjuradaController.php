@@ -22,6 +22,7 @@ class DeclaracionjuradaController extends Controller {
     }
 
     public function declaracionesAction() {
+        
         $em = $this->getDoctrine()->getManager();
         $declaraciones = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findAllDeclaracionesPorPeriodo();
         //dump($declaraciones);die;
@@ -50,9 +51,13 @@ class DeclaracionjuradaController extends Controller {
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Recogemos el fichero jubidat
-            $fileJubidat = $form['jubidat']->getData();
+            //$fileJubidat = $form['jubidat']->getData();
+            $fileJubidat = $form->get('jubidat')->getData();
             $contenidoJubidat = file_get_contents($fileJubidat);
             $declaracionjurada->setJubidat($contenidoJubidat);
+            /*$fileJubi1ind = $form['jubidat']->getData();
+            $contenidoJubi1ind = file_get_contents($fileJubi1ind);
+            $declaracionjurada->setJubidat($contenidoJubi1ind);*/
             // Sacamos la extensión del fichero
             /* $ext = $fileJubidat->guessExtension();
               // Le ponemos un nombre al fichero

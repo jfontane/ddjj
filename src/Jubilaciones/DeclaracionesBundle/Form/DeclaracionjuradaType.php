@@ -41,9 +41,23 @@ class DeclaracionjuradaType extends AbstractType {
                         'Dic' => '12', '2do SAC' => '14')
                 ))
                  ->add('jubidat', FileType::class,array(
-                "label" => "Jubi.dat",
+                      "label" => "Jubi.dat",
+                      'constraints' => [
+                        new File([
+                            'maxSize' => '1024k',
+                            'mimeTypes' => [
+                                'multipart/form-data',
+                            ],
+                            'mimeTypesMessage' => 'Please upload a valid TXT document',
+                                ])
+                    ],));
+                
+        
+        /*
+                 ->add('jubi1ind', FileType::class,array(
+                "label" => "Jubi1.IND",
                 "attr" =>array("class" => "form-control")
-            ));
+            ));*/
 
                 
                 /*
@@ -60,7 +74,7 @@ class DeclaracionjuradaType extends AbstractType {
                         new File([
                             'maxSize' => '1024k',
                             'mimeTypes' => [
-                                'application/txt',
+                                'multipart/form-data',
                             ],
                             'mimeTypesMessage' => 'Please upload a valid TXT document',
                                 ])
