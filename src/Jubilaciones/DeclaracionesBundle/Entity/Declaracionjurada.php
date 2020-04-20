@@ -40,13 +40,13 @@ class Declaracionjurada {
     protected $tipoLiquidacion;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      * @Assert\Date()
      */
     protected $fechaEntrega;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      * @Assert\Date()
      */
     protected $fechaIngreso;
@@ -67,12 +67,12 @@ class Declaracionjurada {
     protected $jubidat;
     
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="blob", nullable=true)
      */
     protected $jubi1ind;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Organismo", inversedBy="declaracionjuradas")
+     * @ORM\ManyToOne(targetEntity="Organismo", inversedBy="declaracionesjuradas")
      * @ORM\JoinColumn(name="organismo_id", referencedColumnName="id")
      */
     protected $organismo;

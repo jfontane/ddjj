@@ -104,7 +104,7 @@ class Representante {
     /**
      * @ORM\OneToMany(targetEntity="Organismo", mappedBy="representante")
      */
-    protected $eventos;
+    protected $organismos;
 
     /**
      * Constructor

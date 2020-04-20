@@ -4,6 +4,7 @@ namespace Jubilaciones\DeclaracionesBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Organismo
@@ -27,6 +28,11 @@ class Organismo {
      */
     protected $codigo;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $password;
+    
     /**
      * @ORM\Column(type="string")
      */
@@ -100,7 +106,7 @@ class Organismo {
      */
     public function __construct()
     {
-        $this->declaracionesjuradas = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->declaracionesjuradas = new ArrayCollection();
     }
 
     /**
@@ -137,6 +143,30 @@ class Organismo {
         return $this->codigo;
     }
 
+    /**
+     * Set password
+     *
+     * @param string $password
+     *
+     * @return Organismo
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+    
     /**
      * Set nombre
      *

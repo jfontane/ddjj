@@ -12,7 +12,7 @@
                 <p class="warn">{{ mensaje }}</p>
             {% endfor %}
         </div>
-        
+
         <div class="grid_16">
             <table>
                 <thead>
@@ -22,6 +22,7 @@
                         <th>Fecha Entrega</th>
                         <th>Fecha Ingreso</th>
                         <th>Estado</th>
+                        <th>Archivos</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -32,17 +33,18 @@
                                 <a href="{{ path ('organismo_declaracion_jurada', {'id' : declaracion.id }) }}">  {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}</a>
                             </td>
                             <td>{{ declaracion.tipoLiquidacion }}</td>
-                            <td>fecha 1</td>
-                            <td>fecha 2</td>
+                            <td>{{ declaracion.fechaEntrega | date('Y-m-d H:i:s') }}</td>
+                            <td>{{ declaracion.fechaIngreso | date('Y-m-d H:i') }}</td>
                             <td>{{ declaracion.estado }}</td>
                             <td>
                                 <a href="{{path('organismo_declaracion_jubidat',{'id' : declaracion.id })}}">Jubi.dat</a>
                                 <a href="">Jubi1.ind</a>
                             </td>
+                            <td><a href="#">Editar</a> <a href="#">Borrar</a></td>
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="6">No existe ningún evento</td>
+                            <td colspan="7">No existe ningún evento</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -50,7 +52,7 @@
             <a href="{{path('organismo_declaracion_nuevo')}}"> Nuevo </a>
         </div>
     {% endblock %}
-{% block javascripts %}
+    {% block javascripts %}
         <script>
             function confirmaBorrar() {
                 if (confirm("Desea Eliminar un Evento???")) {
