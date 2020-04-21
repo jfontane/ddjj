@@ -41,16 +41,13 @@ class DeclaracionjuradaType extends AbstractType {
                         'Dic' => '12', '2do SAC' => '14')
                 ))
                  ->add('jubidat', FileType::class,array(
-                      "label" => "Jubi.dat",
+                      'label' => "Jubi.dat",
+                      'mapped' => false,
                       'constraints' => [
-                        new File([
-                            'maxSize' => '1024k',
-                            'mimeTypes' => [
-                                'multipart/form-data',
-                            ],
-                            'mimeTypesMessage' => 'Please upload a valid TXT document',
-                                ])
-                    ],));
+                    new File([
+                        'maxSize' => '1548k',
+                        ])
+                ],));
                 
         
         /*

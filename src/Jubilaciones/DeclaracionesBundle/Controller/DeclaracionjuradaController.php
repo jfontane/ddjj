@@ -11,6 +11,8 @@ use Jubilaciones\DeclaracionesBundle\Form\DeclaracionjuradaType;
 use Jubilaciones\DeclaracionesBundle\Entity\Organismo;
 use Jubilaciones\DeclaracionesBundle\Controller\AbstractBaseController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Filesystem\Filesystem;
+
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 //use Symfony\Component\Validator\Constraints\Length; 
@@ -22,7 +24,7 @@ class DeclaracionjuradaController extends Controller {
     }
 
     public function declaracionesAction() {
-        
+
         $em = $this->getDoctrine()->getManager();
         $declaraciones = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findAllDeclaracionesPorPeriodo();
         //dump($declaraciones);die;
@@ -53,18 +55,34 @@ class DeclaracionjuradaController extends Controller {
             // Recogemos el fichero jubidat
             //$fileJubidat = $form['jubidat']->getData();
             $fileJubidat = $form->get('jubidat')->getData();
+            $tipoLiq = $this->sacarTipoLiquidacion($declaracionjurada->getPeriodoMes(), $declaracionjurada->getTipoLiquidacion());
             $contenidoJubidat = file_get_contents($fileJubidat);
-            $declaracionjurada->setJubidat($contenidoJubidat);
-            /*$fileJubi1ind = $form['jubidat']->getData();
-            $contenidoJubi1ind = file_get_contents($fileJubi1ind);
-            $declaracionjurada->setJubidat($contenidoJubi1ind);*/
+            //dump(substr($contenidoJubidat,0,200));die;
+            //$declaracionjurada->setJubidat($contenidoJubidat);
+            /* $fileJubi1ind = $form['jubidat']->getData();
+              $contenidoJubi1ind = file_get_contents($fileJubi1ind);
+              $declaracionjurada->setJubidat($contenidoJubi1ind); */
+
             // Sacamos la extensión del fichero
-            /* $ext = $fileJubidat->guessExtension();
-              // Le ponemos un nombre al fichero
-              $file_name = time() . "." . $ext;
-              // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
-              $fileJubidat->move("uploads", $file_name);
-              $fechaEntrega = date('Y-m-d'); */
+            $ext = $fileJubidat->guessExtension();
+            // Le ponemos un nombre al fichero
+            //$file_name = '4080010000'.$declaracionjurada->getPeriodoAnio().$declaracionjurada->getPeriodoMes().$tipoLiq . "." . $ext;
+            /* Para borrar el archivo
+            $fs = new Filesystem(); 
+            $fs->remove($this->get('kernel')->getRootDir().'/../web/uploads/'.$file_name);
+             * 
+             */
+            $file_name="jubi.txt";
+            // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
+            $fileJubidat->move("uploads", $file_name);
+            
+
+            //$this->sacarTotalesJubidat($file_name);
+            
+            //$declaracionjurada->setJubidat($file_name);
+            
+
+            /* $fechaEntrega = date('Y-m-d'); */
             //$declaracionjurada->setFechaEntrega($fechaEntrega);
             $tipoLiq = $this->sacarTipoLiquidacion($declaracionjurada->getPeriodoMes(), $declaracionjurada->getTipoLiquidacion());
             $declaracionjurada->setFechaEntrega(new \DateTime('now'));
@@ -106,7 +124,7 @@ class DeclaracionjuradaController extends Controller {
             else if ($tipoLiquidacion == '2')
                 $tipoLiq = '212';
         } else if (( $periodoMes == '01' ) or ( $periodoMes == '02' ) or ( $periodoMes == '03' ) or ( $periodoMes == '04' ) or ( $periodoMes == '05' ) or ( $periodoMes == '06' ) or ( $periodoMes == '07' ) or ( $periodoMes == '08' ) or ( $periodoMes == '09' ) or ( $periodoMes == '10' ) or ( $periodoMes == '11' ) or ( $periodoMes == '12' )) {
-            if ($tipoLiquidacion = '1')
+            if ($tipoLiquidacion == '1')
                 $tipoLiq = '111';
             else if ($tipoLiquidacion == '2')
                 $tipoLiq = '112';
@@ -120,6 +138,14 @@ class DeclaracionjuradaController extends Controller {
                 $tipoLiq = '304';
         }
         return $tipoLiq;
+    }
+
+    private function sacarTotalesJubidat($file_name) {
+        $fp = fopen("uploads/".$file_name, 'rb');
+            while (!feof($fp)) {
+                $linea = fgets($fp);
+                echo $linea."<br>";
+            }
     }
 
 }

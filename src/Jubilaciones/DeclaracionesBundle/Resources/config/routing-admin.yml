@@ -4,4 +4,9 @@ admin_portada:
     
 admin_declaraciones_listar:
     path: /evento/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:listar }    
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:listar }   
+
+admin_jubidat:
+    path:     /declaracion/jubidat/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:getJubidat }     
+    

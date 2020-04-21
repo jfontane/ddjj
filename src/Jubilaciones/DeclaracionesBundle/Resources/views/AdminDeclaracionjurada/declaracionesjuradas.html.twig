@@ -39,7 +39,7 @@
                             <td>{{ declaracion.fechaIngreso | date('Y-m-d H:i') }}</td>
                             <td>{{ declaracion.estado }}</td>
                             <td>
-                                <a href="{{path('organismo_declaracion_jubidat',{'id' : declaracion.id })}}">Jubi.dat</a>
+                                <a href="{{path('admin_jubidat',{'id' : declaracion.id })}}">Jubi.dat</a>
                                 <a href="">Jubi1.ind</a>
                             </td>
                             <td><a href="#">Editar</a> <a href="#">Borrar</a></td>

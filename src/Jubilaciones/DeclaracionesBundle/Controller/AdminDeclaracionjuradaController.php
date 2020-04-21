@@ -12,6 +12,10 @@ use Jubilaciones\DeclaracionesBundle\Entity\Organismo;
 use Jubilaciones\DeclaracionesBundle\Controller\AbstractBaseController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Filesystem\Filesystem;
+
+
 
 //use Symfony\Component\Validator\Constraints\Length; 
 
@@ -40,9 +44,18 @@ class AdminDeclaracionjuradaController extends Controller {
     }
 
     public function getJubidatAction($id) {
-        $em = $this->getDoctrine()->getManager();
-        $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
-        $file = stream_get_contents($declaracion->getJubidat(), -1, 0);
+        //$em = $this->getDoctrine()->getManager();
+        //$declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
+        
+        // Para borrar el archivo
+        //    $fs = new Filesystem(); 
+        //    $fs->remove($this->get('kernel')->getRootDir().'/../web/uploads/'.$file_name);
+        $file = $this->get('kernel')->getRootDir() . '/../web/uploads/4080010000111.txt';
+        $arch = new File($file);
+        
+        return $this->file($arch, 'jubi.dat');
+        
+        /*$file = stream_get_contents($declaracion->getJubidat(), -1, 0);
         //dump(strlen($file));die;
         $size = strlen($file);
 
@@ -51,7 +64,18 @@ class AdminDeclaracionjuradaController extends Controller {
             'Content-Length' => $size,
             'Content-Disposition' => 'attachment; filename="jubi.dat"',
         ));
-        return $response;
+        return $response;*/
     }
+
+    public function borraJubidatAction($id) {
+        //$em = $this->getDoctrine()->getManager();
+        //$declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
+        
+        // Para borrar el archivo
+        //    $fs = new Filesystem(); 
+        //    $fs->remove($this->get('kernel')->getRootDir().'/../web/uploads/'.$file_name);
+//Hacer redirect        
+        
+}
 
 }
