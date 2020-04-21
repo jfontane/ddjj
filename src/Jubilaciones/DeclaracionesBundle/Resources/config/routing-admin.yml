@@ -9,4 +9,12 @@ admin_declaraciones_listar:
 admin_jubidat:
     path:     /declaracion/jubidat/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:getJubidat }     
-    
+
+admin_jubi1ind:
+    path:     /declaracion/jubi1ind/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:getJubi1ind }     
+
+admin_mostrar_totales:
+    path:     /declaracion/totales/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:mostrarTotales }     
+        

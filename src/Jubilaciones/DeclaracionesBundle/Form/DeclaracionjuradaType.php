@@ -47,6 +47,14 @@ class DeclaracionjuradaType extends AbstractType {
                     new File([
                         'maxSize' => '1548k',
                         ])
+                ],))
+                ->add('jubi1ind', FileType::class,array(
+                      'label' => "Jubi1.ind",
+                      'mapped' => false,
+                      'constraints' => [
+                    new File([
+                        'maxSize' => '1548k',
+                        ])
                 ],));
                 
         

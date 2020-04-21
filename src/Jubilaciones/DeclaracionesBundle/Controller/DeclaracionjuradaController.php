@@ -54,27 +54,25 @@ class DeclaracionjuradaController extends Controller {
         if ($form->isSubmitted() && $form->isValid()) {
             // Recogemos el fichero jubidat
             //$fileJubidat = $form['jubidat']->getData();
-            $fileJubidat = $form->get('jubidat')->getData();
             $tipoLiq = $this->sacarTipoLiquidacion($declaracionjurada->getPeriodoMes(), $declaracionjurada->getTipoLiquidacion());
+            
+            $fileJubidat = $form->get('jubidat')->getData();
             $contenidoJubidat = file_get_contents($fileJubidat);
-            //dump(substr($contenidoJubidat,0,200));die;
-            //$declaracionjurada->setJubidat($contenidoJubidat);
-            /* $fileJubi1ind = $form['jubidat']->getData();
-              $contenidoJubi1ind = file_get_contents($fileJubi1ind);
-              $declaracionjurada->setJubidat($contenidoJubi1ind); */
-
             // Sacamos la extensión del fichero
             $ext = $fileJubidat->guessExtension();
             // Le ponemos un nombre al fichero
-            //$file_name = '4080010000'.$declaracionjurada->getPeriodoAnio().$declaracionjurada->getPeriodoMes().$tipoLiq . "." . $ext;
-            /* Para borrar el archivo
-            $fs = new Filesystem(); 
-            $fs->remove($this->get('kernel')->getRootDir().'/../web/uploads/'.$file_name);
-             * 
-             */
-            $file_name="jubi.txt";
+            $file_name_jubidat = $organismo->getCodigo().$declaracionjurada->getPeriodoAnio().$declaracionjurada->getPeriodoMes().$tipoLiq . ".dat";
             // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
-            $fileJubidat->move("uploads", $file_name);
+            $fileJubidat->move("uploads", $file_name_jubidat);
+            
+            
+            $fileJubi1ind = $form->get('jubi1ind')->getData();
+            // Sacamos la extensión del fichero
+            $ext = $fileJubi1ind->guessExtension();
+            // Le ponemos un nombre al fichero
+            $file_name_jubi1ind = $organismo->getCodigo().$declaracionjurada->getPeriodoAnio().$declaracionjurada->getPeriodoMes().$tipoLiq . ".ind";
+            // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
+            $fileJubi1ind->move("uploads", $file_name_jubi1ind);
             
 
             //$this->sacarTotalesJubidat($file_name);
@@ -84,9 +82,10 @@ class DeclaracionjuradaController extends Controller {
 
             /* $fechaEntrega = date('Y-m-d'); */
             //$declaracionjurada->setFechaEntrega($fechaEntrega);
-            $tipoLiq = $this->sacarTipoLiquidacion($declaracionjurada->getPeriodoMes(), $declaracionjurada->getTipoLiquidacion());
+            $declaracionjurada->setJubidat($file_name_jubidat);
+            $declaracionjurada->setJubi1ind($file_name_jubi1ind);
             $declaracionjurada->setFechaEntrega(new \DateTime('now'));
-            $declaracionjurada->setEstado('Procesando');
+            $declaracionjurada->setEstado('Preparada');
             $declaracionjurada->setOrganismo($organismo);
             $declaracionjurada->setTipoLiquidacion($tipoLiq);
             $em = $this->getDoctrine()->getManager();
@@ -123,6 +122,14 @@ class DeclaracionjuradaController extends Controller {
                 $tipoLiq = '211';
             else if ($tipoLiquidacion == '2')
                 $tipoLiq = '212';
+            else if ($tipoLiquidacion == '3')
+                $tipoLiq = '301';
+            else if ($tipoLiquidacion == '4')
+                $tipoLiq = '302';
+            else if ($tipoLiquidacion == '5')
+                $tipoLiq = '303';
+            else if ($tipoLiquidacion == '6')
+                $tipoLiq = '304';
         } else if (( $periodoMes == '01' ) or ( $periodoMes == '02' ) or ( $periodoMes == '03' ) or ( $periodoMes == '04' ) or ( $periodoMes == '05' ) or ( $periodoMes == '06' ) or ( $periodoMes == '07' ) or ( $periodoMes == '08' ) or ( $periodoMes == '09' ) or ( $periodoMes == '10' ) or ( $periodoMes == '11' ) or ( $periodoMes == '12' )) {
             if ($tipoLiquidacion == '1')
                 $tipoLiq = '111';

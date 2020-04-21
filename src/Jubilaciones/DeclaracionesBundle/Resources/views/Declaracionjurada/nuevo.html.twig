@@ -28,7 +28,14 @@
             {{ form_label(form.jubidat) }}
             {{ form_widget(form.jubidat) }}
         </p>
-        
         <br>&nbsp;
-            {{ form_end(form) }}
-        {% endblock %}
+        {{ form_errors(form.jubi1ind) }}
+        <p>
+            {{ form_label(form.jubi1ind) }}
+            {{ form_widget(form.jubi1ind) }}
+        </p>
+        <br>&nbsp;   
+        {{ form_end(form) }}
+
+
+    {% endblock %}

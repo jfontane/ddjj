@@ -57,17 +57,17 @@ class Declaracionjurada {
     protected $comentarios;
 
     /**
-     * @ORM\Column(type="string", columnDefinition="enum('Procesando', 'Correcto', 'Incorrecto')")
+     * @ORM\Column(type="string", columnDefinition="enum('Preparada','Procesando', 'Correcto', 'Incorrecto')")
      */
     protected $estado;
 
     /**
-     * @ORM\Column(type="blob", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $jubidat;
     
     /**
-     * @ORM\Column(type="blob", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $jubi1ind;
     
