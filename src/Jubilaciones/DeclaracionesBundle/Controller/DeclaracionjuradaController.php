@@ -9,10 +9,10 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Jubilaciones\DeclaracionesBundle\Entity\Declaracionjurada;
 use Jubilaciones\DeclaracionesBundle\Form\DeclaracionjuradaType;
 use Jubilaciones\DeclaracionesBundle\Entity\Organismo;
+use Jubilaciones\DeclaracionesBundle\Classes\Util;
 use Jubilaciones\DeclaracionesBundle\Controller\AbstractBaseController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Filesystem\Filesystem;
-
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 //use Symfony\Component\Validator\Constraints\Length; 
@@ -55,37 +55,36 @@ class DeclaracionjuradaController extends Controller {
             // Recogemos el fichero jubidat
             //$fileJubidat = $form['jubidat']->getData();
             $tipoLiq = $this->sacarTipoLiquidacion($declaracionjurada->getPeriodoMes(), $declaracionjurada->getTipoLiquidacion());
-            
+
             $fileJubidat = $form->get('jubidat')->getData();
             $contenidoJubidat = file_get_contents($fileJubidat);
             // Sacamos la extensión del fichero
             $ext = $fileJubidat->guessExtension();
             // Le ponemos un nombre al fichero
-            $file_name_jubidat = $organismo->getCodigo().$declaracionjurada->getPeriodoAnio().$declaracionjurada->getPeriodoMes().$tipoLiq . ".dat";
+            $file_name_jubidat = $organismo->getCodigo() . $declaracionjurada->getPeriodoAnio() . $declaracionjurada->getPeriodoMes() . $tipoLiq . ".dat";
             // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
             $fileJubidat->move("uploads", $file_name_jubidat);
-            
-            
+
+
             $fileJubi1ind = $form->get('jubi1ind')->getData();
             // Sacamos la extensión del fichero
             $ext = $fileJubi1ind->guessExtension();
             // Le ponemos un nombre al fichero
-            $file_name_jubi1ind = $organismo->getCodigo().$declaracionjurada->getPeriodoAnio().$declaracionjurada->getPeriodoMes().$tipoLiq . ".ind";
+            $file_name_jubi1ind = $organismo->getCodigo() . $declaracionjurada->getPeriodoAnio() . $declaracionjurada->getPeriodoMes() . $tipoLiq . ".ind";
             // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
             $fileJubi1ind->move("uploads", $file_name_jubi1ind);
-            
+
 
             //$this->sacarTotalesJubidat($file_name);
-            
             //$declaracionjurada->setJubidat($file_name);
-            
+
 
             /* $fechaEntrega = date('Y-m-d'); */
             //$declaracionjurada->setFechaEntrega($fechaEntrega);
             $declaracionjurada->setJubidat($file_name_jubidat);
             $declaracionjurada->setJubi1ind($file_name_jubi1ind);
             $declaracionjurada->setFechaEntrega(new \DateTime('now'));
-            $declaracionjurada->setEstado('Preparada');
+            $declaracionjurada->setEstado('Pendiente');
             $declaracionjurada->setOrganismo($organismo);
             $declaracionjurada->setTipoLiquidacion($tipoLiq);
             $em = $this->getDoctrine()->getManager();
@@ -98,6 +97,33 @@ class DeclaracionjuradaController extends Controller {
         }
         return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/nuevo.html.twig', array('form' => $form->createView(),
         ));
+    }
+
+    public function borrarAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
+        $fileNamejubidat = $declaracion->getJubidat();
+        $fileNamejubi1ind = $declaracion->getJubi1ind();
+        // Para borrar el archivo
+        if ($declaracion->getEstado() == "Pendiente" || $declaracion->getEstado() == "Incorrecto") {
+            $fs = new Filesystem();
+            $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNamejubidat);
+            $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNamejubi1ind);
+
+            if (null == $evento) {
+                throw $this->createNotFoundException('No existe el evento solicitado.');
+            }
+            $em->remove($evento);
+            $em->flush();
+            AbstractBaseController::addWarnMessage('La Declaracion ' .
+                    $declaracion->getPeriodoAnio() . '/' .
+                    $declaracion->getPeriodoMes() .
+                    ' se ha borrado correctamente.');
+        } else {
+            AbstractBaseController::addWarnMessage("La Declaracion se encuentra en estado 'Procesando' " .
+                    "y NO se ha podido Eliminar!!!.");
+        }
+        return $this->redirect($this->generateUrl('organismo_declaraciones_juradas'));
     }
 
     public function getJubidatAction($id) {
@@ -115,44 +141,15 @@ class DeclaracionjuradaController extends Controller {
         return $response;
     }
 
-    private function sacarTipoLiquidacion($periodoMes, $tipoLiquidacion) {
-        $tipoLiq = 0;
-        if (($periodoMes == '13') or ( $periodoMes == '14')) {
-            if ($tipoLiquidacion == '1')
-                $tipoLiq = '211';
-            else if ($tipoLiquidacion == '2')
-                $tipoLiq = '212';
-            else if ($tipoLiquidacion == '3')
-                $tipoLiq = '301';
-            else if ($tipoLiquidacion == '4')
-                $tipoLiq = '302';
-            else if ($tipoLiquidacion == '5')
-                $tipoLiq = '303';
-            else if ($tipoLiquidacion == '6')
-                $tipoLiq = '304';
-        } else if (( $periodoMes == '01' ) or ( $periodoMes == '02' ) or ( $periodoMes == '03' ) or ( $periodoMes == '04' ) or ( $periodoMes == '05' ) or ( $periodoMes == '06' ) or ( $periodoMes == '07' ) or ( $periodoMes == '08' ) or ( $periodoMes == '09' ) or ( $periodoMes == '10' ) or ( $periodoMes == '11' ) or ( $periodoMes == '12' )) {
-            if ($tipoLiquidacion == '1')
-                $tipoLiq = '111';
-            else if ($tipoLiquidacion == '2')
-                $tipoLiq = '112';
-            else if ($tipoLiquidacion == '3')
-                $tipoLiq = '301';
-            else if ($tipoLiquidacion == '4')
-                $tipoLiq = '302';
-            else if ($tipoLiquidacion == '5')
-                $tipoLiq = '303';
-            else if ($tipoLiquidacion == '6')
-                $tipoLiq = '304';
-        }
-        return $tipoLiq;
-    }
-
-    private function sacarTotalesJubidat($file_name) {
-        $fp = fopen("uploads/".$file_name, 'rb');
-            while (!feof($fp)) {
-                $linea = fgets($fp);
-                echo $linea."<br>";
-            }
+    public function mostrarTotalesAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
+        $fileName = $declaracion->getJubidat();
+        $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
+        $valores = Util::totaliza($archivo);
+        return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/valoresTotales.html.twig', array(
+                    'valores' => $valores, 'declaracion' => $declaracion
+        ));
     }
 
 }

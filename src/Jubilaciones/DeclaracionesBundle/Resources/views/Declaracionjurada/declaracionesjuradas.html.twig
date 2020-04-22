@@ -22,7 +22,6 @@
                         <th>F.Entrega</th>
                         <th>F.Ingreso</th>
                         <th>Estado</th>
-                        <th>Archivos</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -33,14 +32,18 @@
                                 <a href="{{ path ('organismo_declaracion_jurada', {'id' : declaracion.id }) }}">  {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}</a>
                             </td>
                             <td>{{ declaracion.tipoLiquidacion }}</td>
-                            <td>{{ declaracion.fechaEntrega | date('Y-m-d H:i:s') }}</td>
-                            <td>{{ declaracion.fechaIngreso | date('Y-m-d H:i') }}</td>
+                            <td>
+                                {{  declaracion.fechaEntrega is empty ? "" : declaracion.fechaEntrega | date('Y-m-d H:i') }}
+                            </td>
+                            <td>
+                                {{  declaracion.fechaIngreso is empty ? "" : declaracion.fechaIngreso | date('Y-m-d H:i') }}
+                            </td>
                             <td>{{ declaracion.estado }}</td>
                             <td>
-                                <a href="{{path('organismo_declaracion_jubidat',{'id' : declaracion.id })}}">Jubi.dat</a>
-                                <a href="">Jubi1.ind</a>
+                                <a href="{{ path ('organismo_mostrar_totales',{'id' : declaracion.id }) }}">Ver Importes</a>&nbsp;&nbsp;
+                                <a href="#">Editar</a>&nbsp;&nbsp;
+                                <a href="{{ path ('organismo_declaracion_borrar',{'id' : declaracion.id }) }}">Borrar</a>
                             </td>
-                            <td><a href="#">Editar</a> <a href="#">Borrar</a></td>
                         </tr>
                     {% else %}
                         <tr>
@@ -50,6 +53,7 @@
                 </tbody>
             </table>
             <a href="{{path('organismo_declaracion_nuevo')}}"> Nuevo </a>
+            <br>
         </div>
     {% endblock %}
     {% block javascripts %}

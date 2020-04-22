@@ -1,0 +1,59 @@
+{% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
+{% block title %}Importes del Periodo: {{declaracion.periodoAnio}}/{{declaracion.periodoMes}} {% endblock %}
+{% block pageid 'admin' %}
+
+    {% block body %}
+        {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
+
+        <div class="grid_16">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Monto ($)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Remunerativo</td>
+                        <td>{{ valores.totalRemunerativo | number_format(2, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td>No Remunerativo</td>
+                        <td>{{ valores.totalNoRemunerativo | number_format(2, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Aporte Personal</td>
+                        <td>{{ valores.totalApPersonal | number_format(2, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Contribucion Patronal</td>
+                        <td>{{ valores.totalApPatronal | number_format(2, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Inasistencia - Suspensiones</td>
+                        <td>{{ valores.totalInasisSusp | number_format(2, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Licencia sin goce de Haberes</td>
+                        <td>{{ valores.totalLicSinSueldo | number_format(2, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Tarea Riesgosa</td>
+                        <td>{{ valores.totalTareasRiesgoza | number_format(2, ',', '.') }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="{{path('organismo_declaraciones_juradas')}}"> Volver </a>&nbsp;
+        </div>
+        <br>&nbsp;
+    {% endblock %}
+    {% block javascripts %}
+        <script>
+            function confirmaBorrar() {
+                if (confirm("Desea Eliminar un Evento???")) {
+                    //location.href
+                }
+            }
+        </script>
+    {% endblock %}    

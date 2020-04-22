@@ -3,7 +3,7 @@ admin_portada:
     defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:listar }
     
 admin_declaraciones_listar:
-    path: /evento/listar
+    path: /declaracion/listar
     defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:listar }   
 
 admin_jubidat:
@@ -16,5 +16,13 @@ admin_jubi1ind:
 
 admin_mostrar_totales:
     path:     /declaracion/totales/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:mostrarTotales }     
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:mostrarTotales } 
+    
+admin_declaracion_aprobar:
+    path:     /declaracion/aprobar/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:aprobarDeclaracion }
+    
+admin_declaracion_rechazar:
+    path:     /declaracion/rechazar/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:rechazarDeclaracion }
         

@@ -12,6 +12,14 @@ organismo_declaracion_nuevo:
     path:     /declaracion/nuevo
     defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:nuevo }     
 
+organismo_declaracion_borrar:
+    path:     /declaracion/borrar/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:borrar }     
+
+organismo_mostrar_totales:
+    path:     /declaracion/totales/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:mostrarTotales } 
+    
 organismo_declaracion_jubidat:
     path:     /declaracion/jubidat/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:getJubidat }     
