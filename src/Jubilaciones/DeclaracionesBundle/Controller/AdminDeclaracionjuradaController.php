@@ -59,23 +59,22 @@ class AdminDeclaracionjuradaController extends Controller {
         $em->persist($declaracion);
         $em->flush();
 
-        AbstractBaseController::addWarnMessage("La Declaracion Jurada de: '" 
+        AbstractBaseController::addWarnMessage("La Declaracion Jurada de: '"
                 . $declaracion->getOrganismo()->getNombre()
                 . "' en el periodo: " . $declaracion->getPeriodoAnio()
                 . '/' . $declaracion->getPeriodoMes() . "' se ha APROBADO correctamente.");
         return $this->redirect($this->generateUrl('admin_declaraciones_listar'));
     }
-    
+
     public function rechazarDeclaracionAction($id) {
         $em = $this->getDoctrine()->getManager();
         $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findOneBy(array('id' => $id));
-        //dump($declaraciones);die;
-        $declaracion->setEstado('Incorrecto');
+        $declaracion->setEstado('Rechazada');
         // aca borrar los archivos
-        $declaracion->setJubidat(NULL);
-        $declaracion->setJubi1ind(NULL);
         $fileNamejubidat = $declaracion->getJubidat();
         $fileNamejubi1ind = $declaracion->getJubi1ind();
+        $declaracion->setJubidat(NULL);
+        $declaracion->setJubi1ind(NULL);
         // Para borrar el archivo
         $fs = new Filesystem();
         $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNamejubidat);
@@ -84,7 +83,7 @@ class AdminDeclaracionjuradaController extends Controller {
         $em->persist($declaracion);
         $em->flush();
 
-        AbstractBaseController::addWarnMessage("La Declaracion Jurada de: '" 
+        AbstractBaseController::addWarnMessage("La Declaracion Jurada de: '"
                 . $declaracion->getOrganismo()->getNombre()
                 . "' en el periodo: " . $declaracion->getPeriodoAnio()
                 . '/' . $declaracion->getPeriodoMes() . "' se ha RECHAZADO !!!.");
@@ -129,7 +128,7 @@ class AdminDeclaracionjuradaController extends Controller {
         $em->persist($declaracion);
         $em->flush();
         $fileName = $declaracion->getJubidat();
-        
+
         //$file = fopen($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName, 'r');
         //Output lines until EOF is reached
         $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);

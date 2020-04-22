@@ -31,7 +31,7 @@
                         <tr>
                             <td>{{ declaracion.organismo.codigo }}</td>
                             <td>
-                                <a href="{{ path ('organismo_declaracion_jurada', {'id' : declaracion.id }) }}">  {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}</a>
+                                <a href="">  {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}</a>
                             </td>
                             <td>{{ declaracion.tipoLiquidacion }}</td>
                             <td>
@@ -45,7 +45,7 @@
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="8">No existe ningún evento</td>
+                            <td colspan="8">No existe ninguna Declaracion Jurada</td>
                         </tr>
                     {% endfor %}
                 </tbody>

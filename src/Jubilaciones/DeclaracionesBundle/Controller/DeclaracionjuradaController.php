@@ -99,53 +99,67 @@ class DeclaracionjuradaController extends Controller {
         ));
     }
 
-    public function editarAction(Request $request) {
+    public function editarAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
         // El codigo de organismo es para harcodear
         $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' => '4080010000'));
-        
+
         if (null == $declaracionjurada = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id)) {
             throw $this->createNotFoundException('No existe la Declaracion solicitada.');
         }
+
+        $fileNameJubidatOld = $declaracionjurada->getJubidat();
+        $fileNameJubi1indOld = $declaracionjurada->getJubi1ind();
+        //dump($fileNameJubidatOld.','.$fileNameJubi1indOld);die;
+
+
         $form = $this->createForm(DeclaracionjuradaType::class, $declaracionjurada)
                 ->add('Guardar', SubmitType::class);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $tipoLiq = Util::getTipoLiquidacion($declaracionjurada->getPeriodoMes(), $declaracionjurada->getTipoLiquidacion());
-            $fileJubidat = $form->get('jubidat')->getData();
-            $contenidoJubidat = file_get_contents($fileJubidat);
-            // Sacamos la extensión del fichero
-            $ext = $fileJubidat->guessExtension();
-            // Le ponemos un nombre al fichero
-            $file_name_jubidat = $organismo->getCodigo() . $declaracionjurada->getPeriodoAnio() . $declaracionjurada->getPeriodoMes() . $tipoLiq . ".dat";
-            // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
-            $fileJubidat->move("uploads", $file_name_jubidat);
+            if (($declaracionjurada->getEstado() == 'Pendiente') || 
+                ($declaracionjurada->getEstado() == 'Rechazada')) {
+                //Borramos de la carpeta uploads los antiguos jubi.dat y jubi1.ind
+                $fs = new Filesystem();
+                $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNameJubidatOld);
+                $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNameJubi1indOld);
+                //Formatemos el Tipo de liquidacion
+                $tipoLiq = Util::getTipoLiquidacion($declaracionjurada->getPeriodoMes(), $declaracionjurada->getTipoLiquidacion());
+                //Cargamos el nuevo jubi.dat que vienen del Form
+                $fileJubidat = $form->get('jubidat')->getData();
+                $contenidoJubidat = file_get_contents($fileJubidat);
+                // Le ponemos un nombre al fichero
+                $file_name_jubidat = $organismo->getCodigo() . $declaracionjurada->getPeriodoAnio() . $declaracionjurada->getPeriodoMes() . $tipoLiq . ".dat";
+                // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
+                $fileJubidat->move("uploads", $file_name_jubidat);
+                //Cargamos el nuevo jubi1.ind que vienen del Form
+                $fileJubi1ind = $form->get('jubi1ind')->getData();
+                // Sacamos la extensión del fichero
+                $ext = $fileJubi1ind->guessExtension();
+                // Le ponemos un nombre al fichero
+                $file_name_jubi1ind = $organismo->getCodigo() . $declaracionjurada->getPeriodoAnio() . $declaracionjurada->getPeriodoMes() . $tipoLiq . ".ind";
+                // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
+                $fileJubi1ind->move("uploads", $file_name_jubi1ind);
 
+                $declaracionjurada->setJubidat($file_name_jubidat);
+                $declaracionjurada->setJubi1ind($file_name_jubi1ind);
+                $declaracionjurada->setFechaEntrega(new \DateTime('now'));
+                $declaracionjurada->setEstado('Pendiente');
+                $declaracionjurada->setOrganismo($organismo);
+                $declaracionjurada->setTipoLiquidacion($tipoLiq);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($declaracionjurada);
+                $em->flush();
 
-            $fileJubi1ind = $form->get('jubi1ind')->getData();
-            // Sacamos la extensión del fichero
-            $ext = $fileJubi1ind->guessExtension();
-            // Le ponemos un nombre al fichero
-            $file_name_jubi1ind = $organismo->getCodigo() . $declaracionjurada->getPeriodoAnio() . $declaracionjurada->getPeriodoMes() . $tipoLiq . ".ind";
-            // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
-            $fileJubi1ind->move("uploads", $file_name_jubi1ind);
-            $declaracionjurada->setJubidat($file_name_jubidat);
-            $declaracionjurada->setJubi1ind($file_name_jubi1ind);
-            $declaracionjurada->setFechaEntrega(new \DateTime('now'));
-            $declaracionjurada->setEstado('Pendiente');
-            $declaracionjurada->setOrganismo($organismo);
-            $declaracionjurada->setTipoLiquidacion($tipoLiq);
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($declaracionjurada);
-            $em->flush();
-
-            AbstractBaseController::addWarnMessage("La Declaracion Jurada  '" . $declaracionjurada->getPeriodoAnio()
-                    . '/' . $declaracionjurada->getPeriodoMes() . "' se ha creado correctamente.");
+                AbstractBaseController::addWarnMessage("La Declaracion Jurada  '" . $declaracionjurada->getPeriodoAnio()
+                        . '/' . $declaracionjurada->getPeriodoMes() . "' se ha Actualizado correctamente.");
+            } else {
+                AbstractBaseController::addWarnMessage("La Declaracion Jurada  No se ha podido Modificar porque su estado es: '" . $declaracionjurada->getEstado()."'.");
+            }
             return $this->redirect($this->generateUrl('organismo_declaracion_listar'));
         }
-        return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/editar.html.twig',
-                   array('form' => $form->createView(), 'declaracionjurada' => $declaracionjurada
+        return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/editar.html.twig', array('form' => $form->createView(), 'declaracionjurada' => $declaracionjurada
         ));
     }
 
@@ -155,7 +169,7 @@ class DeclaracionjuradaController extends Controller {
         $fileNamejubidat = $declaracion->getJubidat();
         $fileNamejubi1ind = $declaracion->getJubi1ind();
         // Para borrar el archivo
-        if ($declaracion->getEstado() == "Pendiente" || $declaracion->getEstado() == "Incorrecto") {
+        if ($declaracion->getEstado() == "Pendiente" || $declaracion->getEstado() == "Rechazada") {
             $fs = new Filesystem();
             $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNamejubidat);
             $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNamejubi1ind);
