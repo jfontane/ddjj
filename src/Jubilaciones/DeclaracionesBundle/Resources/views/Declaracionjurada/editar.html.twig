@@ -1,0 +1,41 @@
+{% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
+{% block title %}Nuevo Declaracion{% endblock %}
+{% block pageid 'admin' %}
+    {% block body %}
+        <!-- AGREGAR CÓDIGO FALTANTE -->
+        {{ form_errors(form) }}
+        {{ form_start(form) }}
+        {{ form_errors(form.tipoLiquidacion) }}
+        <p>
+            {{ form_label(form.tipoLiquidacion) }}
+            {{ form_widget(form.tipoLiquidacion) }}
+        </p>
+        <br>
+        {{ form_errors(form.periodoAnio) }}
+        <p>
+            {{ form_label(form.periodoAnio) }}
+            {{ form_widget(form.periodoAnio) }}
+        </p>
+        <br>
+        {{ form_errors(form.periodoMes) }}
+        <p>
+            {{ form_label(form.periodoMes) }}
+            {{ form_widget(form.periodoMes) }}
+        </p>
+        <br>
+        {{ form_errors(form.jubidat) }}
+        <p>
+            {{ form_label(form.jubidat) }}
+            {{ form_widget(form.jubidat) }}
+        </p>
+        <br>&nbsp;
+        {{ form_errors(form.jubi1ind) }}
+        <p>
+            {{ form_label(form.jubi1ind) }}
+            {{ form_widget(form.jubi1ind) }}
+        </p>
+        <br>&nbsp;   
+        {{ form_end(form) }}
+
+
+    {% endblock %}

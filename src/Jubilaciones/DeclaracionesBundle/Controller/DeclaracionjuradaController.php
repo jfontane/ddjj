@@ -23,22 +23,23 @@ class DeclaracionjuradaController extends Controller {
         return $this->render('JubilacionesDeclaracionesBundle:Default:index.html.twig');
     }
 
-    public function declaracionesAction() {
-
+    public function listarAction() {
         $em = $this->getDoctrine()->getManager();
         $declaraciones = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findAllDeclaracionesPorPeriodo();
         //dump($declaraciones);die;
-        return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/declaracionesjuradas.html.twig', array(
+        return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/listar.html.twig', array(
                     'declaraciones' => $declaraciones
         ));
     }
 
-    public function declaracionAction($id) {
+    public function verAction($id) {
         $em = $this->getDoctrine()->getManager();
-        $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findOneBy(array('id' => $id));
-        //dump($declaraciones);die;
-        return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/declaracionjurada.html.twig', array(
-                    'declaracion' => $declaracion
+        $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
+        $fileName = $declaracion->getJubidat();
+        $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
+        $valores = Util::totaliza($archivo);
+        return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/ver.html.twig', array(
+                    'valores' => $valores, 'declaracion' => $declaracion
         ));
     }
 
@@ -54,8 +55,7 @@ class DeclaracionjuradaController extends Controller {
         if ($form->isSubmitted() && $form->isValid()) {
             // Recogemos el fichero jubidat
             //$fileJubidat = $form['jubidat']->getData();
-            $tipoLiq = $this->sacarTipoLiquidacion($declaracionjurada->getPeriodoMes(), $declaracionjurada->getTipoLiquidacion());
-
+            $tipoLiq = Util::getTipoLiquidacion($declaracionjurada->getPeriodoMes(), $declaracionjurada->getTipoLiquidacion());
             $fileJubidat = $form->get('jubidat')->getData();
             $contenidoJubidat = file_get_contents($fileJubidat);
             // Sacamos la extensión del fichero
@@ -93,9 +93,59 @@ class DeclaracionjuradaController extends Controller {
 
             AbstractBaseController::addWarnMessage("La Declaracion Jurada  '" . $declaracionjurada->getPeriodoAnio()
                     . '/' . $declaracionjurada->getPeriodoMes() . "' se ha creado correctamente.");
-            return $this->redirect($this->generateUrl('organismo_declaraciones_juradas'));
+            return $this->redirect($this->generateUrl('organismo_declaracion_listar'));
         }
         return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/nuevo.html.twig', array('form' => $form->createView(),
+        ));
+    }
+
+    public function editarAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        // El codigo de organismo es para harcodear
+        $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' => '4080010000'));
+        
+        if (null == $declaracionjurada = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id)) {
+            throw $this->createNotFoundException('No existe la Declaracion solicitada.');
+        }
+        $form = $this->createForm(DeclaracionjuradaType::class, $declaracionjurada)
+                ->add('Guardar', SubmitType::class);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $tipoLiq = Util::getTipoLiquidacion($declaracionjurada->getPeriodoMes(), $declaracionjurada->getTipoLiquidacion());
+            $fileJubidat = $form->get('jubidat')->getData();
+            $contenidoJubidat = file_get_contents($fileJubidat);
+            // Sacamos la extensión del fichero
+            $ext = $fileJubidat->guessExtension();
+            // Le ponemos un nombre al fichero
+            $file_name_jubidat = $organismo->getCodigo() . $declaracionjurada->getPeriodoAnio() . $declaracionjurada->getPeriodoMes() . $tipoLiq . ".dat";
+            // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
+            $fileJubidat->move("uploads", $file_name_jubidat);
+
+
+            $fileJubi1ind = $form->get('jubi1ind')->getData();
+            // Sacamos la extensión del fichero
+            $ext = $fileJubi1ind->guessExtension();
+            // Le ponemos un nombre al fichero
+            $file_name_jubi1ind = $organismo->getCodigo() . $declaracionjurada->getPeriodoAnio() . $declaracionjurada->getPeriodoMes() . $tipoLiq . ".ind";
+            // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
+            $fileJubi1ind->move("uploads", $file_name_jubi1ind);
+            $declaracionjurada->setJubidat($file_name_jubidat);
+            $declaracionjurada->setJubi1ind($file_name_jubi1ind);
+            $declaracionjurada->setFechaEntrega(new \DateTime('now'));
+            $declaracionjurada->setEstado('Pendiente');
+            $declaracionjurada->setOrganismo($organismo);
+            $declaracionjurada->setTipoLiquidacion($tipoLiq);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($declaracionjurada);
+            $em->flush();
+
+            AbstractBaseController::addWarnMessage("La Declaracion Jurada  '" . $declaracionjurada->getPeriodoAnio()
+                    . '/' . $declaracionjurada->getPeriodoMes() . "' se ha creado correctamente.");
+            return $this->redirect($this->generateUrl('organismo_declaracion_listar'));
+        }
+        return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/editar.html.twig',
+                   array('form' => $form->createView(), 'declaracionjurada' => $declaracionjurada
         ));
     }
 
@@ -110,12 +160,12 @@ class DeclaracionjuradaController extends Controller {
             $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNamejubidat);
             $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNamejubi1ind);
 
-            if (null == $evento) {
-                throw $this->createNotFoundException('No existe el evento solicitado.');
+            if (null == $declaracion) {
+                throw $this->createNotFoundException('No existe la Declaracion solicitada.');
             }
-            $em->remove($evento);
+            $em->remove($declaracion);
             $em->flush();
-            AbstractBaseController::addWarnMessage('La Declaracion ' .
+            AbstractBaseController::addWarnMessage('La Declaracion del Periodo ' .
                     $declaracion->getPeriodoAnio() . '/' .
                     $declaracion->getPeriodoMes() .
                     ' se ha borrado correctamente.');
@@ -123,33 +173,7 @@ class DeclaracionjuradaController extends Controller {
             AbstractBaseController::addWarnMessage("La Declaracion se encuentra en estado 'Procesando' " .
                     "y NO se ha podido Eliminar!!!.");
         }
-        return $this->redirect($this->generateUrl('organismo_declaraciones_juradas'));
-    }
-
-    public function getJubidatAction($id) {
-        $em = $this->getDoctrine()->getManager();
-        $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
-        $file = stream_get_contents($declaracion->getJubidat(), -1, 0);
-        //dump(strlen($file));die;
-        $size = strlen($file);
-
-        $response = new Response($file, 200, array(
-            'Content-Type' => 'application/octet-stream',
-            'Content-Length' => $size,
-            'Content-Disposition' => 'attachment; filename="jubi.dat"',
-        ));
-        return $response;
-    }
-
-    public function mostrarTotalesAction($id) {
-        $em = $this->getDoctrine()->getManager();
-        $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
-        $fileName = $declaracion->getJubidat();
-        $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
-        $valores = Util::totaliza($archivo);
-        return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/valoresTotales.html.twig', array(
-                    'valores' => $valores, 'declaracion' => $declaracion
-        ));
+        return $this->redirect($this->generateUrl('organismo_declaracion_listar'));
     }
 
 }

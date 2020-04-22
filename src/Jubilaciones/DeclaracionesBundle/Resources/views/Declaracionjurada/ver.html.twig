@@ -1,9 +1,36 @@
 {% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
-{% block title %}Importes del Periodo: {{declaracion.periodoAnio}}/{{declaracion.periodoMes}} {% endblock %}
+{% block title %}{{declaracion.organismo.nombre}} - {{declaracion.organismo.codigo}}
+     {% endblock %}
 {% block pageid 'admin' %}
 
     {% block body %}
         {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
+        <p>
+            <strong>   
+                Periodo:
+            </strong>
+            {{ declaracion.periodoAnio }} / {{ declaracion.periodoMes }}&nbsp;&nbsp;&nbsp;&nbsp;
+            <strong>   
+                Tipo Liquidacion:
+            </strong>
+            {{ declaracion.tipoLiquidacion | raw }}
+        </p>
+        <p>
+            <strong>   
+                Fecha Entrada:
+            </strong>  
+            {{  declaracion.fechaEntrega is empty ? "" : declaracion.fechaEntrega | date('Y-m-d H:i') }}
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <strong>
+                Fecha Ingreso:
+            </strong> 
+            {{  declaracion.fechaIngreso is empty ? "" : declaracion.fechaIngreso | date('Y-m-d H:i') }}
+        </p>
+
+        <p>
+            <strong>Estado</strong> 
+            {{ declaracion.estado }}
+        </p>
 
         <div class="grid_16">
             <table>
@@ -44,7 +71,7 @@
                     </tr>
                 </tbody>
             </table>
-            <a href="{{path('organismo_declaraciones_juradas')}}"> Volver </a>&nbsp;
+            <a href="{{path('organismo_declaracion_listar')}}"> Volver </a>&nbsp;
         </div>
         <br>&nbsp;
     {% endblock %}

@@ -162,4 +162,47 @@ class Util {
         return $signo . $parteEntera . '.' . $parteDecimalPrimerDigito . $ultimoDigito;
     }
 
+    public function getTipoLiquidacion($periodoMes, $tipoLiquidacion) {
+        $tipoLiq = 0;
+        if (($periodoMes == '13') or ( $periodoMes == '14')) {
+            if ($tipoLiquidacion == '1')
+                $tipoLiq = '211';
+            else if ($tipoLiquidacion == '2')
+                $tipoLiq = '212';
+            else if ($tipoLiquidacion == '3')
+                $tipoLiq = '301';
+            else if ($tipoLiquidacion == '4')
+                $tipoLiq = '302';
+            else if ($tipoLiquidacion == '5')
+                $tipoLiq = '303';
+            else if ($tipoLiquidacion == '6')
+                $tipoLiq = '304';
+        } else if (( $periodoMes == '01' ) or 
+                   ( $periodoMes == '02' ) or 
+                   ( $periodoMes == '03' ) or 
+                   ( $periodoMes == '04' ) or 
+                   ( $periodoMes == '05' ) or 
+                   ( $periodoMes == '06' ) or 
+                   ( $periodoMes == '07' ) or 
+                   ( $periodoMes == '08' ) or 
+                   ( $periodoMes == '09' ) or 
+                   ( $periodoMes == '10' ) or 
+                   ( $periodoMes == '11' ) or 
+                   ( $periodoMes == '12' )) {
+            if ($tipoLiquidacion == '1')
+                $tipoLiq = '111';
+            else if ($tipoLiquidacion == '2')
+                $tipoLiq = '112';
+            else if ($tipoLiquidacion == '3')
+                $tipoLiq = '301';
+            else if ($tipoLiquidacion == '4')
+                $tipoLiq = '302';
+            else if ($tipoLiquidacion == '5')
+                $tipoLiq = '303';
+            else if ($tipoLiquidacion == '6')
+                $tipoLiq = '304';
+        }
+        return $tipoLiq;
+    }
+
 }

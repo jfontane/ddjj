@@ -1,25 +1,28 @@
-organismo_declaraciones_juradas:
+organismo_declaracion_listar:
     path:     /declaraciones
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:declaraciones }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:listar }
     
-organismo_declaracion_jurada:
-    path:     /declaracion/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:declaracion } 
+organismo_declaracion_ver:
+    path:     /declaracion/ver/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:ver } 
     requirements:
-        id: \d+
+        id: \d+    
     
 organismo_declaracion_nuevo:
     path:     /declaracion/nuevo
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:nuevo }     
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:nuevo } 
+    
+organismo_declaracion_editar:
+    path:     /declaracion/editar/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:editar }
+    requirements:
+        id: \d+
 
 organismo_declaracion_borrar:
     path:     /declaracion/borrar/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:borrar }     
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:borrar }
+    requirements:
+        id: \d+
 
-organismo_mostrar_totales:
-    path:     /declaracion/totales/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:mostrarTotales } 
-    
-organismo_declaracion_jubidat:
-    path:     /declaracion/jubidat/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:getJubidat }     
+
+

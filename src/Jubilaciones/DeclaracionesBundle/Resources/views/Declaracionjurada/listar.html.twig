@@ -29,7 +29,7 @@
                     {% for declaracion in declaraciones %}
                         <tr>
                             <td>
-                                <a href="{{ path ('organismo_declaracion_jurada', {'id' : declaracion.id }) }}">  {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}</a>
+                                {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}
                             </td>
                             <td>{{ declaracion.tipoLiquidacion }}</td>
                             <td>
@@ -40,8 +40,8 @@
                             </td>
                             <td>{{ declaracion.estado }}</td>
                             <td>
-                                <a href="{{ path ('organismo_mostrar_totales',{'id' : declaracion.id }) }}">Ver Importes</a>&nbsp;&nbsp;
-                                <a href="#">Editar</a>&nbsp;&nbsp;
+                                <a href="{{ path ('organismo_declaracion_ver',{'id' : declaracion.id }) }}">Ver</a>&nbsp;&nbsp;
+                                <a href="{{ path ('organismo_declaracion_editar',{'id' : declaracion.id }) }}">Editar</a>&nbsp;&nbsp;
                                 <a href="{{ path ('organismo_declaracion_borrar',{'id' : declaracion.id }) }}">Borrar</a>
                             </td>
                         </tr>
