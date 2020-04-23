@@ -23,6 +23,7 @@
                     <tr>
                         <th>Codigo</th>
                         <th>Organismo</th>
+                        <th>FR-20</th>
                     </tr>
                 </thead>
                 <!-- ITERACIÓN SOBRE LOS EVENTOS DE UN DISERTANTE -->
@@ -33,6 +34,9 @@
                         </td>
                         <td>
                             {{ organismo.nombre }}
+                        </td>
+                        <td>
+                            {{ organismo.entregoFormulario }}
                         </td>
                     </tr>
                 {% else %}
