@@ -9,20 +9,42 @@ admin_declaraciones_listar:
 admin_jubidat:
     path:     /declaracion/jubidat/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:getJubidat }     
+    requirements:
+        id: \d+    
 
 admin_jubi1ind:
     path:     /declaracion/jubi1ind/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:getJubi1ind }     
+    requirements:
+        id: \d+    
 
 admin_mostrar_totales:
     path:     /declaracion/totales/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:mostrarTotales } 
+    requirements:
+        id: \d+    
     
 admin_declaracion_aprobar:
     path:     /declaracion/aprobar/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:aprobarDeclaracion }
+    requirements:
+        id: \d+    
     
 admin_declaracion_rechazar:
     path:     /declaracion/rechazar/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:rechazarDeclaracion }
-        
+    requirements:
+        id: \d+    
+  
+admin_representante_listar:
+    path:     /representantes/listar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminRepresentante:listar } 
+
+admin_representante_ver:
+    path:     /representantes/ver/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminRepresentante:ver } 
+    requirements:
+        id: \d+    
+    
+
+    

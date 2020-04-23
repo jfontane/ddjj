@@ -1,0 +1,69 @@
+{% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
+{% block title %}Listado de Representantes{% endblock %}
+{% block pageid 'admin' %}
+
+    {% block body %}
+        {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
+
+
+        <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
+        <div class="flash_admin">
+            {% for mensaje in app.session.flashbag.get('warn') %}
+                <p class="warn">{{ mensaje }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="grid_16">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cuil</th>
+                        <th>Apellido</th>
+                        <th>Nombres</th>
+                        <th>T.Documento</th>
+                        <th>N.documento</th>
+                        <th>Email</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for representante in representantes %}
+                        <tr>
+                            <td>
+                                {{ representante.cuil }}
+                            </td>
+                            <td>{{ representante.apellido }}</td>
+                            <td>
+                                {{  representante.nombres }}
+                            </td>
+                            <td>
+                                {{  representante.documentoTipo }}
+                            </td>
+                            <td>{{ representante.documentoNumero }}</td>
+                            <td>{{ representante.email }}</td>
+                            <td>
+                                <a href="{{ path('admin_representante_ver', { 'id' : representante.id }) }}">Ver</a>&nbsp;&nbsp;
+                                <a href="">Editar</a>&nbsp;&nbsp;
+                                <a href="">Borrar</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7">No existe ninguna Declaracion Jurada</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{{path('organismo_declaracion_nuevo')}}"> Nuevo </a>
+            <br>
+        </div>
+    {% endblock %}
+    {% block javascripts %}
+        <script>
+            function confirmaBorrar() {
+                if (confirm("Desea Eliminar un Evento???")) {
+                    //location.href
+                }
+            }
+        </script>
+    {% endblock %}    

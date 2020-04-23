@@ -94,13 +94,8 @@ class Representante {
     /**
      * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
      */
-    protected $entregoFormularios;
-
-    /**
-     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
-     */
     protected $confirmoDatos;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Organismo", mappedBy="representante")
      */
@@ -109,9 +104,8 @@ class Representante {
     /**
      * Constructor
      */
-    public function __construct()
-    {
-        $this->eventos = new \Doctrine\Common\Collections\ArrayCollection();
+    public function __construct() {
+        $this->organismos = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -119,8 +113,7 @@ class Representante {
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -131,8 +124,7 @@ class Representante {
      *
      * @return Representante
      */
-    public function setCuil($cuil)
-    {
+    public function setCuil($cuil) {
         $this->cuil = $cuil;
 
         return $this;
@@ -143,8 +135,7 @@ class Representante {
      *
      * @return string
      */
-    public function getCuil()
-    {
+    public function getCuil() {
         return $this->cuil;
     }
 
@@ -155,8 +146,7 @@ class Representante {
      *
      * @return Representante
      */
-    public function setFechaIngreso($fechaIngreso)
-    {
+    public function setFechaIngreso($fechaIngreso) {
         $this->fechaIngreso = $fechaIngreso;
 
         return $this;
@@ -167,8 +157,7 @@ class Representante {
      *
      * @return \DateTime
      */
-    public function getFechaIngreso()
-    {
+    public function getFechaIngreso() {
         return $this->fechaIngreso;
     }
 
@@ -179,8 +168,7 @@ class Representante {
      *
      * @return Representante
      */
-    public function setDocumentoTipo($documentoTipo)
-    {
+    public function setDocumentoTipo($documentoTipo) {
         $this->documentoTipo = $documentoTipo;
 
         return $this;
@@ -191,8 +179,7 @@ class Representante {
      *
      * @return string
      */
-    public function getDocumentoTipo()
-    {
+    public function getDocumentoTipo() {
         return $this->documentoTipo;
     }
 
@@ -203,8 +190,7 @@ class Representante {
      *
      * @return Representante
      */
-    public function setDocumentoNumero($documentoNumero)
-    {
+    public function setDocumentoNumero($documentoNumero) {
         $this->documentoNumero = $documentoNumero;
 
         return $this;
@@ -215,8 +201,7 @@ class Representante {
      *
      * @return string
      */
-    public function getDocumentoNumero()
-    {
+    public function getDocumentoNumero() {
         return $this->documentoNumero;
     }
 
@@ -227,8 +212,7 @@ class Representante {
      *
      * @return Representante
      */
-    public function setApellido($apellido)
-    {
+    public function setApellido($apellido) {
         $this->apellido = $apellido;
 
         return $this;
@@ -239,8 +223,7 @@ class Representante {
      *
      * @return string
      */
-    public function getApellido()
-    {
+    public function getApellido() {
         return $this->apellido;
     }
 
@@ -251,8 +234,7 @@ class Representante {
      *
      * @return Representante
      */
-    public function setNombres($nombres)
-    {
+    public function setNombres($nombres) {
         $this->nombres = $nombres;
 
         return $this;
@@ -263,8 +245,7 @@ class Representante {
      *
      * @return string
      */
-    public function getNombres()
-    {
+    public function getNombres() {
         return $this->nombres;
     }
 
@@ -275,8 +256,7 @@ class Representante {
      *
      * @return Representante
      */
-    public function setSexo($sexo)
-    {
+    public function setSexo($sexo) {
         $this->sexo = $sexo;
 
         return $this;
@@ -287,8 +267,7 @@ class Representante {
      *
      * @return string
      */
-    public function getSexo()
-    {
+    public function getSexo() {
         return $this->sexo;
     }
 
@@ -299,8 +278,7 @@ class Representante {
      *
      * @return Representante
      */
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         $this->email = $email;
 
         return $this;
@@ -311,8 +289,7 @@ class Representante {
      *
      * @return string
      */
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->email;
     }
 
@@ -323,8 +300,7 @@ class Representante {
      *
      * @return Representante
      */
-    public function setFechaSolicitud($fechaSolicitud)
-    {
+    public function setFechaSolicitud($fechaSolicitud) {
         $this->fechaSolicitud = $fechaSolicitud;
 
         return $this;
@@ -335,8 +311,7 @@ class Representante {
      *
      * @return \DateTime
      */
-    public function getFechaSolicitud()
-    {
+    public function getFechaSolicitud() {
         return $this->fechaSolicitud;
     }
 
@@ -347,8 +322,7 @@ class Representante {
      *
      * @return Representante
      */
-    public function setFechaHabilitado($fechaHabilitado)
-    {
+    public function setFechaHabilitado($fechaHabilitado) {
         $this->fechaHabilitado = $fechaHabilitado;
 
         return $this;
@@ -359,8 +333,7 @@ class Representante {
      *
      * @return \DateTime
      */
-    public function getFechaHabilitado()
-    {
+    public function getFechaHabilitado() {
         return $this->fechaHabilitado;
     }
 
@@ -371,8 +344,7 @@ class Representante {
      *
      * @return Representante
      */
-    public function setFechaActualizacion($fechaActualizacion)
-    {
+    public function setFechaActualizacion($fechaActualizacion) {
         $this->fechaActualizacion = $fechaActualizacion;
 
         return $this;
@@ -383,8 +355,7 @@ class Representante {
      *
      * @return \DateTime
      */
-    public function getFechaActualizacion()
-    {
+    public function getFechaActualizacion() {
         return $this->fechaActualizacion;
     }
 
@@ -395,8 +366,7 @@ class Representante {
      *
      * @return Representante
      */
-    public function setLogin($login)
-    {
+    public function setLogin($login) {
         $this->login = $login;
 
         return $this;
@@ -407,8 +377,7 @@ class Representante {
      *
      * @return string
      */
-    public function getLogin()
-    {
+    public function getLogin() {
         return $this->login;
     }
 
@@ -419,8 +388,7 @@ class Representante {
      *
      * @return Representante
      */
-    public function setHabilitado($habilitado)
-    {
+    public function setHabilitado($habilitado) {
         $this->habilitado = $habilitado;
 
         return $this;
@@ -431,33 +399,8 @@ class Representante {
      *
      * @return string
      */
-    public function getHabilitado()
-    {
+    public function getHabilitado() {
         return $this->habilitado;
-    }
-
-    /**
-     * Set entregoFormularios
-     *
-     * @param string $entregoFormularios
-     *
-     * @return Representante
-     */
-    public function setEntregoFormularios($entregoFormularios)
-    {
-        $this->entregoFormularios = $entregoFormularios;
-
-        return $this;
-    }
-
-    /**
-     * Get entregoFormularios
-     *
-     * @return string
-     */
-    public function getEntregoFormularios()
-    {
-        return $this->entregoFormularios;
     }
 
     /**
@@ -467,8 +410,7 @@ class Representante {
      *
      * @return Representante
      */
-    public function setConfirmoDatos($confirmoDatos)
-    {
+    public function setConfirmoDatos($confirmoDatos) {
         $this->confirmoDatos = $confirmoDatos;
 
         return $this;
@@ -479,42 +421,38 @@ class Representante {
      *
      * @return string
      */
-    public function getConfirmoDatos()
-    {
+    public function getConfirmoDatos() {
         return $this->confirmoDatos;
     }
 
     /**
-     * Add evento
+     * Add organismo
      *
-     * @param \Jubilaciones\DeclaracionesBundle\Entity\Organismo $evento
+     * @param \Jubilaciones\DeclaracionesBundle\Entity\Organismo $organismo
      *
      * @return Representante
      */
-    public function addEvento(\Jubilaciones\DeclaracionesBundle\Entity\Organismo $evento)
-    {
-        $this->eventos[] = $evento;
-
+    public function addOrganismo(\Jubilaciones\DeclaracionesBundle\Entity\Organismo $organismo) {
+        $this->organismos[] = $organismo;
         return $this;
     }
 
     /**
-     * Remove evento
+     * Remove organismo
      *
-     * @param \Jubilaciones\DeclaracionesBundle\Entity\Organismo $evento
+     * @param \Jubilaciones\DeclaracionesBundle\Entity\Organismo $organismo
      */
-    public function removeEvento(\Jubilaciones\DeclaracionesBundle\Entity\Organismo $evento)
-    {
-        $this->eventos->removeElement($evento);
+    public function removeEvento(\Jubilaciones\DeclaracionesBundle\Entity\Organismo $organismo) {
+        $this->eventos->removeElement($organismo);
     }
 
     /**
-     * Get eventos
+     * Get organismos
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getEventos()
-    {
-        return $this->eventos;
+    public function getOrganismos() {
+        return $this->organismos;
     }
+
 }

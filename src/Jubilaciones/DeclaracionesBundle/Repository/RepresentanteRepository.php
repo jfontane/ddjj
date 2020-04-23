@@ -10,4 +10,12 @@ namespace Jubilaciones\DeclaracionesBundle\Repository;
  */
 class RepresentanteRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllRepresentantesAlfabeticamente() {
+        $em = $this->getEntityManager();
+        $dql = "SELECT r
+                FROM JubilacionesDeclaracionesBundle:Representante r
+                ORDER BY r.apellido ASC, r.nombres ASC ";
+        return $em->createQuery($dql)->getResult();
+    }
+
 }
