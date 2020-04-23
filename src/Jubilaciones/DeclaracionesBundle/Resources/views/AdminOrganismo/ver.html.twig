@@ -1,0 +1,42 @@
+{% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
+{% block title %}Datos del Organismo{% endblock %}
+{% block pageid 'admin' %}
+
+    {% block body %}
+        {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
+        
+        <div class="grid_16">
+            <table>
+                
+                <!-- ITERACIÓN SOBRE LOS EVENTOS DE UN DISERTANTE -->
+                    <tr>
+                        <th>
+                            Nombre
+                        </th>
+                        <td>
+                            {{ organismo.nombre }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Domicilio
+                        </th>
+                        <td>
+                            {{ organismo.domicilio }}
+                        </td>
+                    </tr>
+            </table>
+            <a href="{{path('admin_representante_listar')}}"> Volver </a>&nbsp;
+        </div>
+        <br>&nbsp;
+
+    {% endblock %}
+    {% block javascripts %}
+        <script>
+            function confirmaBorrar() {
+                if (confirm("Desea Eliminar un Evento???")) {
+                    //location.href
+                }
+            }
+        </script>
+    {% endblock %}    

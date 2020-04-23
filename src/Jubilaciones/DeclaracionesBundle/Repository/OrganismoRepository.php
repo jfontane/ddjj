@@ -10,4 +10,11 @@ namespace Jubilaciones\DeclaracionesBundle\Repository;
  */
 class OrganismoRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAllOrganismosAlfabeticamente() {
+        $em = $this->getEntityManager();
+        $dql = "SELECT o
+                FROM JubilacionesDeclaracionesBundle:Organismo o
+                ORDER BY o.nombre ASC";
+        return $em->createQuery($dql)->getResult();
+    }
 }

@@ -37,14 +37,24 @@ admin_declaracion_rechazar:
         id: \d+    
   
 admin_representante_listar:
-    path:     /representantes/listar
+    path:     /representante/listar
     defaults: { _controller: JubilacionesDeclaracionesBundle:AdminRepresentante:listar } 
 
 admin_representante_ver:
-    path:     /representantes/ver/{id}
+    path:     /representante/ver/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:AdminRepresentante:ver } 
     requirements:
-        id: \d+    
+        id: \d+  
+        
+admin_organismo_listar:
+    path:     /organismo/listar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminOrganismo:listar } 
+
+admin_organismo_ver:
+    path:     /organismo/ver/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminOrganismo:ver } 
+    requirements:
+        id: \d+          
     
 
     
