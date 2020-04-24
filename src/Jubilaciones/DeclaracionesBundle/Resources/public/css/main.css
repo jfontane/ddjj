@@ -572,6 +572,45 @@ footer a:hover {
     width: 150px;
 }
 
+#admin a[href*="totales"]{
+    background-image: -webkit-gradient( /* es aca donde hay que tocar*/
+        linear,
+        left top,
+        left bottom,
+        color-stop(0.05, rgb(34,147,41)),
+        color-stop(0.50, rgb(55,55,55)), /* probar sacar esta linea */
+        color-stop(0.75, rgb(77,77,77)) /* probar sacar esta linea */
+        );
+    background-image: -moz-linear-gradient(
+        center top,
+        rgb(0,0,0) 5%,
+        rgb(55,55,55) 50%,
+        rgb(77,77,77) 75%
+        );
+
+    border: 1px solid #AAA;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+
+    color: #EFEFEF;
+    display: inherit;
+    font-size: 14px;
+    font-weight: bold;
+
+    margin: 1em 0;
+    padding: .5em;
+
+    text-align: center;
+    text-decoration: none;
+
+    text-shadow: 0 1px 0 #000;
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+
+    width: 50px;
+}
+
+
 #admin a[href*="nuevo"]:hover, #admin form input[type="submit"]:hover {
     border-color: #777;
 

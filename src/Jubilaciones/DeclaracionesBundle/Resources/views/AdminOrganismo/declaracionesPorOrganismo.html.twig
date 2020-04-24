@@ -1,0 +1,59 @@
+{% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
+{% block title %}Datos del Organismo -> Declaraciones Juradas{% endblock %}
+{% block pageid 'admin' %}
+
+    {% block body %}
+        {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
+
+        <div class="grid_16">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Periodo 
+                        </th>
+                        <th>
+                            T.Liquidacion 
+                        </th>
+                        <th>
+                            Estado
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for declaracion in organismo.declaracionesjuradas %}
+                        <tr>
+                            <td>
+                                {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}
+                            </td>
+                            <td>
+                                {{ declaracion.tipoLiquidacion }}
+                            </td>
+                            <td>
+                                {{ declaracion.estado }}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan='2'>
+                                No tiene Declaraciones Juradas
+                            </td>
+                        </tr>
+                    {% endfor %}    
+                </tbody>
+            </table>
+
+            <a href="{{ path('admin_organismo_ver',{'id':organismo.id}) }}"> Volver </a>&nbsp;&nbsp;
+        </div>
+        <br>&nbsp;
+
+    {% endblock %}
+    {% block javascripts %}
+        <script>
+            function confirmaBorrar() {
+                if (confirm("Desea Eliminar un Evento???")) {
+                    //location.href
+                }
+            }
+        </script>
+    {% endblock %}    

@@ -82,11 +82,6 @@ class Representante {
     protected $fechaActualizacion;
 
     /**
-     * @ORM\Column(type="string")
-     */
-    protected $login;
-
-    /**
      * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
      */
     protected $habilitado;

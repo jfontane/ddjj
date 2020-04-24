@@ -33,6 +33,14 @@ class AdminOrganismoController extends Controller {
                     'organismo' => $organismo
         ));
     }
+    
+    public function listarDeclaracionesPorOrganismoAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->find($id);
+        return $this->render('@JubilacionesDeclaraciones/AdminOrganismo/declaracionesPorOrganismo.html.twig', array(
+                    'organismo' => $organismo
+        ));
+    }
 
     public function nuevoAction(Request $request) {
         

@@ -1,3 +1,15 @@
+inicio:
+    path: /
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Default:index }
+    
+estatica:
+    path: /sitio/{pagina}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Default:estatica } 
+
+registrar_representante:
+    path: /representante/nuevo
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Default:nuevoRepresentante }     
+  
 organismo_declaracion_listar:
     path:     /declaracion/listar
     defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:listar }

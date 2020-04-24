@@ -4,8 +4,8 @@ admin_portada:
     
 admin_declaraciones_listar:
     path: /declaracion/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:listar }   
-
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:listar }  
+    
 admin_jubidat:
     path:     /declaracion/jubidat/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:AdminDeclaracionjurada:getJubidat }     
@@ -56,5 +56,8 @@ admin_organismo_ver:
     requirements:
         id: \d+          
     
+admin_organismo_declaraciones_por_organismo:
+    path: /organismo/{id}/ddjj
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminOrganismo:listarDeclaracionesPorOrganismo }    
 
     

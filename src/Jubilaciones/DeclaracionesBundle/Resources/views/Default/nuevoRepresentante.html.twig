@@ -1,0 +1,44 @@
+{% extends "@JubilacionesDeclaraciones/layout-publico.html.twig" %}
+{% block title %}Nuevo Declaracion{% endblock %}
+{% block pageid 'pagina' %}
+    {% block body %}
+         <H1>REGISTRO DE REPRESENTANTE</H1>
+         <br>
+        <!-- AGREGAR CÓDIGO FALTANTE -->
+        {{ form_errors(form) }}
+        {{ form_start(form) }}
+        {{ form_errors(form.cuil) }}
+        <p>
+            {{ form_label(form.cuil) }}
+            {{ form_widget(form.cuil) }}
+        </p>
+        <br>
+        {{ form_errors(form.apellido) }}
+        <p>
+            {{ form_label(form.apellido) }}
+            {{ form_widget(form.apellido) }}
+        </p>
+        <br>
+        {{ form_errors(form.nombres) }}
+        <p>
+            {{ form_label(form.nombres) }}
+            {{ form_widget(form.nombres) }}
+        </p>
+        <br>
+        {{ form_errors(form.email) }}
+        <p>
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email) }}
+        </p>
+        <br>
+        {{ form_errors(form.organismo) }}
+        <p>
+            {{ form_label(form.organismo) }}
+            {{ form_widget(form.organismo) }}
+        </p>
+        <br>
+        &nbsp;   
+        {{ form_end(form) }}
+
+
+    {% endblock %}

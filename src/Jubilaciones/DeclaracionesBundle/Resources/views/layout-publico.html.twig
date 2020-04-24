@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+{% block header %}
+    <h1 class="grid_5 alpha"><a href="{{ path('inicio') }}">PreDeJu</a></h1>
+    <nav class="grid_11 omega">
+        <ul>
+            <li><a href="{{ path('admin_representante_listar') }}">Login</a></li>
+        </ul>
+    </nav>
+    <h1>{{ block('title') }}</h1>
+{% endblock %}

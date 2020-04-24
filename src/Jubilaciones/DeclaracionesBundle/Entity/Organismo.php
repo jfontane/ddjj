@@ -481,5 +481,9 @@ class Organismo {
     public function getDeclaracionesjuradas() {
         return $this->declaracionesjuradas;
     }
+    
+    public function __toString() {
+        return $this->getNombre().'-'.$this->getCodigo();
+    }
 
 }

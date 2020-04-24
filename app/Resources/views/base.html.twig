@@ -26,12 +26,9 @@
             <footer>
                 {% block footer %}
                     <a href="">
-                        &copy; {{ 'now' | date('Y') }} - Curso Desarrollo de Aplicaciones con Symfony 3.4
-                    </a>
-                    <a href="">
-                        Privacidad
-                    </a>
-                    <a href="">
+                        &copy; {{ 'now' | date('Y') }} - Caja de Jubilaciones y Pensiones de la Provincia
+                    </a>&nbsp;&nbsp;&nbsp;
+                    <a href="{{ path('estatica', {'pagina':'condiciones'}) }}">
                         Condiciones de uso
                     </a>
                 {% endblock %}
