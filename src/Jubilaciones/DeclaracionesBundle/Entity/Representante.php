@@ -28,18 +28,12 @@ class Representante {
     protected $cuil;
 
     /**
-     * @ORM\Column(type="date")
-     * @Assert\Date()
-     */
-    protected $fechaIngreso;
-
-    /**
-     * @ORM\Column(type="string", columnDefinition="enum('Dni', 'Lc', 'Le')")
+     * @ORM\Column(type="string", columnDefinition="enum('Dni', 'Lc', 'Le')", nullable=true)
      */
     protected $documentoTipo;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $documentoNumero;
 
@@ -54,7 +48,7 @@ class Representante {
     protected $nombres;
 
     /**
-     * @ORM\Column(type="string", columnDefinition="enum('Masculino', 'Femenino')")
+     * @ORM\Column(type="string", columnDefinition="enum('Masculino', 'Femenino')", nullable=true)
      */
     protected $sexo;
 
@@ -70,21 +64,16 @@ class Representante {
     protected $fechaSolicitud;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      * @Assert\Date()
      */
     protected $fechaHabilitado;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      * @Assert\Date()
      */
     protected $fechaActualizacion;
-
-    /**
-     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
-     */
-    protected $habilitado;
 
     /**
      * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
@@ -377,28 +366,6 @@ class Representante {
     }
 
     /**
-     * Set habilitado
-     *
-     * @param string $habilitado
-     *
-     * @return Representante
-     */
-    public function setHabilitado($habilitado) {
-        $this->habilitado = $habilitado;
-
-        return $this;
-    }
-
-    /**
-     * Get habilitado
-     *
-     * @return string
-     */
-    public function getHabilitado() {
-        return $this->habilitado;
-    }
-
-    /**
      * Set confirmoDatos
      *
      * @param string $confirmoDatos
@@ -448,6 +415,10 @@ class Representante {
      */
     public function getOrganismos() {
         return $this->organismos;
+    }
+
+    public function __toString() {
+        return $this->getApellido() . ', ' . $this->getNombres();
     }
 
 }

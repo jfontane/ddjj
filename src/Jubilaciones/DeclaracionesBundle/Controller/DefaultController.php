@@ -7,8 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Jubilaciones\DeclaracionesBundle\Entity\Representante;
 use Jubilaciones\DeclaracionesBundle\Form\RepresentanteType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
-
+use Jubilaciones\DeclaracionesBundle\Controller\AbstractBaseController;
 
 class DefaultController extends Controller {
 
@@ -24,49 +23,37 @@ class DefaultController extends Controller {
         $representante = new Representante();
         $form = $this->createForm(RepresentanteType::class, $representante)
                 ->add('Guardar', SubmitType::class);
-// AGREGAR AL FORM BOTÓN DE SUBMIT CON ETIQUETA “Guardar”
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // Recogemos el fichero jubidat
-            //$fileJubidat = $form['jubidat']->getData();
-            $tipoLiq = Util::getTipoLiquidacion($declaracionjurada->getPeriodoMes(), $declaracionjurada->getTipoLiquidacion());
-            $fileJubidat = $form->get('jubidat')->getData();
-            $contenidoJubidat = file_get_contents($fileJubidat);
-            // Sacamos la extensión del fichero
-            $ext = $fileJubidat->guessExtension();
-            // Le ponemos un nombre al fichero
-            $file_name_jubidat = $organismo->getCodigo() . $declaracionjurada->getPeriodoAnio() . $declaracionjurada->getPeriodoMes() . $tipoLiq . ".dat";
-            // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
-            $fileJubidat->move("uploads", $file_name_jubidat);
+            //Saco el organismo del Formulario de Alta de Representante 
+            $representanteOrganismo = $form->get('organismo')->getData();
+            //Saco el ID del Organismo del Formulario de Alta de Representante
+            $idRepresentanteOrganismo = $representanteOrganismo->getId();
 
-
-            $fileJubi1ind = $form->get('jubi1ind')->getData();
-            // Sacamos la extensión del fichero
-            $ext = $fileJubi1ind->guessExtension();
-            // Le ponemos un nombre al fichero
-            $file_name_jubi1ind = $organismo->getCodigo() . $declaracionjurada->getPeriodoAnio() . $declaracionjurada->getPeriodoMes() . $tipoLiq . ".ind";
-            // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
-            $fileJubi1ind->move("uploads", $file_name_jubi1ind);
-
-
-            //$this->sacarTotalesJubidat($file_name);
-            //$declaracionjurada->setJubidat($file_name);
-
-            /* $fechaEntrega = date('Y-m-d'); */
-            //$declaracionjurada->setFechaEntrega($fechaEntrega);
-            $declaracionjurada->setJubidat($file_name_jubidat);
-            $declaracionjurada->setJubi1ind($file_name_jubi1ind);
-            $declaracionjurada->setFechaEntrega(new \DateTime('now'));
-            $declaracionjurada->setEstado('Pendiente');
-            $declaracionjurada->setOrganismo($organismo);
-            $declaracionjurada->setTipoLiquidacion($tipoLiq);
+            //Localizo el Organisno por ID para ver si tiene o no Representante Vinculado
             $em = $this->getDoctrine()->getManager();
-            $em->persist($declaracionjurada);
-            $em->flush();
+            $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('id' => $idRepresentanteOrganismo));
+//            dump($organismo);
+//            die;
+            $nroDocumento = $representante->getDocumentoNumero();
+            $representante->setDocumentoTipo('Dni');
+            $representante->setConfirmoDatos('No');
+            $representante->setDocumentoNumero(substr($nroDocumento, 2, 8));
+            $representante->setFechaSolicitud(new \DateTime('now'));
 
-            AbstractBaseController::addWarnMessage("La Declaracion Jurada  '" . $declaracionjurada->getPeriodoAnio()
-                    . '/' . $declaracionjurada->getPeriodoMes() . "' se ha creado correctamente.");
-            return $this->redirect($this->generateUrl('organismo_declaracion_listar'));
+            $em->persist($representante);
+            $em->flush();
+            AbstractBaseController::addWarnMessage("El Representante '" . $representante . "' se ha creado correctamente.");
+
+            if (!$organismo->getRepresentante()) {
+                $organismo->setRepresentante($representante);
+                $em->persist($organismo);
+                $em->flush();
+                AbstractBaseController::addInfoMessage("El Representante fue vinculado al Organismo '.$organismo.' correctamente.");
+            } else {
+                AbstractBaseController::addErrorMessage("El Representante NO se ha vinculado al organismo. El Organismo podria ya tener un Representante");
+            }
+            return $this->redirect($this->generateUrl('inicio'));
         }
         return $this->render('@JubilacionesDeclaraciones/Default/nuevoRepresentante.html.twig', array('form' => $form->createView(),
         ));
