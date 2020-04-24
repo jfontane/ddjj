@@ -21,6 +21,7 @@
                         <th>Nombre</th>
                         <th>CUIT</th>
                         <th>Email</th>
+                        <th>Representante</th>
                         <th>FR-20</th>
                         <th>Amparo</th>
                         <th>Zona</th>
@@ -40,6 +41,11 @@
                             <td>
                                 {{  organismo.email }}
                             </td>
+                            {% if organismo.representante %}
+                                <td>Si</td>
+                            {% else %}   
+                                <td>No</td>
+                            {% endif %}    
                             <td>{{ organismo.entregoFormulario }}</td>
                             <td>{{ organismo.amparo }}</td>
                             <td>{{ organismo.zona }}</td>

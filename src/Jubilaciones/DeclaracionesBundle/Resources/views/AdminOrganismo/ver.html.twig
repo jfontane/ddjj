@@ -4,29 +4,53 @@
 
     {% block body %}
         {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
-        
+
         <div class="grid_16">
             <table>
-                
+
                 <!-- ITERACIÓN SOBRE LOS EVENTOS DE UN DISERTANTE -->
+                <tr>
+                    <td>
+                        Nombre
+                    </td>
+                    <td>
+                        {{ organismo.nombre }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Domicilio
+                    </td>
+                    <td>
+                        {{ organismo.domicilio }}
+                    </td>
+                </tr>
+                {% if organismo.representante %}
                     <tr>
-                        <th>
-                            Nombre
-                        </th>
                         <td>
-                            {{ organismo.nombre }}
+                            Representante Nombres
+                        </td>
+                        <td>
+                            {{ organismo.representante.apellido }},{{ organismo.representante.nombres }}
                         </td>
                     </tr>
                     <tr>
-                        <th>
-                            Domicilio
-                        </th>
                         <td>
-                            {{ organismo.domicilio }}
+                            Representante Cuil
+                        </td>
+                        <td>
+                            {{ organismo.representante.cuil }}
                         </td>
                     </tr>
+                {% else %}
+                    <tr>
+                        <td colspan='2'>
+                            No tiene Representante Asignado
+                        </td>
+                    </tr>
+                {% endif %}    
             </table>
-            <a href="{{path('admin_representante_listar')}}"> Volver </a>&nbsp;
+            <a href="{{path('admin_organismo_listar')}}"> Volver </a>&nbsp;
         </div>
         <br>&nbsp;
 
