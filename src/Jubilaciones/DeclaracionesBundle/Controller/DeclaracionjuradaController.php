@@ -14,6 +14,7 @@ use Jubilaciones\DeclaracionesBundle\Controller\AbstractBaseController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Form\FormError;
 
 //use Symfony\Component\Validator\Constraints\Length; 
 
@@ -54,7 +55,6 @@ class DeclaracionjuradaController extends Controller {
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Recogemos el fichero jubidat
-            //$fileJubidat = $form['jubidat']->getData();
             $tipoLiq = Util::getTipoLiquidacion($declaracionjurada->getPeriodoMes(), $declaracionjurada->getTipoLiquidacion());
             $fileJubidat = $form->get('jubidat')->getData();
             $contenidoJubidat = file_get_contents($fileJubidat);
@@ -63,7 +63,7 @@ class DeclaracionjuradaController extends Controller {
             // Le ponemos un nombre al fichero
             $file_name_jubidat = $organismo->getCodigo() . $declaracionjurada->getPeriodoAnio() . $declaracionjurada->getPeriodoMes() . $tipoLiq . ".dat";
             // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
-            $fileJubidat->move("uploads", $file_name_jubidat);
+            //$fileJubidat->move("uploads", $file_name_jubidat);
 
 
             $fileJubi1ind = $form->get('jubi1ind')->getData();
@@ -72,9 +72,7 @@ class DeclaracionjuradaController extends Controller {
             // Le ponemos un nombre al fichero
             $file_name_jubi1ind = $organismo->getCodigo() . $declaracionjurada->getPeriodoAnio() . $declaracionjurada->getPeriodoMes() . $tipoLiq . ".ind";
             // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
-            $fileJubi1ind->move("uploads", $file_name_jubi1ind);
-
-
+            //$fileJubi1ind->move("uploads", $file_name_jubi1ind);
             //$this->sacarTotalesJubidat($file_name);
             //$declaracionjurada->setJubidat($file_name);
 
@@ -88,9 +86,15 @@ class DeclaracionjuradaController extends Controller {
             $declaracionjurada->setOrganismo($organismo);
             $declaracionjurada->setTipoLiquidacion($tipoLiq);
             $em = $this->getDoctrine()->getManager();
-            $em->persist($declaracionjurada);
-            $em->flush();
-
+            try {
+                $em->persist($declaracionjurada);
+                $em->flush();
+            } catch (\Doctrine\DBAL\DBALException $e) {
+                AbstractBaseController::addErrorMessage("No se puede ingresar, clave compuesta Duplicada.");
+                return $this->redirect($this->generateUrl('organismo_declaracion_error', array('error' => 'Clave Duplicada')));
+            }
+            $fileJubidat->move("uploads", $file_name_jubidat);
+            $fileJubi1ind->move("uploads", $file_name_jubi1ind);
             AbstractBaseController::addWarnMessage("La Declaracion Jurada  '" . $declaracionjurada->getPeriodoAnio()
                     . '/' . $declaracionjurada->getPeriodoMes() . "' se ha creado correctamente.");
             return $this->redirect($this->generateUrl('organismo_declaracion_listar'));
@@ -118,12 +122,8 @@ class DeclaracionjuradaController extends Controller {
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (($declaracionjurada->getEstado() == 'Pendiente') || 
-                ($declaracionjurada->getEstado() == 'Rechazada')) {
-                //Borramos de la carpeta uploads los antiguos jubi.dat y jubi1.ind
-                $fs = new Filesystem();
-                $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNameJubidatOld);
-                $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNameJubi1indOld);
+            if (($declaracionjurada->getEstado() == 'Pendiente') ||
+                    ($declaracionjurada->getEstado() == 'Rechazada')) {
                 //Formatemos el Tipo de liquidacion
                 $tipoLiq = Util::getTipoLiquidacion($declaracionjurada->getPeriodoMes(), $declaracionjurada->getTipoLiquidacion());
                 //Cargamos el nuevo jubi.dat que vienen del Form
@@ -132,7 +132,6 @@ class DeclaracionjuradaController extends Controller {
                 // Le ponemos un nombre al fichero
                 $file_name_jubidat = $organismo->getCodigo() . $declaracionjurada->getPeriodoAnio() . $declaracionjurada->getPeriodoMes() . $tipoLiq . ".dat";
                 // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
-                $fileJubidat->move("uploads", $file_name_jubidat);
                 //Cargamos el nuevo jubi1.ind que vienen del Form
                 $fileJubi1ind = $form->get('jubi1ind')->getData();
                 // Sacamos la extensión del fichero
@@ -140,7 +139,6 @@ class DeclaracionjuradaController extends Controller {
                 // Le ponemos un nombre al fichero
                 $file_name_jubi1ind = $organismo->getCodigo() . $declaracionjurada->getPeriodoAnio() . $declaracionjurada->getPeriodoMes() . $tipoLiq . ".ind";
                 // Guardamos el fichero en el directorio uploads que estará en el directorio /web del framework
-                $fileJubi1ind->move("uploads", $file_name_jubi1ind);
 
                 $declaracionjurada->setJubidat($file_name_jubidat);
                 $declaracionjurada->setJubi1ind($file_name_jubi1ind);
@@ -149,13 +147,26 @@ class DeclaracionjuradaController extends Controller {
                 $declaracionjurada->setOrganismo($organismo);
                 $declaracionjurada->setTipoLiquidacion($tipoLiq);
                 $em = $this->getDoctrine()->getManager();
-                $em->persist($declaracionjurada);
-                $em->flush();
+                try {
+                    $em->persist($declaracionjurada);
+                    $em->flush();
+                } catch (\Doctrine\DBAL\DBALException $e) {
+                    AbstractBaseController::addErrorMessage("No se puede Editar Datos de Periodo, clave compuesta Duplicada.");
+                    return $this->redirect($this->generateUrl('organismo_declaracion_error', array('error' => 'Clave Duplicada')));
+                }
+                //Borramos de la carpeta uploads los antiguos jubi.dat y jubi1.ind
+                $fs = new Filesystem();
+                $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNameJubidatOld);
+                $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNameJubi1indOld);
+                //Cargamos los Nuevos Archivos Jubi.dat y Jubi1.ind
+                $fileJubidat->move("uploads", $file_name_jubidat);
+                $fileJubi1ind->move("uploads", $file_name_jubi1ind);
+
 
                 AbstractBaseController::addWarnMessage("La Declaracion Jurada  '" . $declaracionjurada->getPeriodoAnio()
                         . '/' . $declaracionjurada->getPeriodoMes() . "' se ha Actualizado correctamente.");
             } else {
-                AbstractBaseController::addWarnMessage("La Declaracion Jurada  No se ha podido Modificar porque su estado es: '" . $declaracionjurada->getEstado()."'.");
+                AbstractBaseController::addWarnMessage("La Declaracion Jurada  No se ha podido Modificar porque su estado es: '" . $declaracionjurada->getEstado() . "'.");
             }
             return $this->redirect($this->generateUrl('organismo_declaracion_listar'));
         }
@@ -188,6 +199,10 @@ class DeclaracionjuradaController extends Controller {
                     "y NO se ha podido Eliminar!!!.");
         }
         return $this->redirect($this->generateUrl('organismo_declaracion_listar'));
+    }
+
+    public function errorAction($error) {
+        return $this->render('@JubilacionesDeclaraciones/ErrorOrganismo/claveDuplicada.html.twig', array('Error' => $error));
     }
 
 }

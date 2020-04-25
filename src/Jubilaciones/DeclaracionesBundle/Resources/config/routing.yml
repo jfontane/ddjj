@@ -36,5 +36,7 @@ organismo_declaracion_borrar:
     requirements:
         id: \d+
 
+organismo_declaracion_error:    
+    path:     /declaracion/error/{error}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:error }
     
-

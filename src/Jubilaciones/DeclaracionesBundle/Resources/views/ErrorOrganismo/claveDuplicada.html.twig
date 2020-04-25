@@ -1,0 +1,15 @@
+{% extends "@JubilacionesDeclaraciones/layout-organismo.html.twig" %}
+{% block title %}Error
+{% endblock %}
+{% block pageid 'admin' %}
+
+    {% block body %}
+        <h1>Error</h1>
+        {% for mensaje in app.session.flashbag.get('error') %}
+            <div class="flash_admin">
+                <p class="error">{{ mensaje }}</p>
+            </div>
+        {% endfor %}
+        <a href="{{ path('organismo_declaracion_listar') }}">Volver</a>
+    {% endblock %}
+

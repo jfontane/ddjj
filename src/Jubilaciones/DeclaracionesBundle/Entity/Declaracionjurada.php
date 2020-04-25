@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      @ORM\UniqueConstraint(columns={"periodo_anio","periodo_mes","tipo_liquidacion"})
  * }, indexes={
  *      @ORM\Index(columns={"periodo_anio","periodo_mes","tipo_liquidacion"})
- *    }
+ *            }
  * )
  * @ORM\Entity(repositoryClass="Jubilaciones\DeclaracionesBundle\Repository\DeclaracionjuradaRepository")
  */
