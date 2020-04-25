@@ -8,7 +8,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Declaracionjurada
  * 
- * @ORM\Table(name="declaracionjurada")
+ * @ORM\Table(name="declaracionjurada", uniqueConstraints={
+ *      @ORM\UniqueConstraint(columns={"periodo_anio","periodo_mes","tipo_liquidacion"})
+ * }, indexes={
+ *      @ORM\Index(columns={"periodo_anio","periodo_mes","tipo_liquidacion"})
+ *    }
+ * )
  * @ORM\Entity(repositoryClass="Jubilaciones\DeclaracionesBundle\Repository\DeclaracionjuradaRepository")
  */
 class Declaracionjurada {
