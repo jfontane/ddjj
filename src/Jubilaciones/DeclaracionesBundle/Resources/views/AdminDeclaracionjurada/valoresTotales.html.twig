@@ -42,27 +42,31 @@
                         <td>Tarea Riesgosa</td>
                         <td>{{ valores.totalTareasRiesgoza | number_format(2, ',', '.') }}</td>
                     </tr>
+                    <tr>
+                        <td>Archivo Jubi.dat</td>
+                        <td>
+                            <a href="{{path('admin_jubidat',{'id' : declaracion.id })}}">Jubi.dat</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Archivo Jubi.dat</td>
+                        <td>
+                            <a href="{{path('admin_jubi1ind',{'id' : declaracion.id })}}">Jubi1.ind</a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <hr>
             <table>
-                <thead>
-                    <tr>
-                        <th>Archivo</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><a href="{{path('admin_jubidat',{'id' : declaracion.id })}}">Jubi.dat</a>&nbsp;&nbsp;
-                        <a href="{{path('admin_jubi1ind',{'id' : declaracion.id })}}">Jubi1.ind</a></td>
-                        <td>
-                            <a href="{{path('admin_declaracion_aprobar',{'id' : declaracion.id })}}">Aprobar</a>&nbsp;&nbsp;
-                            <a href="{{path('admin_declaracion_rechazar',{'id' : declaracion.id })}}">Rechazar</a>&nbsp;&nbsp;
-                        </td>
-                    </tr>
-                   
-                </tbody>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td colspan='2' align='center'>
+                        <a href="{{path('admin_declaracion_aprobar',{'id' : declaracion.id })}}">Aprobar</a>&nbsp;&nbsp;
+                        <a href="{{path('admin_declaracion_rechazar',{'id' : declaracion.id })}}">Rechazar</a>&nbsp;&nbsp;
+                    </td>
+                    <td>&nbsp;</td>
+                </tr>
+
             </table>
             <br>&nbsp;   
             <a href="{{path('admin_declaraciones_listar')}}"> Volver </a>&nbsp;
