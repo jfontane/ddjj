@@ -5,6 +5,11 @@ inicio:
 login_route:
     path: /login
     defaults: { _controller: JubilacionesDeclaracionesBundle:Login:login }
+
+login_check:
+    path: /ckeck
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Login:loginCheck }
+
     
 logout:
     path: /logout
