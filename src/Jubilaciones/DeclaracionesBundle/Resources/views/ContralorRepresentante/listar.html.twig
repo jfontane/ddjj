@@ -42,7 +42,7 @@
                             <td>{{ representante.documentoNumero }}</td>
                             <td>{{ representante.email }}</td>
                             <td>
-                                <a href="{{ path('admin_representante_ver', { 'id' : representante.id }) }}">Ver</a>&nbsp;&nbsp;
+                                <a href="{{ path('contralor_representante_ver', { 'id' : representante.id }) }}">Ver</a>&nbsp;&nbsp;
                                 <a href="">Editar</a>&nbsp;&nbsp;
                                 <a href="">Borrar</a>
                             </td>
@@ -54,7 +54,7 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <a href="{{path('organismo_declaracion_nuevo')}}"> Nuevo </a>
+            <a href=""> Nuevo </a>
             <br>
         </div>
     {% endblock %}

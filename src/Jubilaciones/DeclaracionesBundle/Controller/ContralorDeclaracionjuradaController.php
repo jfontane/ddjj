@@ -18,7 +18,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 //use Symfony\Component\Validator\Constraints\Length; 
 
-class AdminDeclaracionjuradaController extends Controller {
+class ContralorDeclaracionjuradaController extends Controller {
 
     public function indexAction() {
         return $this->render('JubilacionesDeclaracionesBundle:Default:index.html.twig');
@@ -28,7 +28,7 @@ class AdminDeclaracionjuradaController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $declaraciones = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findAllDeclaracionesPorPeriodo();
         //dump($declaraciones);die;
-        return $this->render('@JubilacionesDeclaraciones/AdminDeclaracionjurada/declaracionesjuradas.html.twig', array(
+        return $this->render('@JubilacionesDeclaraciones/ContralorDeclaracionjurada/declaracionesjuradas.html.twig', array(
                     'declaraciones' => $declaraciones
         ));
     }
@@ -37,7 +37,7 @@ class AdminDeclaracionjuradaController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findOneBy(array('id' => $id));
         //dump($declaraciones);die;
-        return $this->render('@JubilacionesDeclaraciones/AdminDeclaracionjurada/declaracionjurada.html.twig', array(
+        return $this->render('@JubilacionesDeclaraciones/ContralorDeclaracionjurada/declaracionjurada.html.twig', array(
                     'declaracion' => $declaracion
         ));
     }
@@ -63,7 +63,7 @@ class AdminDeclaracionjuradaController extends Controller {
                 . $declaracion->getOrganismo()->getNombre()
                 . "' en el periodo: " . $declaracion->getPeriodoAnio()
                 . '/' . $declaracion->getPeriodoMes() . "' se ha APROBADO correctamente.");
-        return $this->redirect($this->generateUrl('admin_declaraciones_listar'));
+        return $this->redirect($this->generateUrl('contralor_declaraciones_listar'));
     }
 
     public function rechazarDeclaracionAction($id) {
@@ -87,7 +87,7 @@ class AdminDeclaracionjuradaController extends Controller {
                 . $declaracion->getOrganismo()->getNombre()
                 . "' en el periodo: " . $declaracion->getPeriodoAnio()
                 . '/' . $declaracion->getPeriodoMes() . "' se ha RECHAZADO !!!.");
-        return $this->redirect($this->generateUrl('admin_declaraciones_listar'));
+        return $this->redirect($this->generateUrl('contralor_declaraciones_listar'));
     }
 
     public function getJubidatAction($id) {
@@ -137,7 +137,7 @@ class AdminDeclaracionjuradaController extends Controller {
         //dump(Util::totaliza($archivo));
         //die;
         $valores = Util::totaliza($archivo);
-        return $this->render('@JubilacionesDeclaraciones/AdminDeclaracionjurada/valoresTotales.html.twig', array(
+        return $this->render('@JubilacionesDeclaraciones/ContralorDeclaracionjurada/valoresTotales.html.twig', array(
                     'valores' => $valores, 'declaracion' => $declaracion
         ));
     }

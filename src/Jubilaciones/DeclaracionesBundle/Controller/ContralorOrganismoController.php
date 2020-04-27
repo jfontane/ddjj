@@ -15,22 +15,30 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 //use Symfony\Component\Validator\Constraints\Length; 
 
-class AdminRepresentanteController extends Controller {
+class ContralorOrganismoController extends Controller {
 
     public function listarAction() {
         $em = $this->getDoctrine()->getManager();
-        $representantes = $em->getRepository('JubilacionesDeclaracionesBundle:Representante')->findAllRepresentantesAlfabeticamente();
+        $organismos = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findAllOrganismosAlfabeticamente();
         //dump($declaraciones);die;
-        return $this->render('@JubilacionesDeclaraciones/AdminRepresentante/listar.html.twig', array(
-                    'representantes' => $representantes
+        return $this->render('@JubilacionesDeclaraciones/ContralorOrganismo/listar.html.twig', array(
+                    'organismos' => $organismos
         ));
     }
 
     public function verAction($id) {
         $em = $this->getDoctrine()->getManager();
-        $representante = $em->getRepository('JubilacionesDeclaracionesBundle:Representante')->find($id);
-        return $this->render('@JubilacionesDeclaraciones/AdminRepresentante/ver.html.twig', array(
-                    'representante' => $representante
+        $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->find($id);
+        return $this->render('@JubilacionesDeclaraciones/ContralorOrganismo/ver.html.twig', array(
+                    'organismo' => $organismo
+        ));
+    }
+    
+    public function listarDeclaracionesPorOrganismoAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->find($id);
+        return $this->render('@JubilacionesDeclaraciones/ContralorOrganismo/declaracionesPorOrganismo.html.twig', array(
+                    'organismo' => $organismo
         ));
     }
 

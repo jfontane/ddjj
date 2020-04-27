@@ -1,0 +1,61 @@
+contralor_portada:
+    path: /
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:listar }
+    
+contralor_declaraciones_listar:
+    path: /declaracion/listar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:listar }  
+    
+contralor_jubidat:
+    path:     /declaracion/jubidat/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:getJubidat }     
+    requirements:
+        id: \d+    
+
+contralor_jubi1ind:
+    path:     /declaracion/jubi1ind/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:getJubi1ind }     
+    requirements:
+        id: \d+    
+
+contralor_mostrar_totales:
+    path:     /declaracion/totales/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:mostrarTotales } 
+    requirements:
+        id: \d+    
+    
+contralor_declaracion_aprobar:
+    path:     /declaracion/aprobar/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:aprobarDeclaracion }
+    requirements:
+        id: \d+    
+    
+contralor_declaracion_rechazar:
+    path:     /declaracion/rechazar/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:rechazarDeclaracion }
+    requirements:
+        id: \d+    
+  
+contralor_representante_listar:
+    path:     /representante/listar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorRepresentante:listar } 
+
+contralor_representante_ver:
+    path:     /representante/ver/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorRepresentante:ver } 
+    requirements:
+        id: \d+  
+        
+contralor_organismo_listar:
+    path:     /organismo/listar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorOrganismo:listar } 
+
+contralor_organismo_ver:
+    path:     /organismo/ver/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorOrganismo:ver } 
+    requirements:
+        id: \d+          
+    
+contralor_organismo_declaraciones_por_organismo:
+    path: /organismo/{id}/ddjj
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorOrganismo:listarDeclaracionesPorOrganismo }    

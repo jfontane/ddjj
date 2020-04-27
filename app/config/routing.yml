@@ -2,9 +2,9 @@ jubilaciones_declaraciones:
     resource: "@JubilacionesDeclaracionesBundle/Resources/config/routing.yml"
     prefix:   /
 
-jubilaciones_declaraciones_admin:
-    resource: "@JubilacionesDeclaracionesBundle/Resources/config/routing-admin.yml"
-    prefix:   /admin 
+jubilaciones_declaraciones_contralor:
+    resource: "@JubilacionesDeclaracionesBundle/Resources/config/routing-contralor.yml"
+    prefix:   /contralor 
 
 app:
     resource: '@AppBundle/Controller/'
