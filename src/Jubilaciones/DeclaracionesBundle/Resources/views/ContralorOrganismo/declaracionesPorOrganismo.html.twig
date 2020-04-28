@@ -4,7 +4,14 @@
 
     {% block body %}
         {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
-
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{path('contralor_organismo_listar')}}">Organismos</a></li>
+    <li class="breadcrumb-item"><a href="{{ path('contralor_organismo_ver',{'id':organismo.id}) }}">Ver</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Declaraciones Juradas</li>
+  </ol>
+</nav>
         <div class="grid_16">
             <table>
                 <thead>

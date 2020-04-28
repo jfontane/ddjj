@@ -2,18 +2,15 @@ inicio:
     path: /
     defaults: { _controller: JubilacionesDeclaracionesBundle:Default:index }
 
-login_route:
+login:
     path: /login
     defaults: { _controller: JubilacionesDeclaracionesBundle:Login:login }
 
 login_check:
-    path: /ckeck
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Login:loginCheck }
-
+    path: /login_check
     
 logout:
     path: /logout
-
     
 estatica:
     path: /sitio/{pagina}

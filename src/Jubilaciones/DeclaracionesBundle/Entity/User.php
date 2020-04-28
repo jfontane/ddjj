@@ -5,7 +5,7 @@ namespace Jubilaciones\DeclaracionesBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 /**
- * @ORM\Table(name="users")
+ * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="Jubilaciones\DeclaracionesBundle\Repository\UserRepository")
  */
 class User implements UserInterface, \Serializable {
@@ -37,6 +37,11 @@ class User implements UserInterface, \Serializable {
      */
     private $isActive;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $roles;
+    
     public function __construct() {
         $this->isActive = true;
 // may not be needed, see section on salt below
@@ -172,5 +177,19 @@ class User implements UserInterface, \Serializable {
     public function getIsActive()
     {
         return $this->isActive;
+    }
+
+    /**
+     * Set roles
+     *
+     * @param string $roles
+     *
+     * @return User
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 }

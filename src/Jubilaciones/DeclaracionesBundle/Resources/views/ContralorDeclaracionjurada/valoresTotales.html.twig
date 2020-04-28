@@ -4,7 +4,13 @@
 
     {% block body %}
         {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
-
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{path('contralor_declaracion_listar')}}">Declaraciones Juradas</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Declaraciones Juradas</li>
+  </ol>
+</nav>
         <div class="grid_16">
             <table>
                 <thead>
@@ -68,8 +74,6 @@
                 </tr>
 
             </table>
-            <br>&nbsp;   
-            <a href="{{path('contralor_declaraciones_listar')}}"> Volver </a>&nbsp;
             <br>                                
         </div>
     {% endblock %}

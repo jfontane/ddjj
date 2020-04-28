@@ -10,7 +10,6 @@ class LoginController extends Controller {
 
     public function loginAction(Request $request) {
         $authenticationUtils = $this->get('security.authentication_utils');
-
         // obtener el error de login si hay
         $error = $authenticationUtils->getLastAuthenticationError();
 
@@ -18,17 +17,12 @@ class LoginController extends Controller {
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render(
-                        '@JubilacionesDeclaraciones\Users\login.html.twig', array(
+                        '@JubilacionesDeclaraciones\User\login.html.twig', array(
                     // last username entered by the user
                     'last_username' => $lastUsername,
                     'error' => $error,
                         )
         );
     }
-
-    
-    public function loginCheckAction() {
-        return $this->redirect($this->generateUrl('organismo_declaracion_listar'));
-    }
-
+  
 }
