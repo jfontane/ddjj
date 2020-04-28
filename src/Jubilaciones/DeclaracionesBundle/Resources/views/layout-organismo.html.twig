@@ -9,7 +9,11 @@
             <li><a href="">Organismo</a></li>
             <li><a href="">Representante</a></li>
             <li><a href="{{ path('organismo_declaracion_listar') }}">Declaraciones</a></li>
-            <li><a href="">Salir</a></li>
+                {% if app.user %}
+            <li>
+                    <a href="{{ path('logout') }}"> <font color="red">{{  app.user.username }}</font> - Salir</a>
+            </li>
+            {% endif %}
         </ul>
     </nav>
     <h1>{{ block('title') }}</h1>

@@ -13,3 +13,5 @@ jubilaciones_admin:
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+
+    

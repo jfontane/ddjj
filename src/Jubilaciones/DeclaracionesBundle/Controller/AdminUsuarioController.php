@@ -45,7 +45,7 @@ class AdminUsuarioController extends Controller {
 
             // Mensaje para notificar al usuario que todo ha salido bien
             AbstractBaseController::addInfoMessage('El Usuario <b>' .$usuario->getUsername() .' </b> sido Creado.');
-            return $this->redirectToRoute('admin_usuario_listar');
+            return $this->redirectToRoute('login');
         }
         return $this->render('@JubilacionesDeclaraciones/AdminUsuario/nuevo.html.twig', array('form' => $form->createView()
         ));
