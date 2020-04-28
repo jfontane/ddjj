@@ -5,7 +5,11 @@ jubilaciones_declaraciones:
 jubilaciones_declaraciones_contralor:
     resource: "@JubilacionesDeclaracionesBundle/Resources/config/routing-contralor.yml"
     prefix:   /contralor 
-
+    
+jubilaciones_admin:
+    resource: "@JubilacionesDeclaracionesBundle/Resources/config/routing-admin.yml"
+    prefix:   /admin 
+   
 app:
     resource: '@AppBundle/Controller/'
     type: annotation

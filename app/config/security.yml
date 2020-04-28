@@ -24,8 +24,8 @@ security:
         main:
             anonymous: ~
             form_login:
-                login_path: /login
-                check_path: /login
+                login_path: login
+                check_path: login
                 default_target_path: organismo_declaracion_listar
             remember_me:
                 secret:   '%secret%'
@@ -49,5 +49,5 @@ security:
             http_basic: ~
 
     access_control:
-        - { path: '^/login', roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: '^/contralor', roles: ROLE_ADMIN }
+        #- { path: '^/login', roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #- { path: '^/contralor', roles: ROLE_ADMIN }

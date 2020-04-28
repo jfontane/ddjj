@@ -4,7 +4,9 @@ namespace Jubilaciones\DeclaracionesBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+//use Jubilaciones\DeclaracionesBundle\Entity\
 
 class LoginController extends Controller {
 

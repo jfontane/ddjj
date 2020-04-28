@@ -1,0 +1,66 @@
+{% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
+{% block title %}Listado de Usuarios{% endblock %}
+{% block pageid 'admin' %}
+
+    {% block body %}
+        {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
+            </ol>
+        </nav>
+        <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
+        <div class="flash_admin">
+            {% for mensaje in app.session.flashbag.get('info') %}
+                <p class="info">{{ mensaje }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="grid_16">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Roles</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in usuarios %}
+                        <tr>
+                            <td>
+                                {{ usuario.username }}
+                            </td>
+                            <td>{{ usuario.email }}</td>
+                            <td>
+                                Roles
+                            </td>
+                            <td>
+                                <a href="">Ver</a>&nbsp;&nbsp;
+                                <a href="">Editar</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="7">No existe ningun Usuario</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{{path('admin_usuario_nuevo')}}"> Nuevo </a>
+            <br>
+        </div>
+
+    {% endblock %}
+    {% block javascripts %}
+        <script>
+            function confirmaBorrar() {
+                if (confirm("Desea Eliminar un Evento???")) {
+                    //location.href
+                }
+            }
+        </script>
+    {% endblock %}    
