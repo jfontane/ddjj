@@ -5,6 +5,10 @@ security:
         Jubilaciones\DeclaracionesBundle\Entity\User:
             algorithm: bcrypt
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_CONTRALOR,ROLE_USER]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALOWED_TO_SWITCH]
+        
     providers:
         our_db_provider:
             entity:
@@ -25,7 +29,6 @@ security:
             form_login:
                 login_path: login
                 check_path: login
-                default_target_path: organismo_declaracion_listar
             remember_me:
                 secret:   '%secret%'
                 lifetime: 604800 # 1 week in seconds
@@ -49,5 +52,6 @@ security:
 
     access_control:
         - { path: '^/login', roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        #- { path: '^/contralor', roles: ROLE_ADMIN }
-        #- { path: '^/', roles: ROLE_USER }
+        - { path: '^/contralor', roles: ROLE_ADMIN }
+        - { path: '^/', roles: ROLE_USER }
+        

@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 //use Jubilaciones\DeclaracionesBundle\Entity\
 
 class LoginController extends Controller {
-
     public function loginAction(Request $request) {
         $authenticationUtils = $this->get('security.authentication_utils');
         // obtener el error de login si hay

@@ -1,15 +1,27 @@
 {% extends "base.html.twig" %}
 {% block header %}
     <h1 class="grid_5 alpha">
-         <a href="{{ path('contralor_portada') }}">    <img src="http://listas.santafe.gob.ar/boletines/images/diseno2020/Marca_SantaFev3-07.png" width="120">
-       &nbsp;&nbsp;PredeJu </a>
+        <a href="{{ path('contralor_portada') }}">    <img src="http://listas.santafe.gob.ar/boletines/images/diseno2020/Marca_SantaFev3-07.png" width="120">
+            &nbsp;&nbsp;PredeJu </a>
     </h1>
     <nav class="grid_11 omega">
         <ul>
-            <li><a href="{{ path('contralor_organismo_listar') }}">Organismos</a></li>
-            <li><a href="{{ path('contralor_representante_listar') }}">Representantes</a></li>
-            <li><a href="{{ path('contralor_declaracion_listar') }}">Declaraciones</a></li>
+                Roles : {{ dump(app.user.getRoles()) }}
+    {% if is_granted(expression(
+    '"ROLE_CONTRALOR" in roles or (not is_anonymous() and user.isAdmin())'
+)) %}
+            <li><a href="{{ path('contralor_organismo_listar') }}">OrganismosS</a></li>
+            <li><a href="{{ path('contralor_representante_listar') }}">RepresentantesS</a></li>
+            <li><a href="{{ path('contralor_declaracion_listar') }}">DeclaracionesS</a></li>
+{% endif %}
+            
+                {% if app.user %}
+                <li>
+                    <a href="{{ path('logout') }}"> <font color="red">{{  app.user.username }}</font> - Salir</a>
+                </li>
+            {% endif %}
         </ul>
     </nav>
     <h1>{{ block('title') }}</h1>
+
 {% endblock %}
