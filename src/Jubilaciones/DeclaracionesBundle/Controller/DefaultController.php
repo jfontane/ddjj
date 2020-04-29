@@ -15,6 +15,10 @@ class DefaultController extends Controller {
         return $this->render('@JubilacionesDeclaraciones\Default\index.html.twig');
     }
 
+     public function principalAction() {
+        return $this->render('@JubilacionesDeclaraciones\Default\principal.html.twig');
+    }
+    
     public function estaticaAction($pagina) {
         return $this->render("@JubilacionesDeclaraciones\Default\\" . $pagina . ".html.twig");
     }

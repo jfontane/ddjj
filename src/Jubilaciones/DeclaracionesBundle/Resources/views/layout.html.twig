@@ -7,13 +7,13 @@
     <nav class="grid_11 omega">
         <ul>
                 Roles : {{ dump(app.user.getRoles()) }}
-    {% if is_granted(expression(
+    {# if is_granted(expression(
     '"ROLE_CONTRALOR" in roles or (not is_anonymous() and user.isAdmin())'
-)) %}
+)) #}
             <li><a href="{{ path('contralor_organismo_listar') }}">OrganismosS</a></li>
             <li><a href="{{ path('contralor_representante_listar') }}">RepresentantesS</a></li>
             <li><a href="{{ path('contralor_declaracion_listar') }}">DeclaracionesS</a></li>
-{% endif %}
+{#% endif %#}
             
                 {% if app.user %}
                 <li>
