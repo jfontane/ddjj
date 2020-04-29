@@ -20,7 +20,7 @@ registrar_representante:
     path: /representante/nuevo
     defaults: { _controller: JubilacionesDeclaracionesBundle:Default:nuevoRepresentante }  
     
-principal:
+principal_logueado:
     path: /principal
     defaults: { _controller: JubilacionesDeclaracionesBundle:Default:principal }
   

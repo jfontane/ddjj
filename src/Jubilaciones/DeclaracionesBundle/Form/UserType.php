@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class UserType extends AbstractType {
 
@@ -22,7 +23,12 @@ class UserType extends AbstractType {
                     'type' => PasswordType::class,
                     'first_options' => ['label' => 'Password'],
                     'second_options' => ['label' => 'Repeat Password'],
-        ]);
+                ])
+                ->add('roles', ChoiceType::class, array(
+                    'mapped' => false,
+                    'choices' => array('ROLE_ADMIN' => 'ROLE_ADMIN', 'ROLE_CONTRALOR' => 'ROLE_CONTRALOR',
+                        'ROLE_ORGANISMO' => 'ROLE_ORGANISMO', 'ROLE_USER' => 'ROLE_USER'))
+        );
         //->add('Guardar',SubmitType::class, array('label' => 'Nuevo Usuario'));
     }
 

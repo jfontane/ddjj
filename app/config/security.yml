@@ -30,6 +30,7 @@ security:
             form_login:
                 login_path: login
                 check_path: login_check
+                default_target_path: principal_logueado
             remember_me:
                 secret:   '%secret%'
                 lifetime: 604800 # 1 week in seconds
@@ -53,9 +54,8 @@ security:
 
     access_control:
         - { path: '^/login', roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        #- { path: '^/principal', roles: ['ROLE_ORGANISMO'] }
-        
-        #- { path: '^/contralor', roles: ROLE_CONTRALOR }
+        - { path: '^/principal', roles: ['ROLE_USER','ROLE_ADMIN','ROLE_SUPER_ADMIN'] }
+        - { path: '^/admin', roles: ROLE_SUPER_ADMIN }
         #- { path: '^/organismo', roles: ROLE_ORGANISMO }
         
         

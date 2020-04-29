@@ -19,6 +19,12 @@
             {{ form_widget(form.email) }}
         </p>
         <br>
+            {{ form_errors(form.roles) }}
+            <p>
+                {{ form_label(form.roles) }}
+                {{ form_widget(form.roles) }}
+            </p>
+        <br>
         <div class="grid_6 alpha">
             {{ form_errors(form.plainPassword.first) }}
             <p>
@@ -32,8 +38,10 @@
                 {{ form_label(form.plainPassword.second, 'Repetir clave') }}
                 {{ form_widget(form.plainPassword.second) }}
             </p>
-        </div>
+        </div>&nbsp;&nbsp;
         <br>
+          
+        <br>&nbsp;&nbsp; 
         <div class="grid_6 alpha">
             <button class="btn btn-primary" type="submit">Register!</button>
         </div>

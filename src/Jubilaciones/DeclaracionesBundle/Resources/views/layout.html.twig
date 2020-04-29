@@ -6,7 +6,7 @@
     </h1>
     <nav class="grid_11 omega">
         <ul>
-                Roles : {{ dump(app.user.getRoles()) }}
+                Roles : {#{ dump(app.user.getRoles()) }#}
     {# if is_granted(expression(
     '"ROLE_CONTRALOR" in roles or (not is_anonymous() and user.isAdmin())'
 )) #}
