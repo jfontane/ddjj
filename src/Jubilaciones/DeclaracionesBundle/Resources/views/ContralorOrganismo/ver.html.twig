@@ -4,13 +4,14 @@
 
     {% block body %}
         {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="{{path('contralor_organismo_listar')}}">Organismos</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Ver</li>
-  </ol>
-</nav>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{path('contralor_organismo_listar')}}">Organismos</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Ver</li>
+                <li class="breadcrumb-item"><a href="{{ path('contralor_organismo_declaraciones_por_organismo',{'id':organismo.id}) }}">Declaraciones Juradas</a></li>
+            </ol>
+        </nav>
         <div class="grid_16">
             <table>
 
@@ -56,8 +57,6 @@
                     </tr>
                 {% endif %}    
             </table>
-            <a href="{{ path('contralor_organismo_declaraciones_por_organismo',{'id':organismo.id}) }}">DDJJ</a>
-
         </div>
         <br>&nbsp;
 

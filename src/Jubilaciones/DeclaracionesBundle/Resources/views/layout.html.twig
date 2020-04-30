@@ -6,16 +6,21 @@
     </h1>
     <nav class="grid_11 omega">
         <ul>
-                Roles : {#{ dump(app.user.getRoles()) }#}
-    {# if is_granted(expression(
-    '"ROLE_CONTRALOR" in roles or (not is_anonymous() and user.isAdmin())'
-)) #}
-            <li><a href="{{ path('contralor_organismo_listar') }}">OrganismosS</a></li>
-            <li><a href="{{ path('contralor_representante_listar') }}">RepresentantesS</a></li>
-            <li><a href="{{ path('contralor_declaracion_listar') }}">DeclaracionesS</a></li>
-{#% endif %#}
-            
-                {% if app.user %}
+            Roles : {#{ dump(app.user.getRoles()) }#}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li><a href="">Organismos</a></li>
+                <li><a href="{{ path('admin_usuario_listar') }}">Usuarios</a></li>
+                {% elseif is_granted('ROLE_ADMIN') %}
+                <li><a href="{{ path('contralor_organismo_listar') }}">Organismos</a></li>
+                <li><a href="{{ path('contralor_representante_listar') }}">Representantes</a></li>
+                <li><a href="{{ path('contralor_declaracion_listar') }}">Declaraciones</a></li>
+                {% elseif is_granted('ROLE_USER') %}
+                <li><a href="{{ path('organismo_declaracion_listar') }}">Organismo</a></li>
+                <li><a href="{{ path('organismo_declaracion_listar') }}">Representante</a></li>
+                <li><a href="{{ path('organismo_declaracion_listar') }}">Declaraciones</a></li>
+            {% endif %}
+
+            {% if app.user %}
                 <li>
                     <a href="{{ path('logout') }}"> <font color="red">{{  app.user.username }}</font> - Salir</a>
                 </li>

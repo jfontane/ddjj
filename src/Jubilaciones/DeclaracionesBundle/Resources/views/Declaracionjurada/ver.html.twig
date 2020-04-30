@@ -5,6 +5,13 @@
 
     {% block body %}
         {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{path('organismo_declaracion_listar')}}">Declaraciones</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Ver</li>
+            </ol>
+        </nav>
         <p>
             <strong>   
                 Periodo:
@@ -71,7 +78,6 @@
                     </tr>
                 </tbody>
             </table>
-            <a href="{{path('organismo_declaracion_listar')}}"> Volver </a>&nbsp;
         </div>
         <br>&nbsp;
     {% endblock %}
