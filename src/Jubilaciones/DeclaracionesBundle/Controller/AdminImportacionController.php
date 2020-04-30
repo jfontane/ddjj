@@ -4,49 +4,63 @@ namespace Jubilaciones\DeclaracionesBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Form\FormError;
 
 use Jubilaciones\DeclaracionesBundle\Controller\AbstractBaseController;
-use Jubilaciones\DeclaracionesBundle\Form\UserType;
-use Jubilaciones\DeclaracionesBundle\Entity\User;
+use Jubilaciones\DeclaracionesBundle\Form\ImportacionType;
+use Jubilaciones\DeclaracionesBundle\Entity\Importacion;
 
-class AdminUsuarioController extends Controller {
+
+class AdminImportacionController extends Controller {
 
     public function listarAction() {
         $em = $this->getDoctrine()->getManager();
-        $usuarios = $em->getRepository('JubilacionesDeclaracionesBundle:User')->findAll();
+        $archivos = $em->getRepository('JubilacionesDeclaracionesBundle:Importacion')->findAll();
         //dump($usuarios);die;
-        return $this->render('@JubilacionesDeclaraciones/AdminUsuario/listar.html.twig', array(
-                    'usuarios' => $usuarios
+        return $this->render('@JubilacionesDeclaraciones/AdminImportacion/listar.html.twig', array(
+                    'archivos' => $archivos
         ));
     }
 
     public function nuevoAction(Request $request) {
-        $passwordEncoder = $this->get('security.password_encoder');
-        $usuario = new User();
-        $form = $this->createForm(UserType::class, $usuario);
+        $importacion = new Importacion();
+        $form = $this->createForm(ImportacionType::class, $importacion)
+        ->add('Guardar', SubmitType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
           // 3) Encode the password (you could also do this via Doctrine listener)
-            $password = $passwordEncoder->encodePassword($usuario, $usuario->getPlainPassword());
-            $usuario->setPassword($password);
+            //$password = $passwordEncoder->encodePassword($importacion, $importacion->getPlainPassword());
+            //$importacion->setPassword($password);
             //dump('Password: '.$password);die;
             // 4) save the User!
+            //Obtenemos el archivo del formulario y lo subimos al servidor
+            $fileImportacion = $form->get('archivo')->getData();
+            $contenido = file_get_contents($fileImportacion);
+            // Le ponemos un nombre al fichero
+
+            $importacion->setFechaCreacion(new \DateTime('now'));
+            $file_name = $importacion->getNombre().".txt";
+
+
             $em = $this->getDoctrine()->getManager();
-            $em->persist($usuario);
+            $em->persist($importacion);
             $em->flush();
+            $fileImportacion->move("uploads", $file_name);
 
             // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
 
             // Mensaje para notificar al usuario que todo ha salido bien
-            AbstractBaseController::addInfoMessage('El Usuario <b>' .$usuario->getUsername() .' </b> sido Creado.');
-            return $this->redirectToRoute('login');
+            AbstractBaseController::addInfoMessage('El Archivo de importacion <b>' .$importacion->getNombre() .' </b> sido Creado.');
+            return $this->redirectToRoute('admin_importacion_listar');
         }
-        return $this->render('@JubilacionesDeclaraciones/AdminUsuario/nuevo.html.twig', array('form' => $form->createView()
+        return $this->render('@JubilacionesDeclaraciones/AdminImportacion/nuevo.html.twig', array('form' => $form->createView()
         ));
     }
 

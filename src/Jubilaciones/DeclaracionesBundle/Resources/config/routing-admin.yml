@@ -1,7 +1,15 @@
 admin_usuario_listar:
     path: /usuario/listar
     defaults: { _controller: JubilacionesDeclaracionesBundle:AdminUsuario:listar }
-    
+
 admin_usuario_nuevo:
     path: /usuario/nuevo
-    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminUsuario:nuevo }    
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminUsuario:nuevo }
+
+admin_importacion_listar:
+    path: /importacion/listar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminImportacion:listar }
+
+admin_importacion_nuevo:
+    path: /importacion/nuevo
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminImportacion:nuevo }       

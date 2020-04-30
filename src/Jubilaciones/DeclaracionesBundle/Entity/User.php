@@ -22,13 +22,6 @@ class User implements UserInterface {
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true, nullable=true)
-     * @Assert\NotBlank
-     * @Assert\Email
-     */
-    private $email;
-
-    /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank
      */
@@ -55,16 +48,6 @@ class User implements UserInterface {
 
     public function __construct() {
         $this->roles = ['ROLE_USER'];
-    }
-
-    // other properties and methods
-
-    public function getEmail() {
-        return $this->email;
-    }
-
-    public function setEmail($email) {
-        $this->email = $email;
     }
 
     public function getUsername() {
@@ -102,7 +85,7 @@ class User implements UserInterface {
     }
 
     public function eraseCredentials() {
-        
+
     }
 
 }

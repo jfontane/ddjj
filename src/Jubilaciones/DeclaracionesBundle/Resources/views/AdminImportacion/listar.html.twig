@@ -8,7 +8,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
+                <li class="breadcrumb-item active" aria-current="page">Archivos para Importacion</li>
             </ol>
         </nav>
         <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
@@ -22,19 +22,23 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Username</th>
-                        <th>Roles</th>
+                        <th>Nombre</th>
+                        <th>Fecha</th>
+                        <th>Descripcion</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for usuario in usuarios %}
+                    {% for archivo in archivos %}
                         <tr>
                             <td>
-                                {{ usuario.username }}
+                                {{ archivo.nombre }}
                             </td>
                             <td>
-                                Roles
+                              {{ archivo.fechaCreacion is empty ? "" : archivo.fechaCreacion | date('Y-m-d H:i') }}
+                            </td>
+                            <td>
+                                {{ archivo.descripcion }}
                             </td>
                             <td>
                                 <a href="">Ver</a>&nbsp;&nbsp;
@@ -43,12 +47,12 @@
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="7">No existe ningun Usuario</td>
+                            <td colspan="7">No existe ningun Archivo a Importar</td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
-            <a href="{{path('admin_usuario_nuevo')}}"> Nuevo </a>
+            <a href="{{path('admin_importacion_nuevo')}}"> Nuevo </a>
             <br>
         </div>
 

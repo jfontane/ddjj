@@ -1,0 +1,29 @@
+{% extends "@JubilacionesDeclaraciones/layout-organismo.html.twig" %}
+{% block title %}Importacion de Datos{% endblock %}
+{% block pageid 'admin' %}
+    {% block body %}
+        <!-- AGREGAR CÓDIGO FALTANTE -->
+        {{ form_errors(form) }}
+        {{ form_start(form) }}
+        {{ form_errors(form.nombre) }}
+        <p>
+            {{ form_label(form.nombre) }}
+            {{ form_widget(form.nombre) }}
+        </p>
+        <br>
+        {{ form_errors(form.archivo) }}
+        <p>
+            {{ form_label(form.archivo) }}
+            {{ form_widget(form.archivo) }}
+        </p>
+        <br>
+        {{ form_errors(form.descripcion) }}
+        <p>
+            {{ form_label(form.descripcion) }}
+            {{ form_widget(form.descripcion) }}
+        </p>
+        <br>
+
+        {{ form_end(form) }}
+
+    {% endblock %}

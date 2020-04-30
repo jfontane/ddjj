@@ -13,26 +13,29 @@ use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
-class UserType extends AbstractType {
+
+class ImportacionType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
-        $builder->add('username', TextType::class)
-                ->add('plainPassword', RepeatedType::class, [
-                    'type' => PasswordType::class,
-                    'first_options' => ['label' => 'Password'],
-                    'second_options' => ['label' => 'Repeat Password'],
-                ])
-                ->add('roles', ChoiceType::class, array(
-                    'mapped' => false,
-                    'choices' => array('ROLE_ADMIN' => 'ROLE_ADMIN', 'ROLE_CONTRALOR' => 'ROLE_CONTRALOR',
-                        'ROLE_ORGANISMO' => 'ROLE_ORGANISMO', 'ROLE_USER' => 'ROLE_USER'))
-        );
+        $builder->add('nombre', TextType::class)
+                ->add('archivo', FileType::class,array(
+                     'label' => "Archivo",
+                     'mapped' => false,
+                     'constraints' => [
+                   new File([
+                       'maxSize' => '1548k',
+                       ])
+               ],))
+               ->add('descripcion', TextType::class);
+
         //->add('Guardar',SubmitType::class, array('label' => 'Nuevo Usuario'));
     }
 
     public function configureOptions(OptionsResolver $resolver) {
-        $resolver->setDefaults(array('data_class' => 'Jubilaciones\DeclaracionesBundle\Entity\User'));
+        $resolver->setDefaults(array('data_class' => 'Jubilaciones\DeclaracionesBundle\Entity\Importacion'));
     }
 
 }
