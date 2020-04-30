@@ -44,11 +44,12 @@ class AdminUsuarioController extends Controller {
 
             // Mensaje para notificar al usuario que todo ha salido bien
             AbstractBaseController::addInfoMessage('El Usuario <b>' .$usuario->getUsername() .' </b> sido Creado.');
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('admin_usuario_listar');
         }
         return $this->render('@JubilacionesDeclaraciones/AdminUsuario/nuevo.html.twig', array('form' => $form->createView()
         ));
     }
+
 
     public function cargarUsuariosAction(Request $request) {
         $passwordEncoder = $this->get('security.password_encoder');

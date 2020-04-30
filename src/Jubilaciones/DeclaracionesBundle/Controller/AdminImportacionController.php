@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormError;
 use Jubilaciones\DeclaracionesBundle\Controller\AbstractBaseController;
 use Jubilaciones\DeclaracionesBundle\Form\ImportacionType;
 use Jubilaciones\DeclaracionesBundle\Entity\Importacion;
+use Jubilaciones\DeclaracionesBundle\Entity\User;
 
 
 class AdminImportacionController extends Controller {
@@ -47,7 +48,6 @@ class AdminImportacionController extends Controller {
             $importacion->setFechaCreacion(new \DateTime('now'));
             $file_name = $importacion->getNombre().".txt";
 
-
             $em = $this->getDoctrine()->getManager();
             $em->persist($importacion);
             $em->flush();
@@ -64,33 +64,53 @@ class AdminImportacionController extends Controller {
         ));
     }
 
-    public function cargarUsuariosAction(Request $request) {
-        $passwordEncoder = $this->get('security.password_encoder');
+
+  public function importarAction($id) {
+    $em = $this->getDoctrine()->getManager();
+    $importacion = $em->getRepository('JubilacionesDeclaracionesBundle:Importacion')->findOneBy(array('id' => $id));
+    $fileName = $importacion->getNombre().'.txt';
+    $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
+
+    $lineas = count($archivo);
+    //dump($archivo[0]);die;
+    $passwordEncoder = $this->get('security.password_encoder');
+    //$linea=explode(';',$archivo[0]);
+    //dump($linea);die;
+    $em = $this->getDoctrine()->getManager();
+    for ($i = 0; $i < $lineas; $i++) {
         $usuario = new User();
-        $form = $this->createForm(UserType::class, $usuario);
+        $username=explode(';',$archivo[$i])[0];
+        $password=explode(';',$archivo[$i])[1];
+        //dump($username.'-'.$password);die;
+        $usuario->setUsername($username);
+        $usuario->setPlainPassword($password);
+        $password = $passwordEncoder->encodePassword($usuario, $usuario->getPlainPassword());
+        $usuario->setPassword($password);
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-          // 3) Encode the password (you could also do this via Doctrine listener)
-            $password = $passwordEncoder->encodePassword($usuario, $usuario->getPlainPassword());
-            $usuario->setPassword($password);
-            //dump('Password: '.$password);die;
-            // 4) save the User!
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($usuario);
-            $em->flush();
-
-            // ... do any other work - like sending them an email, etc
-            // maybe set a "flash" success message for the user
-
-            // Mensaje para notificar al usuario que todo ha salido bien
-            AbstractBaseController::addInfoMessage('El Usuario <b>' .$usuario->getUsername() .' </b> sido Creado.');
-            return $this->redirectToRoute('login');
-        }
-        return $this->render('@JubilacionesDeclaraciones/AdminUsuario/nuevo.html.twig', array('form' => $form->createView()
-        ));
-    }
+        //dump('Password: '.$password);die;
+        // 4) save the User!
+        $em->persist($usuario);
+        $em->flush();
+    };
+    return $this->redirectToRoute('admin_usuario_listar');
+  }
 
 
+  public function borrarAction($id) {
+      $em = $this->getDoctrine()->getManager();
+      $importacion = $em->getRepository('JubilacionesDeclaracionesBundle:Importacion')->findOneBy(array('id' => $id));
+      $fileName = $importacion->getNombre().'.txt';
+      // Para borrar el archivo
+      $fs = new Filesystem();
+      $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
+
+      $em->remove($importacion);
+      $em->flush();
+          AbstractBaseController::addWarnMessage('La Importacion de ' .
+                  $importacion->getNombre() .
+                  ' se ha borrado correctamente.');
+
+      return $this->redirect($this->generateUrl('admin_importacion_listar'));
+  }
 
 }

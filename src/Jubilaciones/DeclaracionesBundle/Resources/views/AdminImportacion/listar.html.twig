@@ -41,8 +41,9 @@
                                 {{ archivo.descripcion }}
                             </td>
                             <td>
-                                <a href="">Ver</a>&nbsp;&nbsp;
-                                <a href="">Editar</a>&nbsp;&nbsp;
+                                <a href="{{ path('admin_importacion_subir',{'id': archivo.id }) }}">Importar</a>&nbsp;&nbsp;
+                                <a href="{{ path('admin_importacion_borrar',{'id': archivo.id }) }}">Borrar</a>&nbsp;&nbsp;
+
                             </td>
                         </tr>
                     {% else %}

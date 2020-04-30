@@ -12,4 +12,12 @@ admin_importacion_listar:
 
 admin_importacion_nuevo:
     path: /importacion/nuevo
-    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminImportacion:nuevo }       
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminImportacion:nuevo }
+
+admin_importacion_subir:
+    path: /importacion/subir/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminImportacion:importar }
+
+admin_importacion_borrar:
+    path: /importacion/borrar/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminImportacion:borrar }
