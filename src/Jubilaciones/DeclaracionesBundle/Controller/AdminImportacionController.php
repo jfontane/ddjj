@@ -57,7 +57,7 @@ class AdminImportacionController extends Controller {
             // maybe set a "flash" success message for the user
 
             // Mensaje para notificar al usuario que todo ha salido bien
-            AbstractBaseController::addInfoMessage('El Archivo de importacion <b>' .$importacion->getNombre() .' </b> sido Creado.');
+            AbstractBaseController::addInfoMessage('El Archivo de importacion ' .$importacion->getNombre() .'  sido Creado.');
             return $this->redirectToRoute('admin_importacion_listar');
         }
         return $this->render('@JubilacionesDeclaraciones/AdminImportacion/nuevo.html.twig', array('form' => $form->createView()

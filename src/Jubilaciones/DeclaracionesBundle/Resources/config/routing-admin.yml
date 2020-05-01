@@ -6,6 +6,10 @@ admin_usuario_nuevo:
     path: /usuario/nuevo
     defaults: { _controller: JubilacionesDeclaracionesBundle:AdminUsuario:nuevo }
 
+admin_usuario_borrar:
+    path: /usuario/borrar/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminUsuario:borrar }
+
 admin_importacion_listar:
     path: /importacion/listar
     defaults: { _controller: JubilacionesDeclaracionesBundle:AdminImportacion:listar }

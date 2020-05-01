@@ -33,7 +33,8 @@ class AdminUsuarioController extends Controller {
           // 3) Encode the password (you could also do this via Doctrine listener)
             $password = $passwordEncoder->encodePassword($usuario, $usuario->getPlainPassword());
             $usuario->setPassword($password);
-            //dump('Password: '.$password);die;
+            $rol[] = $form->get('roles')->getData();
+            $usuario->setRoles($rol);
             // 4) save the User!
             $em = $this->getDoctrine()->getManager();
             $em->persist($usuario);
@@ -79,5 +80,18 @@ class AdminUsuarioController extends Controller {
     }
 
 
+    public function borrarAction($id) {
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $em->getRepository('JubilacionesDeclaracionesBundle:User')->findOneBy(array('id' => $id));
+        // Para borrar el archivo
+
+        $em->remove($usuario);
+        $em->flush();
+            AbstractBaseController::addInfoMessage('El Usuario ' .
+                    $usuario .
+                    ' se ha borrado correctamente.');
+
+        return $this->redirect($this->generateUrl('admin_usuario_listar'));
+    }
 
 }

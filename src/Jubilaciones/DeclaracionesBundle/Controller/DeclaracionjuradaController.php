@@ -15,8 +15,10 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-//use Symfony\Component\Validator\Constraints\Length; 
+
+//use Symfony\Component\Validator\Constraints\Length;
 
 class DeclaracionjuradaController extends Controller {
 
@@ -24,9 +26,15 @@ class DeclaracionjuradaController extends Controller {
         return $this->render('JubilacionesDeclaracionesBundle:Default:index.html.twig');
     }
 
-    public function listarAction() {
+    public function listarAction( UserInterface $user ) {
         $em = $this->getDoctrine()->getManager();
         $declaraciones = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findAllDeclaracionesPorPeriodo();
+
+        $user = $this->getUser();
+        dump($user->getUsername());die;
+
+
+
         //dump($declaraciones);die;
         return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/listar.html.twig', array(
                     'declaraciones' => $declaraciones

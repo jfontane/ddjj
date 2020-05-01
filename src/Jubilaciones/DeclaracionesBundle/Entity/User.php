@@ -49,6 +49,10 @@ class User implements UserInterface {
         $this->roles = ['ROLE_USER'];
     }
 
+    public function getId() {
+        return $this->id;
+    }
+
     public function getUsername() {
         return $this->username;
     }
@@ -79,12 +83,22 @@ class User implements UserInterface {
         return null;
     }
 
+    public function setRoles($roles)
+    {
+      $this->roles = $roles;
+      return $this;
+    }
+
     public function getRoles() {
         return $this->roles;
     }
 
     public function eraseCredentials() {
 
+    }
+
+    public function __toString() {
+        return $this->getUsername();
     }
 
 }
