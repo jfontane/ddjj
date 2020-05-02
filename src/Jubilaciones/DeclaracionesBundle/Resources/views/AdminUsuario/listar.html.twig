@@ -1,57 +1,58 @@
 {% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
-{% block title %}Listado de Usuarios{% endblock %}
+{% block title %}
+Listado de Usuarios
+
+{% endblock %}
 {% block pageid 'admin' %}
 
     {% block body %}
         {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
-
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
             </ol>
         </nav>
-        <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
-        <div class="flash_admin">
-            {% for mensaje in app.session.flashbag.get('info') %}
-                <p class="info">{{ mensaje }}</p>
-            {% endfor %}
-        </div>
+        <div class="container-fluid">
 
-        <div class="grid_16">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>Roles</th>
-                        <th>Acciones</th>
+            {# total items count #}
+            <div class="count">
+                <span class="label label-primary">
+                    Entradas en total: {{ pagination.getTotalItemCount }}
+                </span>
+            </div>
+            <br/>
+            <table class="table table-bordered">
+              <thead>
+                  <tr>
+                      <th>Username</th>
+                      <th>Roles</th>
+                      <th>Acciones</th>
+                  </tr>
+              </thead>
+<tbody>
+                {# table body #}
+                {% for item in pagination.items %}
+                    <tr {% if loop.index is odd %}class="color"{% endif %}>
+                        <td>{{ item.username }}</td>
+                        <td>ROLE_USER</td>
+                        <td>
+                                  <a href="">Ver</a>&nbsp;&nbsp;
+                                  <a href="">Editar</a>&nbsp;&nbsp;
+                                    <a href="" id="btn_borrar" data-id="{{ item.id }}">Borrar</a>&nbsp;&nbsp;
+                              </td>
                     </tr>
-                </thead>
+                {% endfor %}
                 <tbody>
-                    {% for usuario in usuarios %}
-                        <tr>
-                            <td>
-                                {{ usuario.username }}
-                            </td>
-                            <td>
-                                Roles
-                            </td>
-                            <td>
-                                <a href="">Ver</a>&nbsp;&nbsp;
-                                <a href="">Editar</a>&nbsp;&nbsp;
-                                  <a href="" id="btn_borrar" data-id="{{ usuario.id }}">Borrar</a>&nbsp;&nbsp;
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="7">No existe ningun Usuario</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
             </table>
             <a href="{{path('admin_usuario_nuevo')}}"> Nuevo </a>
             <br>
+            {# display navigation #}
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
         </div>
+
 
     {% endblock %}
     {% block javascripts %}

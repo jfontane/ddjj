@@ -14,12 +14,20 @@ use Jubilaciones\DeclaracionesBundle\Entity\User;
 
 class AdminUsuarioController extends Controller {
 
-    public function listarAction() {
+    public function listarAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $usuarios = $em->getRepository('JubilacionesDeclaracionesBundle:User')->findAll();
-        //dump($usuarios);die;
+
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                       $usuarios,
+                       $request->query->getInt('page', 1),
+                       10
+               );
+
+        //dump($pagination);die;
         return $this->render('@JubilacionesDeclaraciones/AdminUsuario/listar.html.twig', array(
-                    'usuarios' => $usuarios
+                    'pagination' => $pagination
         ));
     }
 

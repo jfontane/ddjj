@@ -21,7 +21,7 @@ class Importacion {
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true, columnDefinition="enum('Usuarios','Organismos', 'Declaraciones')")
      * @Assert\NotBlank
      */
     private $nombre;
@@ -38,8 +38,11 @@ class Importacion {
      */
     private $fechaCreacion;
 
-
-
+    /**
+     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
+     * @Assert\Choice({"Si","No"})
+     */
+    protected $procesado;
 
     /**
      * Get id
@@ -97,5 +100,29 @@ class Importacion {
     public function getFechaCreacion()
     {
         return $this->fechaCreacion;
+    }
+
+    /**
+     * Set descripcion
+     *
+     * @param string $descripcion
+     *
+     * @return Importacion
+     */
+    public function setDescripcion($descripcion)
+    {
+        $this->descripcion = $descripcion;
+
+        return $this;
+    }
+
+    /**
+     * Get descripcion
+     *
+     * @return string
+     */
+    public function getDescripcion()
+    {
+        return $this->descripcion;
     }
 }

@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Organismo
- * 
+ *
  * @ORM\Table(name="organismo")
  * @ORM\Entity(repositoryClass="Jubilaciones\DeclaracionesBundle\Repository\OrganismoRepository")
  */
@@ -41,7 +41,12 @@ class Organismo {
     /**
      * @ORM\Column(type="string")
      */
-    protected $domicilio;
+    protected $domicilioCalle;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $domicilioNumero;
 
     /**
      * @ORM\Column(type="string")
@@ -61,12 +66,12 @@ class Organismo {
     /**
      * @ORM\Column(type="string")
      */
-    protected $caracteristica;
+    protected $telefonoCaracteristica;
 
     /**
      * @ORM\Column(type="string")
      */
-    protected $telefono;
+    protected $telefonoNumero;
 
     /**
      * @ORM\Column(type="string")
@@ -82,18 +87,24 @@ class Organismo {
      * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
      * @Assert\Choice({"Si","No"})
      */
-    protected $amparo;
+    protected $entregoFormulario;
 
     /**
      * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
      * @Assert\Choice({"Si","No"})
      */
-    protected $entregoFormulario;
+    protected $habilitado;
 
     /**
      * @ORM\Column(type="string", columnDefinition="enum('Norte', 'Sur')")
      */
     protected $zona;
+
+    /**
+     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
+     * @Assert\Choice({"Si","No"})
+     */
+    protected $amparo;
 
     /**
      * @ORM\ManyToOne(targetEntity="Representante", inversedBy="organismos")
@@ -106,11 +117,17 @@ class Organismo {
      */
     protected $declaracionesjuradas;
 
+
+    public function __toString() {
+        return $this->getNombre().'-'.$this->getCodigo();
+    }
+
     /**
      * Constructor
      */
-    public function __construct() {
-        $this->declaracionesjuradas = new ArrayCollection();
+    public function __construct()
+    {
+        $this->declaracionesjuradas = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -118,7 +135,8 @@ class Organismo {
      *
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -129,7 +147,8 @@ class Organismo {
      *
      * @return Organismo
      */
-    public function setCodigo($codigo) {
+    public function setCodigo($codigo)
+    {
         $this->codigo = $codigo;
 
         return $this;
@@ -140,7 +159,8 @@ class Organismo {
      *
      * @return string
      */
-    public function getCodigo() {
+    public function getCodigo()
+    {
         return $this->codigo;
     }
 
@@ -151,7 +171,8 @@ class Organismo {
      *
      * @return Organismo
      */
-    public function setPassword($password) {
+    public function setPassword($password)
+    {
         $this->password = $password;
 
         return $this;
@@ -162,7 +183,8 @@ class Organismo {
      *
      * @return string
      */
-    public function getPassword() {
+    public function getPassword()
+    {
         return $this->password;
     }
 
@@ -173,7 +195,8 @@ class Organismo {
      *
      * @return Organismo
      */
-    public function setNombre($nombre) {
+    public function setNombre($nombre)
+    {
         $this->nombre = $nombre;
 
         return $this;
@@ -184,30 +207,57 @@ class Organismo {
      *
      * @return string
      */
-    public function getNombre() {
+    public function getNombre()
+    {
         return $this->nombre;
     }
 
     /**
-     * Set domicilio
+     * Set domicilioCalle
      *
-     * @param string $domicilio
+     * @param string $domicilioCalle
      *
      * @return Organismo
      */
-    public function setDomicilio($domicilio) {
-        $this->domicilio = $domicilio;
+    public function setDomicilioCalle($domicilioCalle)
+    {
+        $this->domicilioCalle = $domicilioCalle;
 
         return $this;
     }
 
     /**
-     * Get domicilio
+     * Get domicilioCalle
      *
      * @return string
      */
-    public function getDomicilio() {
-        return $this->domicilio;
+    public function getDomicilioCalle()
+    {
+        return $this->domicilioCalle;
+    }
+
+    /**
+     * Set domicilioNumero
+     *
+     * @param string $domicilioNumero
+     *
+     * @return Organismo
+     */
+    public function setDomicilioNumero($domicilioNumero)
+    {
+        $this->domicilioNumero = $domicilioNumero;
+
+        return $this;
+    }
+
+    /**
+     * Get domicilioNumero
+     *
+     * @return string
+     */
+    public function getDomicilioNumero()
+    {
+        return $this->domicilioNumero;
     }
 
     /**
@@ -217,7 +267,8 @@ class Organismo {
      *
      * @return Organismo
      */
-    public function setLocalidad($localidad) {
+    public function setLocalidad($localidad)
+    {
         $this->localidad = $localidad;
 
         return $this;
@@ -228,7 +279,8 @@ class Organismo {
      *
      * @return string
      */
-    public function getLocalidad() {
+    public function getLocalidad()
+    {
         return $this->localidad;
     }
 
@@ -239,7 +291,8 @@ class Organismo {
      *
      * @return Organismo
      */
-    public function setCodigoPostal($codigoPostal) {
+    public function setCodigoPostal($codigoPostal)
+    {
         $this->codigoPostal = $codigoPostal;
 
         return $this;
@@ -250,7 +303,8 @@ class Organismo {
      *
      * @return string
      */
-    public function getCodigoPostal() {
+    public function getCodigoPostal()
+    {
         return $this->codigoPostal;
     }
 
@@ -261,7 +315,8 @@ class Organismo {
      *
      * @return Organismo
      */
-    public function setDepartamento($departamento) {
+    public function setDepartamento($departamento)
+    {
         $this->departamento = $departamento;
 
         return $this;
@@ -272,52 +327,57 @@ class Organismo {
      *
      * @return string
      */
-    public function getDepartamento() {
+    public function getDepartamento()
+    {
         return $this->departamento;
     }
 
     /**
-     * Set caracteristica
+     * Set telefonoCaracteristica
      *
-     * @param string $caracteristica
+     * @param string $telefonoCaracteristica
      *
      * @return Organismo
      */
-    public function setCaracteristica($caracteristica) {
-        $this->caracteristica = $caracteristica;
+    public function setTelefonoCaracteristica($telefonoCaracteristica)
+    {
+        $this->telefonoCaracteristica = $telefonoCaracteristica;
 
         return $this;
     }
 
     /**
-     * Get caracteristica
+     * Get telefonoCaracteristica
      *
      * @return string
      */
-    public function getCaracteristica() {
-        return $this->caracteristica;
+    public function getTelefonoCaracteristica()
+    {
+        return $this->telefonoCaracteristica;
     }
 
     /**
-     * Set telefono
+     * Set telefonoNumero
      *
-     * @param string $telefono
+     * @param string $telefonoNumero
      *
      * @return Organismo
      */
-    public function setTelefono($telefono) {
-        $this->telefono = $telefono;
+    public function setTelefonoNumero($telefonoNumero)
+    {
+        $this->telefonoNumero = $telefonoNumero;
 
         return $this;
     }
 
     /**
-     * Get telefono
+     * Get telefonoNumero
      *
      * @return string
      */
-    public function getTelefono() {
-        return $this->telefono;
+    public function getTelefonoNumero()
+    {
+        return $this->telefonoNumero;
     }
 
     /**
@@ -327,7 +387,8 @@ class Organismo {
      *
      * @return Organismo
      */
-    public function setCuit($cuit) {
+    public function setCuit($cuit)
+    {
         $this->cuit = $cuit;
 
         return $this;
@@ -338,7 +399,8 @@ class Organismo {
      *
      * @return string
      */
-    public function getCuit() {
+    public function getCuit()
+    {
         return $this->cuit;
     }
 
@@ -349,7 +411,8 @@ class Organismo {
      *
      * @return Organismo
      */
-    public function setEmail($email) {
+    public function setEmail($email)
+    {
         $this->email = $email;
 
         return $this;
@@ -360,30 +423,9 @@ class Organismo {
      *
      * @return string
      */
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
-    }
-
-    /**
-     * Set amparo
-     *
-     * @param string $amparo
-     *
-     * @return Organismo
-     */
-    public function setAmparo($amparo) {
-        $this->amparo = $amparo;
-
-        return $this;
-    }
-
-    /**
-     * Get amparo
-     *
-     * @return string
-     */
-    public function getAmparo() {
-        return $this->amparo;
     }
 
     /**
@@ -393,8 +435,10 @@ class Organismo {
      *
      * @return Organismo
      */
-    public function setEntregoFormulario($entregoFormulario) {
+    public function setEntregoFormulario($entregoFormulario)
+    {
         $this->entregoFormulario = $entregoFormulario;
+
         return $this;
     }
 
@@ -403,8 +447,33 @@ class Organismo {
      *
      * @return string
      */
-    public function getEntregoFormulario() {
+    public function getEntregoFormulario()
+    {
         return $this->entregoFormulario;
+    }
+
+    /**
+     * Set habilitado
+     *
+     * @param string $habilitado
+     *
+     * @return Organismo
+     */
+    public function setHabilitado($habilitado)
+    {
+        $this->habilitado = $habilitado;
+
+        return $this;
+    }
+
+    /**
+     * Get habilitado
+     *
+     * @return string
+     */
+    public function getHabilitado()
+    {
+        return $this->habilitado;
     }
 
     /**
@@ -414,7 +483,8 @@ class Organismo {
      *
      * @return Organismo
      */
-    public function setZona($zona) {
+    public function setZona($zona)
+    {
         $this->zona = $zona;
 
         return $this;
@@ -425,8 +495,33 @@ class Organismo {
      *
      * @return string
      */
-    public function getZona() {
+    public function getZona()
+    {
         return $this->zona;
+    }
+
+    /**
+     * Set amparo
+     *
+     * @param string $amparo
+     *
+     * @return Organismo
+     */
+    public function setAmparo($amparo)
+    {
+        $this->amparo = $amparo;
+
+        return $this;
+    }
+
+    /**
+     * Get amparo
+     *
+     * @return string
+     */
+    public function getAmparo()
+    {
+        return $this->amparo;
     }
 
     /**
@@ -436,7 +531,8 @@ class Organismo {
      *
      * @return Organismo
      */
-    public function setRepresentante(\Jubilaciones\DeclaracionesBundle\Entity\Representante $representante = null) {
+    public function setRepresentante(\Jubilaciones\DeclaracionesBundle\Entity\Representante $representante = null)
+    {
         $this->representante = $representante;
 
         return $this;
@@ -447,7 +543,8 @@ class Organismo {
      *
      * @return \Jubilaciones\DeclaracionesBundle\Entity\Representante
      */
-    public function getRepresentante() {
+    public function getRepresentante()
+    {
         return $this->representante;
     }
 
@@ -458,7 +555,8 @@ class Organismo {
      *
      * @return Organismo
      */
-    public function addDeclaracionesjurada(\Jubilaciones\DeclaracionesBundle\Entity\Declaracionjurada $declaracionesjurada) {
+    public function addDeclaracionesjurada(\Jubilaciones\DeclaracionesBundle\Entity\Declaracionjurada $declaracionesjurada)
+    {
         $this->declaracionesjuradas[] = $declaracionesjurada;
 
         return $this;
@@ -469,7 +567,8 @@ class Organismo {
      *
      * @param \Jubilaciones\DeclaracionesBundle\Entity\Declaracionjurada $declaracionesjurada
      */
-    public function removeDeclaracionesjurada(\Jubilaciones\DeclaracionesBundle\Entity\Declaracionjurada $declaracionesjurada) {
+    public function removeDeclaracionesjurada(\Jubilaciones\DeclaracionesBundle\Entity\Declaracionjurada $declaracionesjurada)
+    {
         $this->declaracionesjuradas->removeElement($declaracionesjurada);
     }
 
@@ -478,12 +577,8 @@ class Organismo {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getDeclaracionesjuradas() {
+    public function getDeclaracionesjuradas()
+    {
         return $this->declaracionesjuradas;
     }
-    
-    public function __toString() {
-        return $this->getNombre().'-'.$this->getCodigo();
-    }
-
 }

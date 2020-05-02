@@ -38,6 +38,11 @@ class Importacion {
      */
     private $fechaCreacion;
 
+    /**
+     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
+     * @Assert\Choice({"Si","No"})
+     */
+    protected $procesado;
 
     /**
      * Get id
@@ -119,5 +124,29 @@ class Importacion {
     public function getDescripcion()
     {
         return $this->descripcion;
+    }
+
+    /**
+     * Set procesado
+     *
+     * @param string $procesado
+     *
+     * @return Importacion
+     */
+    public function setProcesado($procesado)
+    {
+        $this->procesado = $procesado;
+
+        return $this;
+    }
+
+    /**
+     * Get procesado
+     *
+     * @return string
+     */
+    public function getProcesado()
+    {
+        return $this->procesado;
     }
 }

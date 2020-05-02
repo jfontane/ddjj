@@ -1,0 +1,125 @@
+<?php
+
+namespace Jubilaciones\DeclaracionesBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * Organismo
+ *
+ * @ORM\Table(name="organismo")
+ * @ORM\Entity(repositoryClass="Jubilaciones\DeclaracionesBundle\Repository\OrganismoRepository")
+ */
+class Organismo {
+
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="10",max="10")
+     */
+    protected $codigo;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $password;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $nombre;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $domicilioCalle;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $domicilioNumero;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $localidad;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $codigoPostal;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $departamento;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $telefonoCaracteristica;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $telefonoNumero;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $cuit;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $email;
+
+    /**
+     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
+     * @Assert\Choice({"Si","No"})
+     */
+    protected $entregoFormulario;
+
+    /**
+     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
+     * @Assert\Choice({"Si","No"})
+     */
+    protected $habilitado;
+
+    /**
+     * @ORM\Column(type="string", columnDefinition="enum('Norte', 'Sur')")
+     */
+    protected $zona;
+
+    /**
+     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
+     * @Assert\Choice({"Si","No"})
+     */
+    protected $amparo;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Representante", inversedBy="organismos")
+     * @ORM\JoinColumn(name="representante_id", referencedColumnName="id")
+     */
+    protected $representante;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Declaracionjurada", mappedBy="organismo")
+     */
+    protected $declaracionesjuradas;
+
+
+    public function __toString() {
+        return $this->getNombre().'-'.$this->getCodigo();
+    }
+
+}
