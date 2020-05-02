@@ -27,15 +27,17 @@ class DeclaracionjuradaController extends Controller {
     }
 
     public function listarAction( UserInterface $user ) {
-        $em = $this->getDoctrine()->getManager();
-        $declaraciones = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findAllDeclaracionesPorPeriodo();
-
         $user = $this->getUser();
-        dump($user->getUsername());die;
+        $organismo_codigo=$user->getUsername();
+        $em = $this->getDoctrine()->getManager();
+        //$declaraciones = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findAllDeclaracionesPorPeriodo();
+        $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' =>$organismo_codigo));
+
+        //dump($organismo);die;
+
+        $declaraciones=$organismo->getDeclaracionesjuradas();
 
 
-
-        //dump($declaraciones);die;
         return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/listar.html.twig', array(
                     'declaraciones' => $declaraciones
         ));
