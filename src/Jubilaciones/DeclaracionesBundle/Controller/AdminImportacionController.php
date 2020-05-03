@@ -91,12 +91,18 @@ class AdminImportacionController extends Controller {
                 $em->persist($importacion);
                 $em->flush();
                 AbstractBaseController::addInfoMessage('La importacion de Representantes se ha realizado con Exito.');
-            } else if ($tipo_importacion == 'Representante_Organismo') {
-                $this->vincularRepresentantes($fileName);
+            } else if ($tipo_importacion == 'Organismo_Representante') {
+                $this->vincularOrganismosRepresentantes($fileName);
                 $importacion->setProcesado('Si');
                 $em->persist($importacion);
                 $em->flush();
-                AbstractBaseController::addInfoMessage('La Vinculacion de Representantes y Organismos se ha realizado con Exito.');
+                AbstractBaseController::addInfoMessage('La Vinculacion de Organismos y Representantes se ha realizado con Exito.');
+            } else if ($tipo_importacion == 'Usuario_Organismo') {
+                $this->vincularUsuariosOrganismos($fileName);
+                $importacion->setProcesado('Si');
+                $em->persist($importacion);
+                $em->flush();
+                AbstractBaseController::addInfoMessage('La Vinculacion de Usuarios y Organismos se ha realizado con Exito.');
             }
         } else
             AbstractBaseController::addInfoMessage('No se ha realizado ninguna importacion con Exito.');
@@ -230,8 +236,7 @@ class AdminImportacionController extends Controller {
         };
     }
 
-
-    private function vincularRepresentantes($fileName) {
+    private function vincularOrganismosRepresentantes($fileName) {
         $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
         $lineas = count($archivo);
         $em = $this->getDoctrine()->getManager();
@@ -240,13 +245,29 @@ class AdminImportacionController extends Controller {
             $cuil = explode(';', $archivo[$i])[1];
             $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' => $codigo_organismo));
             $representante = $em->getRepository('JubilacionesDeclaracionesBundle:Representante')->findOneBy(array('cuil' => $cuil));
-            if ( null != $representante && null != $organismo ) {
+            if (null != $representante && null != $organismo) {
                 $organismo->setRepresentante($representante);
                 $em->persist($organismo);
                 $em->flush();
             };
         };
     }
-
+    
+    private function vincularUsuariosOrganismos($fileName) {
+        $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
+        $lineas = count($archivo);
+        $em = $this->getDoctrine()->getManager();
+        for ($i = 0; $i < $lineas; $i++) {
+            $codigo_organismo = explode(';', $archivo[$i])[0];
+            $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' => $codigo_organismo));
+            $usuario = $em->getRepository('JubilacionesDeclaracionesBundle:User')->findOneBy(array('username' => $codigo_organismo));
+            if (null != $usuario && null != $organismo) {
+                $usuario->setOrganismo($organismo);
+                $em->persist($usuario);
+                $em->flush();
+            };
+        };
+    }
+    
 
 }

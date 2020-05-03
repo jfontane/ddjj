@@ -7,14 +7,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Jubilaciones\DeclaracionesBundle\Entity\Declaracionjurada;
-use Jubilaciones\DeclaracionesBundle\Form\DeclaracionjuradaType;
 use Jubilaciones\DeclaracionesBundle\Entity\Organismo;
+use Jubilaciones\DeclaracionesBundle\Form\DeclaracionjuradaType;
 use Jubilaciones\DeclaracionesBundle\Classes\Util;
 use Jubilaciones\DeclaracionesBundle\Controller\AbstractBaseController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Filesystem\Filesystem;
+
 
 //use Symfony\Component\Validator\Constraints\Length; 
 
@@ -25,6 +26,12 @@ class ContralorDeclaracionjuradaController extends Controller {
     }
 
     public function listarAction() {
+        try {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', User, 'Unable to access this page - Javier!');
+        } catch (\Exception $e)
+        {
+          die('noooooooooooooooo');  
+        }
         $em = $this->getDoctrine()->getManager();
         $declaraciones = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findAllDeclaracionesPorPeriodo();
         //dump($declaraciones);die;

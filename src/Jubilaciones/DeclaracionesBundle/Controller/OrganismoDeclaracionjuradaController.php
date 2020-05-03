@@ -17,26 +17,25 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-
 //use Symfony\Component\Validator\Constraints\Length;
 
-class DeclaracionjuradaController extends Controller {
+class OrganismoDeclaracionjuradaController extends Controller {
 
     public function indexAction() {
         return $this->render('JubilacionesDeclaracionesBundle:Default:index.html.twig');
     }
 
-    public function listarAction( UserInterface $user ) {
+    public function listarAction(UserInterface $user) {
         $user = $this->getUser();
-        $organismo_codigo=$user->getUsername();
+        $organismo_codigo = $user->getUsername();
         $em = $this->getDoctrine()->getManager();
         //$declaraciones = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findAllDeclaracionesPorPeriodo();
-        $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' =>$organismo_codigo));
+        $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' => $organismo_codigo));
 
         //dump($organismo);die;
-
-        $declaraciones=$organismo->getDeclaracionesjuradas();
-
+        if (null != $organismo) {
+            $declaraciones = $organismo->getDeclaracionesjuradas();
+        } else $declaraciones = null;  
 
         return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/listar.html.twig', array(
                     'declaraciones' => $declaraciones

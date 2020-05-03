@@ -4,31 +4,31 @@ registrar_representante:
   
 organismo_declaracion_listar:
     path:     /declaracion/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:listar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:listar }
     
 organismo_declaracion_ver:
     path:     /declaracion/ver/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:ver } 
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:ver } 
     requirements:
         id: \d+    
     
 organismo_declaracion_nuevo:
     path:     /declaracion/nuevo
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:nuevo } 
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:nuevo } 
     
 organismo_declaracion_editar:
     path:     /declaracion/editar/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:editar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:editar }
     requirements:
         id: \d+
 
 organismo_declaracion_borrar:
     path:     /declaracion/borrar/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:borrar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:borrar }
     requirements:
         id: \d+
 
 organismo_declaracion_error:    
     path:     /declaracion/error/{error}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:error }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:error }
     
