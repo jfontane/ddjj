@@ -31,77 +31,72 @@ class Organismo {
     /**
      * @ORM\Column(type="string")
      */
-    protected $password;
-
-    /**
-     * @ORM\Column(type="string")
-     */
     protected $nombre;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $domicilioCalle;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $domicilioNumero;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $localidad;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $codigoPostal;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $departamento;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $telefonoCaracteristica;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $telefonoNumero;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $cuit;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $email;
 
     /**
-     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
+     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')", nullable=true)
      * @Assert\Choice({"Si","No"})
      */
     protected $entregoFormulario;
 
     /**
-     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
+     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')", nullable=true)
      * @Assert\Choice({"Si","No"})
      */
     protected $habilitado;
 
     /**
-     * @ORM\Column(type="string", columnDefinition="enum('Norte', 'Sur')")
+     * @ORM\Column(type="string", columnDefinition="enum('Norte', 'Sur')", nullable=true)
      */
     protected $zona;
 
     /**
-     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')")
+     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')", nullable=true)
      * @Assert\Choice({"Si","No"})
      */
     protected $amparo;
@@ -117,6 +112,10 @@ class Organismo {
      */
     protected $declaracionesjuradas;
 
+    /**
+     * @ORM\OneToOne(targetEntity="User", mappedBy="organismo")
+     */
+    protected $usuario;
 
     public function __toString() {
         return $this->getNombre().'-'.$this->getCodigo();
@@ -580,5 +579,29 @@ class Organismo {
     public function getDeclaracionesjuradas()
     {
         return $this->declaracionesjuradas;
+    }
+
+    /**
+     * Set usuario
+     *
+     * @param \Jubilaciones\DeclaracionesBundle\Entity\User $usuario
+     *
+     * @return Organismo
+     */
+    public function setUsuario(\Jubilaciones\DeclaracionesBundle\Entity\User $usuario = null)
+    {
+        $this->usuario = $usuario;
+
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return \Jubilaciones\DeclaracionesBundle\Entity\User
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
     }
 }

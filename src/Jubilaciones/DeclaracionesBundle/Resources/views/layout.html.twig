@@ -8,7 +8,7 @@
         <ul>
             {#Roles :#} {#{ dump(app.user.getRoles()) }#}
             {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <li><a href="">Organismos</a></li>
+                <li><a href="{{ path('admin_organismo_listar') }}">Organismos</a></li>
                 <li><a href="{{ path('admin_usuario_listar') }}">Usuarios</a></li>
                 <li><a href="{{ path('admin_importacion_listar') }}">Importacion</a></li>
                 {% elseif is_granted('ROLE_ADMIN') %}
