@@ -7,11 +7,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Declaracionjurada
- * 
+ *
  * @ORM\Table(name="declaracionjurada", uniqueConstraints={
- *      @ORM\UniqueConstraint(columns={"periodo_anio","periodo_mes","tipo_liquidacion"})
+ *      @ORM\UniqueConstraint(columns={"organismo_id","periodo_anio","periodo_mes","tipo_liquidacion"})
  * }, indexes={
- *      @ORM\Index(columns={"periodo_anio","periodo_mes","tipo_liquidacion"})
+ *      @ORM\Index(columns={"organismo_id","periodo_anio","periodo_mes","tipo_liquidacion"})
  *            }
  * )
  * @ORM\Entity(repositoryClass="Jubilaciones\DeclaracionesBundle\Repository\DeclaracionjuradaRepository")
@@ -31,7 +31,7 @@ class Declaracionjurada {
      * @Assert\Length(min="4",max="4")
      */
     protected $periodoAnio;
-    
+
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
@@ -70,18 +70,18 @@ class Declaracionjurada {
      * @ORM\Column(type="string", nullable=true)
      */
     protected $jubidat;
-    
+
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     protected $jubi1ind;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Organismo", inversedBy="declaracionesjuradas")
      * @ORM\JoinColumn(name="organismo_id", referencedColumnName="id")
      */
     protected $organismo;
-    
+
 
 
     /**
@@ -142,7 +142,7 @@ class Declaracionjurada {
         return $this->periodoMes;
     }
 
-    
+
     /**
      * Set tipoLiquidacion
      *
@@ -286,7 +286,7 @@ class Declaracionjurada {
     {
         return $this->jubidat;
     }
-    
+
     /**
      * Set jubi1ind
      *
@@ -310,7 +310,7 @@ class Declaracionjurada {
     {
         return $this->jubi1ind;
     }
-    
+
     /**
      * Set organismo
      *

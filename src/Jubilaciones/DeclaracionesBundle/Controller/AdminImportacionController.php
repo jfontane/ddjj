@@ -16,6 +16,8 @@ use Jubilaciones\DeclaracionesBundle\Entity\Importacion;
 use Jubilaciones\DeclaracionesBundle\Entity\User;
 use Jubilaciones\DeclaracionesBundle\Entity\Organismo;
 use Jubilaciones\DeclaracionesBundle\Entity\Representante;
+use Jubilaciones\DeclaracionesBundle\Entity\Declaracionjurada;
+
 
 class AdminImportacionController extends Controller {
 
@@ -103,7 +105,14 @@ class AdminImportacionController extends Controller {
                 $em->persist($importacion);
                 $em->flush();
                 AbstractBaseController::addInfoMessage('La Vinculacion de Usuarios y Organismos se ha realizado con Exito.');
+            }  else if ($tipo_importacion == 'Declaraciones_Organismo') {
+                $this->vincularDeclaracionesOrganismos($fileName);
+                $importacion->setProcesado('Si');
+                $em->persist($importacion);
+                $em->flush();
+                AbstractBaseController::addInfoMessage('La Vinculacion de Usuarios y Organismos se ha realizado con Exito.');
             }
+
         } else
             AbstractBaseController::addInfoMessage('No se ha realizado ninguna importacion con Exito.');
 
@@ -252,7 +261,7 @@ class AdminImportacionController extends Controller {
             };
         };
     }
-    
+
     private function vincularUsuariosOrganismos($fileName) {
         $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
         $lineas = count($archivo);
@@ -268,6 +277,50 @@ class AdminImportacionController extends Controller {
             };
         };
     }
-    
+
+    private function vincularDeclaracionesOrganismos($fileName) {
+        $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
+        $lineas = count($archivo);
+        $codigo_organismo_actual=$codigo_organismo_obtenido=explode(';', $archivo[0])[0];
+        //$codigo_organismo_obtenido = explode(';', $archivo[0])[0];
+        //dump($codigo_organismo_actual.'-'.$codigo_organismo_proximo);die;
+        $em = $this->getDoctrine()->getManager();
+        $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' => $codigo_organismo_obtenido));
+        //dump($organismo);die;
+        for ($i = 0; $i < $lineas; $i++) {
+
+            $codigo_organismo_obtenido = explode(';', $archivo[$i])[0];
+            $declaracion_periodo_anio = explode(';', $archivo[$i])[1];
+            $declaracion_periodo_mes = explode(';', $archivo[$i])[2];
+            $declaracion_tipo_liquidacion = explode(';', $archivo[$i])[3];
+            $declaracion_fecha_entrega = new \DateTime(explode(';', $archivo[$i])[4]);
+            $declaracion_fecha_ingreso = new \DateTime(explode(';', $archivo[$i])[5]);
+            $declaracion_estado = explode(';', $archivo[$i])[6];
+            $declaracion=new Declaracionjurada;
+            $declaracion->setPeriodoAnio($declaracion_periodo_anio);
+            $declaracion->setPeriodoMes($declaracion_periodo_mes);
+            $declaracion->setTipoLiquidacion($declaracion_tipo_liquidacion);
+            $declaracion->setFechaEntrega($declaracion_fecha_entrega);
+            $declaracion->setFechaIngreso($declaracion_fecha_ingreso);
+            $declaracion->setEstado($declaracion_estado);
+
+            if ($codigo_organismo_actual == $codigo_organismo_obtenido) {
+
+                $declaracion->setOrganismo($organismo);
+                $em->persist($declaracion);
+                $em->flush();
+                $organismo=null;
+            } else {
+                $codigo_organismo_actual=$codigo_organismo_obtenido;
+                $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' => $codigo_organismo_actual));
+                $declaracion->setOrganismo($organismo);
+                $em->persist($declaracion);
+                $em->flush();
+            }
+
+        }; // END for
+        die;
+    }
+
 
 }
