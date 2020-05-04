@@ -19,6 +19,12 @@
                 {{ form_widget(form.roles) }}
             </p>
         <br>
+            {{ form_errors(form.zona) }}
+            <p>
+                {{ form_label(form.zona) }}
+                {{ form_widget(form.zona) }}
+            </p>    
+        <br>
         <div class="grid_6 alpha">
             {{ form_errors(form.plainPassword.first) }}
             <p>

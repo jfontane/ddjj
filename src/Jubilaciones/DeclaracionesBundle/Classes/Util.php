@@ -204,5 +204,17 @@ class Util {
         }
         return $tipoLiq;
     }
+    
+    public static function verificarEncabezadoJubiDat($org,$anio,$mes,$tliq,$encabezado) {
+        $str_encabezado_organismo = substr($encabezado,1,10).'-'.substr($encabezado,30,4).'-'.substr($encabezado,34,2).'-'.substr($encabezado,82,3);
+        $str_encabezado_formulario = $org.'-'.$anio.'-'.$mes.'-'.$tliq;
+        //dump($str_encabezado_organismo.'***'.$str_encabezado_formulario);die;
+        if ($str_encabezado_organismo==$str_encabezado_formulario) return true;
+        else return false;
+
+        
+        
+        
+    }
 
 }

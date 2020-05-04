@@ -44,6 +44,11 @@ class User implements UserInterface {
      * @ORM\Column(type="array")
      */
     private $roles;
+    
+    /**
+     * @ORM\Column(type="string", columnDefinition="enum('Norte', 'Sur','Sin Datos')", nullable=true)
+     */
+    protected $zona;
 
     /**
      * @ORM\OneToOne(targetEntity="Organismo", inversedBy="usuario")
@@ -91,7 +96,7 @@ class User implements UserInterface {
 
     public function setRoles($roles)
     {
-      $this->roles = $roles;
+      $this->roles = [$roles];
       return $this;
     }
 
@@ -130,5 +135,31 @@ class User implements UserInterface {
     public function getOrganismo()
     {
         return $this->organismo;
+    }
+
+    
+
+    /**
+     * Set zona
+     *
+     * @param string $zona
+     *
+     * @return User
+     */
+    public function setZona($zona)
+    {
+        $this->zona = $zona;
+
+        return $this;
+    }
+
+    /**
+     * Get zona
+     *
+     * @return string
+     */
+    public function getZona()
+    {
+        return $this->zona;
     }
 }

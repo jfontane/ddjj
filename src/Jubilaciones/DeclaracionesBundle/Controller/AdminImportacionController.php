@@ -281,37 +281,38 @@ class AdminImportacionController extends Controller {
     private function vincularDeclaracionesOrganismos($fileName) {
         $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
         $lineas = count($archivo);
-        $codigo_organismo_actual=$codigo_organismo_obtenido=explode(';', $archivo[0])[0];
+        $codigo_organismo_actual=0;
+
         //$codigo_organismo_obtenido = explode(';', $archivo[0])[0];
         //dump($codigo_organismo_actual.'-'.$codigo_organismo_proximo);die;
         $em = $this->getDoctrine()->getManager();
-        $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' => $codigo_organismo_obtenido));
+        $organismo = new Organismo;
         //dump($organismo);die;
         for ($i = 0; $i < $lineas; $i++) {
-
             $codigo_organismo_obtenido = explode(';', $archivo[$i])[0];
             $declaracion_periodo_anio = explode(';', $archivo[$i])[1];
             $declaracion_periodo_mes = explode(';', $archivo[$i])[2];
             $declaracion_tipo_liquidacion = explode(';', $archivo[$i])[3];
             $declaracion_fecha_entrega = new \DateTime(explode(';', $archivo[$i])[4]);
-            $declaracion_fecha_ingreso = new \DateTime(explode(';', $archivo[$i])[5]);
+            $declaracion_fecha_ingreso=explode(';', $archivo[$i])[5];
+
+            $fecha_ingreso = ($declaracion_fecha_ingreso!='NULL') ? new \DateTime($declaracion_fecha_ingreso):'';
+
             $declaracion_estado = explode(';', $archivo[$i])[6];
             $declaracion=new Declaracionjurada;
             $declaracion->setPeriodoAnio($declaracion_periodo_anio);
             $declaracion->setPeriodoMes($declaracion_periodo_mes);
             $declaracion->setTipoLiquidacion($declaracion_tipo_liquidacion);
             $declaracion->setFechaEntrega($declaracion_fecha_entrega);
-            $declaracion->setFechaIngreso($declaracion_fecha_ingreso);
+            if ($fecha_ingreso) $declaracion->setFechaIngreso($fecha_ingreso);
             $declaracion->setEstado($declaracion_estado);
 
             if ($codigo_organismo_actual == $codigo_organismo_obtenido) {
-
                 $declaracion->setOrganismo($organismo);
                 $em->persist($declaracion);
                 $em->flush();
-                $organismo=null;
             } else {
-                $codigo_organismo_actual=$codigo_organismo_obtenido;
+                $codigo_organismo_actual = $codigo_organismo_obtenido;
                 $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' => $codigo_organismo_actual));
                 $declaracion->setOrganismo($organismo);
                 $em->persist($declaracion);

@@ -27,6 +27,7 @@ Listado de Usuarios
       <tr>
         <th>Username</th>
         <th>Roles</th>
+        <th>Zona</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -35,7 +36,8 @@ Listado de Usuarios
       {% for item in pagination.items %}
       <tr {% if loop.index is odd %}class="color"{% endif %}>
         <td>{{ item.username }}</td>
-        <td>ROLE_USER</td>
+        <td>{{ item.roles[0] }}</td>
+        <td>{{ item.zona }}</td>
         <td>
           <a href="">Ver</a>&nbsp;&nbsp;
           <a href="">Editar</a>&nbsp;&nbsp;
