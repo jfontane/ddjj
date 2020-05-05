@@ -1,0 +1,72 @@
+{% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
+{% block title %}Datos del Organismo{% endblock %}
+{% block pageid 'admin' %}
+
+    {% block body %}
+        {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{path('contralor_organismo_listar')}}">Organismos</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Ver</li>
+                <li class="breadcrumb-item"><a href="{{ path('contralor_organismo_declaraciones_por_organismo',{'id':organismo.id}) }}">Declaraciones Juradas</a></li>
+            </ol>
+        </nav>
+        <div class="grid_16">
+            <table>
+
+                <!-- ITERACIÓN SOBRE LOS EVENTOS DE UN DISERTANTE -->
+                <tr>
+                    <td>
+                        Nombre
+                    </td>
+                    <td>
+                        {{ organismo.nombre }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Domicilio
+                    </td>
+                    <td>
+                        {{ organismo.domicilio }}
+                    </td>
+                </tr>
+                {% if organismo.representante %}
+                    <tr>
+                        <td>
+                            Representante Nombres
+                        </td>
+                        <td>
+                            {{ organismo.representante.apellido }},{{ organismo.representante.nombres }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Representante Cuil
+                        </td>
+                        <td>
+                            {{ organismo.representante.cuil }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan='2'>
+                            No tiene Representante Asignado
+                        </td>
+                    </tr>
+                {% endif %}    
+            </table>
+        </div>
+        <br>&nbsp;
+
+    {% endblock %}
+    {% block javascripts %}
+        <script>
+            function confirmaBorrar() {
+                if (confirm("Desea Eliminar un Evento???")) {
+                    //location.href
+                }
+            }
+        </script>
+    {% endblock %}    

@@ -1,5 +1,5 @@
 {% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
-{% block title %}Listado de Representantes{% endblock %}
+{% block title %}Representante{% endblock %}
 {% block pageid 'admin' %}
 
     {% block body %}
@@ -7,7 +7,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Representantes</li>
+                <li class="breadcrumb-item active" aria-current="page">Representante</li>
             </ol>
         </nav>
 
@@ -30,7 +30,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for representante in representantes %}
+                    {% if representante %}
                         <tr>
                             <td>
                                 {{ representante.cuil }}
@@ -41,19 +41,18 @@
                             </td>
                             <td>{{ representante.email }}</td>
                             <td>
-                                <a href="{{ path('contralor_representante_ver', { 'id' : representante.id }) }}">Ver</a>&nbsp;&nbsp;
+                                <a href="{{ path('organismo_representante_ver', { 'id' : representante.id }) }}">Ver</a>&nbsp;&nbsp;
                                 <a href="">Editar</a>&nbsp;&nbsp;
-                                <a href="">Borrar</a>
+                                <a href="">Desvincular</a>
                             </td>
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="7">No existe ninguna Declaracion Jurada</td>
+                            <td colspan="7">No existe ninguna Representante Asociado</td>
                         </tr>
-                    {% endfor %}
+                    {% endif %}
                 </tbody>
             </table>
-            <a href=""> Nuevo </a>
             <br>
         </div>
     {% endblock %}

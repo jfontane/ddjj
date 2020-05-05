@@ -32,3 +32,19 @@ organismo_declaracion_error:
     path:     /declaracion/error/{error}
     defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:error }
     
+organismo_organismo_listar:    
+    path:     /organismo/listar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoOrganismo:listar }    
+    
+organismo_organismo_ver_falta:    
+    path:     /organismo/ver/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoOrganismo:ver }    
+    
+organismo_representante_listar:    
+    path:     /representante/listar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoRepresentante:listar }      
+    
+organismo_representante_ver:    
+    path:     /representante/ver/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoRepresentante:ver }          
+    

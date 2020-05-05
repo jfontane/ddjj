@@ -1,4 +1,4 @@
-{% extends "@JubilacionesDeclaraciones/layout-organismo.html.twig" %}
+{% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
 {% block title %}Listado de Declaraciones Juradas{% endblock %}
 {% block pageid 'admin' %}
 
@@ -45,9 +45,14 @@
                             </td>
                             <td>{{ declaracion.estado }}</td>
                             <td>
-                                <a href="{{ path ('organismo_declaracion_ver',{'id' : declaracion.id }) }}">Ver</a>&nbsp;&nbsp;
-                                <a href="{{ path ('organismo_declaracion_editar',{'id' : declaracion.id }) }}">Editar</a>&nbsp;&nbsp;
-                                <a href="" id="btn_borrar" data-id="{{ declaracion.id }}">Borrar</a>
+                                
+                                {% if declaracion.estado == 'Pendiente' %}
+                                    <a href="{{ path ('organismo_declaracion_ver',{'id' : declaracion.id }) }}">Ver</a>&nbsp;&nbsp;    
+                                    <a href="{{ path ('organismo_declaracion_editar',{'id' : declaracion.id }) }}">Editar</a>&nbsp;&nbsp;
+                                    <a href="" id="btn_borrar" data-id="{{ declaracion.id }}">Borrar</a>
+                                {% elseif declaracion.estado == 'Procesando' %}   
+                                    <a href="{{ path ('organismo_declaracion_ver',{'id' : declaracion.id }) }}">Ver</a>&nbsp;&nbsp;    
+                                {% endif %}
                             </td>
                         </tr>
                     {% else %}
