@@ -57,7 +57,6 @@ class User implements UserInterface {
     protected $organismo;
 
     public function __construct() {
-        $this->roles = ['ROLE_USER'];
     }
 
     public function getId() {
