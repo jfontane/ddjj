@@ -30,53 +30,46 @@ class Conveniocuota {
     
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     * @Assert\Length(min="10",max="10")
-     */
-    protected $codigoOrganismo;
-
-    /**
-     * @ORM\Column(type="string")
      */
     protected $tramo;
     
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="integer")
      */
     protected $cuota;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $pagado;
     
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="datetime")
      */
     protected $vencimiento1;
     
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="float", scale=2)
      */
     protected $importe1;
     
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="datetime")
      */
     protected $vencimiento2;
     
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="float", scale=2)
      */
     protected $importe2;
     
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     protected $vencimiento3;
     
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="float", scale=2)
      */
     protected $importe3;
     
@@ -87,4 +80,278 @@ class Conveniocuota {
     protected $organismo;
     
     
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set codigoConvenio
+     *
+     * @param string $codigoConvenio
+     *
+     * @return Conveniocuota
+     */
+    public function setCodigoConvenio($codigoConvenio)
+    {
+        $this->codigoConvenio = $codigoConvenio;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoConvenio
+     *
+     * @return string
+     */
+    public function getCodigoConvenio()
+    {
+        return $this->codigoConvenio;
+    }
+
+    /**
+     * Set tramo
+     *
+     * @param string $tramo
+     *
+     * @return Conveniocuota
+     */
+    public function setTramo($tramo)
+    {
+        $this->tramo = $tramo;
+
+        return $this;
+    }
+
+    /**
+     * Get tramo
+     *
+     * @return string
+     */
+    public function getTramo()
+    {
+        return $this->tramo;
+    }
+
+    /**
+     * Set cuota
+     *
+     * @param string $cuota
+     *
+     * @return Conveniocuota
+     */
+    public function setCuota($cuota)
+    {
+        $this->cuota = $cuota;
+
+        return $this;
+    }
+
+    /**
+     * Get cuota
+     *
+     * @return string
+     */
+    public function getCuota()
+    {
+        return $this->cuota;
+    }
+
+    /**
+     * Set pagado
+     *
+     * @param boolean $pagado
+     *
+     * @return Conveniocuota
+     */
+    public function setPagado($pagado)
+    {
+        $this->pagado = $pagado;
+
+        return $this;
+    }
+
+    /**
+     * Get pagado
+     *
+     * @return boolean
+     */
+    public function getPagado()
+    {
+        return $this->pagado;
+    }
+
+    /**
+     * Set vencimiento1
+     *
+     * @param string $vencimiento1
+     *
+     * @return Conveniocuota
+     */
+    public function setVencimiento1($vencimiento1)
+    {
+        $this->vencimiento1 = $vencimiento1;
+
+        return $this;
+    }
+
+    /**
+     * Get vencimiento1
+     *
+     * @return string
+     */
+    public function getVencimiento1()
+    {
+        return $this->vencimiento1;
+    }
+
+    /**
+     * Set importe1
+     *
+     * @param float $importe1
+     *
+     * @return Conveniocuota
+     */
+    public function setImporte1($importe1)
+    {
+        $this->importe1 = $importe1;
+
+        return $this;
+    }
+
+    /**
+     * Get importe1
+     *
+     * @return float
+     */
+    public function getImporte1()
+    {
+        return $this->importe1;
+    }
+
+    /**
+     * Set vencimiento2
+     *
+     * @param string $vencimiento2
+     *
+     * @return Conveniocuota
+     */
+    public function setVencimiento2($vencimiento2)
+    {
+        $this->vencimiento2 = $vencimiento2;
+
+        return $this;
+    }
+
+    /**
+     * Get vencimiento2
+     *
+     * @return string
+     */
+    public function getVencimiento2()
+    {
+        return $this->vencimiento2;
+    }
+
+    /**
+     * Set importe2
+     *
+     * @param float $importe2
+     *
+     * @return Conveniocuota
+     */
+    public function setImporte2($importe2)
+    {
+        $this->importe2 = $importe2;
+
+        return $this;
+    }
+
+    /**
+     * Get importe2
+     *
+     * @return float
+     */
+    public function getImporte2()
+    {
+        return $this->importe2;
+    }
+
+    /**
+     * Set vencimiento3
+     *
+     * @param string $vencimiento3
+     *
+     * @return Conveniocuota
+     */
+    public function setVencimiento3($vencimiento3)
+    {
+        $this->vencimiento3 = $vencimiento3;
+
+        return $this;
+    }
+
+    /**
+     * Get vencimiento3
+     *
+     * @return string
+     */
+    public function getVencimiento3()
+    {
+        return $this->vencimiento3;
+    }
+
+    /**
+     * Set importe3
+     *
+     * @param float $importe3
+     *
+     * @return Conveniocuota
+     */
+    public function setImporte3($importe3)
+    {
+        $this->importe3 = $importe3;
+
+        return $this;
+    }
+
+    /**
+     * Get importe3
+     *
+     * @return float
+     */
+    public function getImporte3()
+    {
+        return $this->importe3;
+    }
+
+    /**
+     * Set organismo
+     *
+     * @param \Jubilaciones\DeclaracionesBundle\Entity\Organismo $organismo
+     *
+     * @return Conveniocuota
+     */
+    public function setOrganismo(\Jubilaciones\DeclaracionesBundle\Entity\Organismo $organismo = null)
+    {
+        $this->organismo = $organismo;
+
+        return $this;
+    }
+
+    /**
+     * Get organismo
+     *
+     * @return \Jubilaciones\DeclaracionesBundle\Entity\Organismo
+     */
+    public function getOrganismo()
+    {
+        return $this->organismo;
+    }
 }

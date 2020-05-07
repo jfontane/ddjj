@@ -111,6 +111,11 @@ class Organismo {
      * @ORM\OneToMany(targetEntity="Declaracionjurada", mappedBy="organismo")
      */
     protected $declaracionesjuradas;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Conveniocuota", mappedBy="organismo")
+     */
+    protected $convenioscuotas;
 
     /**
      * @ORM\OneToOne(targetEntity="User", mappedBy="organismo")
@@ -579,5 +584,29 @@ class Organismo {
     public function getDeclaracionesjuradas()
     {
         return $this->declaracionesjuradas;
+    }
+
+    /**
+     * Set usuario
+     *
+     * @param \Jubilaciones\DeclaracionesBundle\Entity\User $usuario
+     *
+     * @return Organismo
+     */
+    public function setUsuario(\Jubilaciones\DeclaracionesBundle\Entity\User $usuario = null)
+    {
+        $this->usuario = $usuario;
+
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return \Jubilaciones\DeclaracionesBundle\Entity\User
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
     }
 }

@@ -17,7 +17,7 @@ use Jubilaciones\DeclaracionesBundle\Entity\User;
 use Jubilaciones\DeclaracionesBundle\Entity\Organismo;
 use Jubilaciones\DeclaracionesBundle\Entity\Representante;
 use Jubilaciones\DeclaracionesBundle\Entity\Declaracionjurada;
-
+use Jubilaciones\DeclaracionesBundle\Entity\Conveniocuota;
 
 class AdminImportacionController extends Controller {
 
@@ -105,14 +105,19 @@ class AdminImportacionController extends Controller {
                 $em->persist($importacion);
                 $em->flush();
                 AbstractBaseController::addInfoMessage('La Vinculacion de Usuarios y Organismos se ha realizado con Exito.');
-            }  else if ($tipo_importacion == 'Declaraciones_Organismo') {
+            } else if ($tipo_importacion == 'Declaraciones_Organismo') {
                 $this->vincularDeclaracionesOrganismos($fileName);
                 $importacion->setProcesado('Si');
                 $em->persist($importacion);
                 $em->flush();
                 AbstractBaseController::addInfoMessage('La Vinculacion de Usuarios y Organismos se ha realizado con Exito.');
+            } else if ($tipo_importacion == 'ConvenioCuotas_Organismo') {
+                $this->vincularConvenioCuotasOrganismos($fileName);
+                $importacion->setProcesado('Si');
+                $em->persist($importacion);
+                $em->flush();
+                AbstractBaseController::addInfoMessage('La Vinculacion de ConvenioCuotas y Organismos se ha realizado con Exito.');
             }
-
         } else
             AbstractBaseController::addInfoMessage('No se ha realizado ninguna importacion con Exito.');
 
@@ -281,7 +286,7 @@ class AdminImportacionController extends Controller {
     private function vincularDeclaracionesOrganismos($fileName) {
         $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
         $lineas = count($archivo);
-        $codigo_organismo_actual=0;
+        $codigo_organismo_actual = 0;
 
         //$codigo_organismo_obtenido = explode(';', $archivo[0])[0];
         //dump($codigo_organismo_actual.'-'.$codigo_organismo_proximo);die;
@@ -294,17 +299,18 @@ class AdminImportacionController extends Controller {
             $declaracion_periodo_mes = explode(';', $archivo[$i])[2];
             $declaracion_tipo_liquidacion = explode(';', $archivo[$i])[3];
             $declaracion_fecha_entrega = new \DateTime(explode(';', $archivo[$i])[4]);
-            $declaracion_fecha_ingreso=explode(';', $archivo[$i])[5];
+            $declaracion_fecha_ingreso = explode(';', $archivo[$i])[5];
 
-            $fecha_ingreso = ($declaracion_fecha_ingreso!='NULL') ? new \DateTime($declaracion_fecha_ingreso):'';
+            $fecha_ingreso = ($declaracion_fecha_ingreso != 'NULL') ? new \DateTime($declaracion_fecha_ingreso) : '';
 
             $declaracion_estado = explode(';', $archivo[$i])[6];
-            $declaracion=new Declaracionjurada;
+            $declaracion = new Declaracionjurada;
             $declaracion->setPeriodoAnio($declaracion_periodo_anio);
             $declaracion->setPeriodoMes($declaracion_periodo_mes);
             $declaracion->setTipoLiquidacion($declaracion_tipo_liquidacion);
             $declaracion->setFechaEntrega($declaracion_fecha_entrega);
-            if ($fecha_ingreso) $declaracion->setFechaIngreso($fecha_ingreso);
+            if ($fecha_ingreso)
+                $declaracion->setFechaIngreso($fecha_ingreso);
             $declaracion->setEstado($declaracion_estado);
 
             if ($codigo_organismo_actual == $codigo_organismo_obtenido) {
@@ -318,10 +324,64 @@ class AdminImportacionController extends Controller {
                 $em->persist($declaracion);
                 $em->flush();
             }
-
         }; // END for
         die;
     }
 
+    private function vincularConvenioCuotasOrganismos($fileName) {
+        $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
+        $lineas = count($archivo);
+        $codigo_organismo_actual = 0;
+
+        //$codigo_organismo_obtenido = explode(';', $archivo[0])[0];
+        //dump($codigo_organismo_actual.'-'.$codigo_organismo_proximo);die;
+        $em = $this->getDoctrine()->getManager();
+        $organismo = new Organismo;
+        //dump($organismo);die;
+        for ($i = 0; $i < $lineas; $i++) {
+            $codigo_organismo_obtenido = explode(';', $archivo[$i])[0];
+            $conve_nro_convenio = explode(';', $archivo[$i])[1];
+            $conve_tramo = explode(';', $archivo[$i])[2];
+            $conve_nro_cuota = explode(';', $archivo[$i])[3];
+            $conve_pagado = explode(';', $archivo[$i])[4];
+            $conve_vencimiento1 = explode(';', $archivo[$i])[5];
+            $conve_importe1 = explode(';', $archivo[$i])[6];
+            $conve_vencimiento2 = explode(';', $archivo[$i])[7];
+            $conve_importe2 = explode(';', $archivo[$i])[8];
+            $conve_vencimiento3 = explode(';', $archivo[$i])[9];
+            $conve_importe3 = explode(';', $archivo[$i])[10];
+
+            $fecha_1_venc = new \DateTime($conve_vencimiento1);
+            $fecha_2_venc = new \DateTime($conve_vencimiento2);
+            $fecha_3_venc = ($conve_vencimiento3 != 'NULL') ? new \DateTime($conve_vencimiento3) : '';
+
+            $convenio = new Conveniocuota;
+            $convenio->setCodigoConvenio($conve_nro_convenio);
+            $convenio->setTramo($conve_tramo);
+            $convenio->setCuota($conve_nro_cuota);
+            $convenio->setPagado($conve_pagado);
+            $convenio->setVencimiento1($fecha_1_venc);
+            $convenio->setImporte1($conve_importe1);
+            $convenio->setVencimiento2($fecha_2_venc);
+            $convenio->setImporte2($conve_importe2);
+            $convenio->setVencimiento3($fecha_3_venc);
+            $convenio->setImporte3($conve_importe3);
+//            if ($fecha_ingreso)
+//                $declaracion->setFechaIngreso($fecha_ingreso);
+//            $declaracion->setEstado($declaracion_estado);
+
+            if ($codigo_organismo_actual == $codigo_organismo_obtenido) {
+                $convenio->setOrganismo($organismo);
+                $em->persist($convenio);
+                $em->flush();
+            } else {
+                $codigo_organismo_actual = $codigo_organismo_obtenido;
+                $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' => $codigo_organismo_actual));
+                $convenio->setOrganismo($organismo);
+                $em->persist($convenio);
+                $em->flush();
+            }
+        }; // END for
+    }
 
 }

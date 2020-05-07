@@ -609,4 +609,38 @@ class Organismo {
     {
         return $this->usuario;
     }
+
+    /**
+     * Add convenioscuota
+     *
+     * @param \Jubilaciones\DeclaracionesBundle\Entity\Conveniocuota $convenioscuota
+     *
+     * @return Organismo
+     */
+    public function addConvenioscuota(\Jubilaciones\DeclaracionesBundle\Entity\Conveniocuota $convenioscuota)
+    {
+        $this->convenioscuotas[] = $convenioscuota;
+
+        return $this;
+    }
+
+    /**
+     * Remove convenioscuota
+     *
+     * @param \Jubilaciones\DeclaracionesBundle\Entity\Conveniocuota $convenioscuota
+     */
+    public function removeConvenioscuota(\Jubilaciones\DeclaracionesBundle\Entity\Conveniocuota $convenioscuota)
+    {
+        $this->convenioscuotas->removeElement($convenioscuota);
+    }
+
+    /**
+     * Get convenioscuotas
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getConvenioscuotas()
+    {
+        return $this->convenioscuotas;
+    }
 }
