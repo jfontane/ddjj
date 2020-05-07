@@ -111,6 +111,11 @@ class Organismo {
      * @ORM\OneToMany(targetEntity="Declaracionjurada", mappedBy="organismo")
      */
     protected $declaracionesjuradas;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Conveniocuota", mappedBy="organismo")
+     */
+    protected $convenioscuotas;
 
     /**
      * @ORM\OneToOne(targetEntity="User", mappedBy="organismo")

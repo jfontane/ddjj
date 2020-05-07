@@ -22,13 +22,20 @@ class OrganismoRepresentanteController extends Controller {
         $user = $this->getUser();
         $organismo_codigo = $user->getUsername();
         $em = $this->getDoctrine()->getManager();
-        $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array("codigo"=>$organismo_codigo));
-        $representante=$organismo->getRepresentante();
-       
+
+        $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array("codigo" => $organismo_codigo));
+
+        if (null != $organismo)
+            $representante = $organismo->getRepresentante();
+        else
+            $representante = null;
+
         return $this->render('@JubilacionesDeclaraciones/OrganismoRepresentante/listar.html.twig', array(
                     'representante' => $representante
         ));
     }
+
+    
 
     public function verAction($id) {
         $em = $this->getDoctrine()->getManager();

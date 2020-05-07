@@ -3,11 +3,20 @@
 {% block pageid 'admin' %}
 
     {% block body %}
+        {% if app.request.attributes.get('_route') == "organismo_representante_listar" %}
+            {% set es_pdf = false %}
+        {% else %}
+            {% set es_pdf = true %}
+            {% set para_pdf = '<h1>Listado de Comisiones (ordenadas por docente y materia)</h1>' %}
+        {% endif %}
+        {% if es_pdf == true %}
+            {#{ inicio_pdf()}#}
+        {% endif %}
         {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Representante</li>
+                <li class="breadcrumb-item active" aria-current="page">Representante - es pdf {{es_pdf}}</li>
             </ol>
         </nav>
 
@@ -48,7 +57,7 @@
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="7">No existe ninguna Representante Asociado</td>
+                            <td colspan="7">No existe ningun Representante Asociado.</td>
                         </tr>
                     {% endif %}
                 </tbody>

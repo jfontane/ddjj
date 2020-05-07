@@ -16,6 +16,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Jubilaciones\DeclaracionesBundle\Classes\OrganismoDeclaracionListarPdf;
 
 //use Symfony\Component\Validator\Constraints\Length;
 
@@ -43,14 +44,42 @@ class OrganismoDeclaracionjuradaController extends Controller {
             $declaraciones = $organismo->getDeclaracionesjuradas();
             $paginator = $this->get('knp_paginator');
             $pagination = $paginator->paginate(
-                    $declaraciones, $request->query->getInt('page', 1), 15
+                    $declaraciones, $request->query->getInt('page', 1), 12
             );
-        } else
-            $declaraciones = null;
+        } else {
+        
+            $pagination = null;
+        
+        }
 
-        return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/listar.html.twig', array(
+        return $this->render('@JubilacionesDeclaraciones/OrganismoDeclaracionjurada/listar.html.twig', array(
                     'pagination' => $pagination
         ));
+    }
+    
+    
+    public function listarPdfAction(UserInterface $user) {
+        $user = $this->getUser();
+        $organismo_codigo = $user->getUsername();
+        
+        $user = $this->getUser();
+        $organismo_codigo = $user->getUsername();
+        $em = $this->getDoctrine()->getManager();
+        $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array( 'codigo' => $organismo_codigo ));
+        
+        $declaraciones = $organismo->getDeclaracionesjuradas();
+        //dump(count($declaraciones));die;
+        
+        $path = $this->get('kernel')->getRootDir() . '/../web/bundles/jubilacionesdeclaraciones/img';
+        
+        $pdf = new OrganismoDeclaracionListarPdf($path);
+        $pdf->setTitle( '$title' );
+        
+        $pdf->render($declaraciones);
+        $pdf->Output( 'Recibo.pdf', 'I');
+        
+        
+        
     }
 
     public function verAction($id) {
@@ -59,7 +88,7 @@ class OrganismoDeclaracionjuradaController extends Controller {
         $fileName = $declaracion->getJubidat();
         $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
         $valores = Util::totaliza($archivo);
-        return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/ver.html.twig', array(
+        return $this->render('@JubilacionesDeclaraciones/OrganismoDeclaracionjurada/ver.html.twig', array(
                     'valores' => $valores, 'declaracion' => $declaracion
         ));
     }
@@ -125,7 +154,7 @@ class OrganismoDeclaracionjuradaController extends Controller {
                     . '/' . $declaracionjurada->getPeriodoMes() . "' se ha creado correctamente.");
             return $this->redirect($this->generateUrl('organismo_declaracion_listar'));
         }
-        return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/nuevo.html.twig', array('form' => $form->createView(),
+        return $this->render('@JubilacionesDeclaraciones/OrganismoDeclaracionjurada/nuevo.html.twig', array('form' => $form->createView(),
         ));
     }
 
@@ -204,7 +233,7 @@ class OrganismoDeclaracionjuradaController extends Controller {
             }
             return $this->redirect($this->generateUrl('organismo_declaracion_listar'));
         }
-        return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/editar.html.twig', array('form' => $form->createView(), 'declaracionjurada' => $declaracionjurada
+        return $this->render('@JubilacionesDeclaraciones/OrganismoDeclaracionjurada/editar.html.twig', array('form' => $form->createView(), 'declaracionjurada' => $declaracionjurada
         ));
     }
 

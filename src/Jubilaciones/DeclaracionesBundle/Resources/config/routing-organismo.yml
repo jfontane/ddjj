@@ -6,6 +6,10 @@ organismo_declaracion_listar:
     path:     /declaracion/listar
     defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:listar }
     
+organismo_declaracion_listar_pdf:
+    path:     /declaracion/listarPdf
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:listarPdf }    
+    
 organismo_declaracion_ver:
     path:     /declaracion/ver/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:ver } 

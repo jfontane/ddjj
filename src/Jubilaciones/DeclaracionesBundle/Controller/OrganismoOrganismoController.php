@@ -23,10 +23,10 @@ class OrganismoOrganismoController extends Controller {
         $user = $this->getUser();
         $organismo_codigo = $user->getUsername();
         $em = $this->getDoctrine()->getManager();
-        $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findBy(array("codigo"=>$organismo_codigo));
+        $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array("codigo"=>$organismo_codigo));
         //dump($declaraciones);die;
         return $this->render('@JubilacionesDeclaraciones/OrganismoOrganismo/listar.html.twig', array(
-                    'organismos' => $organismo
+                    'organismo' => $organismo
         ));
     }
 
