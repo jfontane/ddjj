@@ -29,7 +29,7 @@ security:
             provider: usuarios_db
             form_login:
                 login_path: login
-                check_path: login_check
+                check_path: login
                 default_target_path: principal_logueado
             remember_me:
                 secret:   '%secret%'

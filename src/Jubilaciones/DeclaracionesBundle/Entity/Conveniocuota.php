@@ -30,6 +30,13 @@ class Conveniocuota {
     
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="10",max="10")
+     */
+    protected $codigoOrganismo;
+    
+    /**
+     * @ORM\Column(type="string")
      */
     protected $tramo;
     
@@ -353,5 +360,29 @@ class Conveniocuota {
     public function getOrganismo()
     {
         return $this->organismo;
+    }
+
+    /**
+     * Set codigoOrganismo
+     *
+     * @param string $codigoOrganismo
+     *
+     * @return Conveniocuota
+     */
+    public function setCodigoOrganismo($codigoOrganismo)
+    {
+        $this->codigoOrganismo = $codigoOrganismo;
+
+        return $this;
+    }
+
+    /**
+     * Get codigoOrganismo
+     *
+     * @return string
+     */
+    public function getCodigoOrganismo()
+    {
+        return $this->codigoOrganismo;
     }
 }
