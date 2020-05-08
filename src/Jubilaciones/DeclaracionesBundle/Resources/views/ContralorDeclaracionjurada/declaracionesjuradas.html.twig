@@ -4,12 +4,12 @@
 
     {% block body %}
         {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Declaraciones Juradas</li>
-  </ol>
-</nav>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Declaraciones Juradas</li>
+            </ol>
+        </nav>
 
         <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
         <div class="flash_admin">
@@ -23,18 +23,23 @@
                 <thead>
                     <tr>
                         <th>Organismo</th>
+                        <th>Zona</th>
                         <th>Periodo</th>
                         <th>T.Liq.</th>
                         <th>F.Entrega</th>
                         <th>F.Ingreso</th>
+
                         <th>Estado</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for declaracion in declaraciones %}
+                    {% for declaracion in pagination %}
                         <tr>
                             <td>{{ declaracion.organismo.codigo }}</td>
+                            <td>
+                                {{ declaracion.organismo.zona }}
+                            </td>
                             <td>
                                 <a href="">  {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}</a>
                             </td>
@@ -48,7 +53,7 @@
                             <td>{{ declaracion.estado }}</td>
                             <td><div style='display:inline'>
                                     <a href="{{path('contralor_mostrar_totales',{'id' : declaracion.id })}}" class="btn btn-primary">Cargar</a> 
-                                </td>
+                            </td>
                         </tr>
                     {% else %}
                         <tr>
@@ -56,7 +61,11 @@
                         </tr>
                     {% endfor %}
                 </tbody>
+
             </table>
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
         </div>
     {% endblock %}
     {% block javascripts %}

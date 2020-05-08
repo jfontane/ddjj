@@ -46,7 +46,7 @@ class User implements UserInterface {
     private $roles;
     
     /**
-     * @ORM\Column(type="string", columnDefinition="enum('Norte', 'Sur','Sin Datos')", nullable=true)
+     * @ORM\Column(type="string", columnDefinition="enum('Norte', 'Sur')", nullable=true)
      */
     protected $zona;
 
@@ -57,6 +57,7 @@ class User implements UserInterface {
     protected $organismo;
 
     public function __construct() {
+        $this->roles = ['ROLE_USER'];
     }
 
     public function getId() {
@@ -137,28 +138,4 @@ class User implements UserInterface {
     }
 
     
-
-    /**
-     * Set zona
-     *
-     * @param string $zona
-     *
-     * @return User
-     */
-    public function setZona($zona)
-    {
-        $this->zona = $zona;
-
-        return $this;
-    }
-
-    /**
-     * Get zona
-     *
-     * @return string
-     */
-    public function getZona()
-    {
-        return $this->zona;
-    }
 }

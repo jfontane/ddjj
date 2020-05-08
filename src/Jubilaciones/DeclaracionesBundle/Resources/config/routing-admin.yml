@@ -25,3 +25,7 @@ admin_importacion_subir:
 admin_importacion_borrar:
     path: /importacion/borrar/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:AdminImportacion:borrar }
+
+admin_organismo_listar:
+    path: /organismo/listar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminOrganismo:listar }    

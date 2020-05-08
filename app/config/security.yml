@@ -56,6 +56,7 @@ security:
         - { path: '^/login', roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: '^/principal', roles: ['ROLE_USER','ROLE_ADMIN','ROLE_SUPER_ADMIN'] }
         - { path: '^/admin', roles: ROLE_SUPER_ADMIN }
-        #- { path: '^/organismo', roles: ROLE_ORGANISMO }
+        - { path: '^/contralor', roles: ROLE_ADMIN }
+        - { path: '^/organismo', roles: ROLE_USER }
         
         

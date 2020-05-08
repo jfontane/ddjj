@@ -25,6 +25,7 @@
                         <th>Nombre</th>
                         <th>Fecha</th>
                         <th>Descripcion</th>
+                        <th>Procesado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -39,6 +40,9 @@
                             </td>
                             <td>
                                 {{ archivo.descripcion }}
+                            </td>
+                            <td>
+                                {{ archivo.procesado }}
                             </td>
                             <td>
                                 <a href="{{ path('admin_importacion_subir',{'id': archivo.id }) }}">Importar</a>&nbsp;&nbsp;

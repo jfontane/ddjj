@@ -27,7 +27,11 @@ class UserType extends AbstractType {
                     'mapped' => false,
                     'choices' => array('ROLE_ADMIN' => 'ROLE_ADMIN', 'ROLE_CONTRALOR' => 'ROLE_CONTRALOR',
                         'ROLE_ORGANISMO' => 'ROLE_ORGANISMO', 'ROLE_USER' => 'ROLE_USER'))
-        );
+                )
+                ->add('zona', ChoiceType::class, array(
+                    'choices' => array('Seleccion' => 'Sin Datos', 'Norte' => 'Norte',
+                        'Sur' => 'Sur')
+        ));
         //->add('Guardar',SubmitType::class, array('label' => 'Nuevo Usuario'));
     }
 

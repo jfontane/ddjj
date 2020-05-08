@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Representante
- * 
+ *
  * @ORM\Table(name="representante")
  * @ORM\Entity(repositoryClass="Jubilaciones\DeclaracionesBundle\Repository\RepresentanteRepository")
  */
@@ -21,21 +21,11 @@ class Representante {
     protected $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", unique=true)
      * @Assert\NotBlank()
      * @Assert\Length(min="11",max="11")
      */
     protected $cuil;
-
-    /**
-     * @ORM\Column(type="string", columnDefinition="enum('Dni', 'Lc', 'Le')", nullable=true)
-     */
-    protected $documentoTipo;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $documentoNumero;
 
     /**
      * @ORM\Column(type="string")
@@ -48,7 +38,7 @@ class Representante {
     protected $nombres;
 
     /**
-     * @ORM\Column(type="string", columnDefinition="enum('Masculino', 'Femenino')", nullable=true)
+     * @ORM\Column(type="string", columnDefinition="enum('M', 'F')", nullable=true)
      */
     protected $sexo;
 
@@ -56,18 +46,6 @@ class Representante {
      * @ORM\Column(type="string")
      */
     protected $email;
-
-    /**
-     * @ORM\Column(type="date")
-     * @Assert\Date()
-     */
-    protected $fechaSolicitud;
-
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     * @Assert\Date()
-     */
-    protected $fechaHabilitado;
 
     /**
      * @ORM\Column(type="date", nullable=true)

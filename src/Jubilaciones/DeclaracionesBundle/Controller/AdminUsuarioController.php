@@ -14,12 +14,22 @@ use Jubilaciones\DeclaracionesBundle\Entity\User;
 
 class AdminUsuarioController extends Controller {
 
-    public function listarAction() {
+    public function listarAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
         $usuarios = $em->getRepository('JubilacionesDeclaracionesBundle:User')->findAll();
-        //dump($usuarios);die;
+        
+        //dump($usuarios[0]->getRoles());die;
+        
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+                       $usuarios,
+                       $request->query->getInt('page', 1),
+                       10
+               );
+
+        //dump($pagination);die;
         return $this->render('@JubilacionesDeclaraciones/AdminUsuario/listar.html.twig', array(
-                    'usuarios' => $usuarios
+                    'pagination' => $pagination
         ));
     }
 
@@ -33,8 +43,9 @@ class AdminUsuarioController extends Controller {
           // 3) Encode the password (you could also do this via Doctrine listener)
             $password = $passwordEncoder->encodePassword($usuario, $usuario->getPlainPassword());
             $usuario->setPassword($password);
-            $rol[] = $form->get('roles')->getData();
-            $usuario->setRoles($rol);
+            //$rol[0] = $form->get('roles')->getData();
+            $roles=$form->get('roles')->getData();
+            $usuario->setRoles($roles);
             // 4) save the User!
             $em = $this->getDoctrine()->getManager();
             $em->persist($usuario);

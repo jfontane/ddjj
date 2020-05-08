@@ -7,14 +7,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Jubilaciones\DeclaracionesBundle\Entity\Declaracionjurada;
-use Jubilaciones\DeclaracionesBundle\Form\DeclaracionjuradaType;
 use Jubilaciones\DeclaracionesBundle\Entity\Organismo;
+use Jubilaciones\DeclaracionesBundle\Form\DeclaracionjuradaType;
 use Jubilaciones\DeclaracionesBundle\Classes\Util;
 use Jubilaciones\DeclaracionesBundle\Controller\AbstractBaseController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 
 //use Symfony\Component\Validator\Constraints\Length; 
 
@@ -24,12 +26,37 @@ class ContralorDeclaracionjuradaController extends Controller {
         return $this->render('JubilacionesDeclaracionesBundle:Default:index.html.twig');
     }
 
-    public function listarAction() {
+    public function listarAction(Request $request, UserInterface $user) {
+//        try {
+//        $this->denyAccessUnlessGranted('ROLE_ADMIN', User, 'Unable to access this page - Javier!');
+//        } catch (\Exception $e)
+//        {
+//          die('noooooooooooooooo');  
+//        }
+        
+        $user = $this->getUser();
+        $zona=$user->getZona();
+        //die($zona);
         $em = $this->getDoctrine()->getManager();
-        $declaraciones = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findAllDeclaracionesPorPeriodo();
+        //$declaraciones = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findAllDeclaracionesPorPeriodo();
+
+        $dql = "SELECT d, o
+                FROM JubilacionesDeclaracionesBundle:Declaracionjurada d
+                JOIN d.organismo o
+                WHERE (d.estado = 'Pendiente' or d.estado = 'Procesando') and o.zona = :zona
+                ORDER BY d.fechaEntrega Desc";
+        $declaraciones = $em->createQuery($dql)->setParameter('zona', $zona)->getResult();
         //dump($declaraciones);die;
+
+        $paginator = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                    $declaraciones, $request->query->getInt('page', 1), 1
+            );
+        //$organismo = $em->createQuery($dql)->setParameter('codigo', $organismo_codigo)->getOneOrNullResult();
+
+
         return $this->render('@JubilacionesDeclaraciones/ContralorDeclaracionjurada/declaracionesjuradas.html.twig', array(
-                    'declaraciones' => $declaraciones
+                    'pagination' => $pagination
         ));
     }
 

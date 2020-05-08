@@ -1,20 +1,122 @@
 {% extends "base.html.twig" %}
 {% block header %}
     <h1 class="grid_5 alpha">
-        <a href="{{ path('organismo_declaracion_listar') }}">    
+        <a href="{{ path('organismo_declaracion_listar') }}">
             <img src="http://listas.santafe.gob.ar/boletines/images/diseno2020/Marca_SantaFev3-07.png" width="120">
             &nbsp;&nbsp;PredeJu </a></h1>
     <nav class="grid_11 omega" style>
-        <ul>
-            <li><a href="">Organismo</a></li>
-            <li><a href="">Representante</a></li>
-            <li><a href="{{ path('organismo_declaracion_listar') }}">Declaraciones</a></li>
-                {% if app.user %}
-            <li>
-                    <a href="{{ path('logout') }}"> <font color="red">{{  app.user.username }}</font> - Salir</a>
-            </li>
-            {% endif %}
-        </ul>
+      <div class="navbar navbar-sf navbar-fixed-top" role="navigation">
+         <div class="container">
+             <div class="navbar-header">
+                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                     <span class="sr-only">Toggle navigation</span>
+                     <span class="icon-menu"></span>
+
+                 </button>
+                 <a class="navbar-brand" title="Portal del Gobierno de Santa Fe" href="/index.php/web"><img src="/assets/standard/images/gob-santafe.png" alt="Gobierno de Santa Fe"></a>
+             </div>
+         </div>
+         <div class="container desktop-menu">
+             <div class="navbar-collapse collapse">
+                 <ul class="nav navbar-nav pull-right">
+                     <li class="dropdown divider gestion">
+                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-menu"></i><span>Gestión</span></a>
+                         <span class="dropdown-arrow"></span>
+                         <ul class="dropdown-menu">
+
+                                                                 <li><a href="/index.php/web/content/view/full/93661">La Provincia</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/93670">Organización del Estado</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/93679">Ejes de Gestión</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/93695">Personal del Estado</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/121711">Educación</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/93702">Cultura</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/93747">Desarrollo Social</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/93760">Trabajo</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/93773">Ciencia, Tecnología e Innovación</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/93779">Economía y Finanzas</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/93790">Producción</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/93796">Salud</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/93805">Justicia y Derechos Humanos</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/93815">Seguridad</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/135329">Hábitat y Vivienda</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/93822">Infraestructura y Obras</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/202788">Energía</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/102676">Ambiente</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/102282">Impuestos</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/102677">Jubilaciones y Pensiones</a></li>
+                                                                                                             <li><a href="/index.php/web/content/view/full/211141">Modernización del Estado</a></li>
+
+
+
+                         </ul>
+                     </li>
+                     <li class="divider">
+                         <a href="javascript:void(0)" class="search-link"><i class="icon-lupa"></i></a>
+                         <form action="/index.php/web/content/search" class="search-form">
+                             <label class="sr-only" for="q">Search:</label>
+                             <input type="text" name="SearchText" id="q" placeholder="BUSCAR"><button><i class="appen icon-lupa"></i></button>
+                         </form>
+                     </li>
+                     <li class="divider"></li>
+                     <li class="social-header"><a target="_blank" href="http://www.twitter.com/GobSantaFe"><i class="elementostwitter"></i></a></li>
+                     <li class="social-header"><a target="_blank" href="http://www.facebook.com/GobSantaFe"><i class="elementosfacebook"></i></a></li>
+                     <li class="social-header"><a target="_blank" href="http://www.youtube.com/GobSantaFe"><i class="elementosyoutube"></i></a></li>
+                     <li class="divider dropdown clima-item"><a href="javascript:void(0);"  class="dropdown-toggle" data-toggle="dropdown">
+
+                             <!-- Poner link al contenido de la alerta. -->
+
+                             <i id="alerta_off" class="icon-lluviasol"></i>
+                             <i style="visibility: hidden;" id="alerta_on" class="icono-alerta" title="Alerta Meteorol&oacute;gica"></i>
+                             <!--a style="display:inline" title="Alerta Meteorol&oacute;gica" href="//santafe.gov.ar/index.php/content/view/full/154569">Alerta Meteorológica</a-->
+
+                         </a>
+                         <div class="alerta_clima"><a href="//www.santafe.gob.ar/proteccioncivil/alerta" target="_blank"><img src="//www.santafe.gob.ar/assets/app/portal/imgs/alerta.png" alt="Alerta Meteorologica"></a></div>
+                         <span class="dropdown-arrow"></span>
+                         <div class="dropdown-menu">
+                             <div class="weather">
+                                 <!-- widget de clima -->
+                             </div>
+                         </div>
+                     </li>
+
+                     <li>
+                         <div class="mobile-menu-custom-group mobile-search" style="display:none;">
+                             <form action="/searchgoogle" class="search-form ">
+                                 <label class="sr-only" for="q">Search:</label>
+                                 <input type="text" name="q" id="q" placeholder="BUSCAR"><button><i class="appen icon-lupa"></i></button>
+                             </form>
+                         </div>
+                         <ul class="mobile-menu-custom-group" style="display:none;">
+                                                                                                 <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/93661">La Provincia</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/93670">Organización del Estado</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/93679">Ejes de Gestión</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/93695">Personal del Estado</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/121711">Educación</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/93702">Cultura</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/93747">Desarrollo Social</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/93760">Trabajo</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/93773">Ciencia, Tecnología e Innovación</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/93779">Economía y Finanzas</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/93790">Producción</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/93796">Salud</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/93805">Justicia y Derechos Humanos</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/93815">Seguridad</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/135329">Hábitat y Vivienda</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/93822">Infraestructura y Obras</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/202788">Energía</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/102676">Ambiente</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/102282">Impuestos</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/102677">Jubilaciones y Pensiones</a></li>
+                                                                                                             <li class="mobile-menu-custom"><a href="/index.php/web/content/view/full/211141">Modernización del Estado</a></li>
+                                                                                                     </ul>
+                     </li>
+
+
+                 </ul>
+             </div><!--/.nav-collapse -->
+         </div>
+     </div>
+
     </nav>
     <h1>{{ block('title') }}</h1>
 {% endblock %}

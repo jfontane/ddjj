@@ -16,9 +16,10 @@ class DeclaracionjuradaRepository extends EntityRepository {
     public function findAllDeclaracionesPorPeriodo() {
         $em = $this->getEntityManager();
         $dql = "SELECT d
-                FROM JubilacionesDeclaracionesBundle:Declaracionjurada d 
+                FROM JubilacionesDeclaracionesBundle:Declaracionjurada d
                 ORDER BY d.periodoAnio ASC, d.periodoMes ASC ";
         return $em->createQuery($dql)->getResult();
     }
+
 
 }

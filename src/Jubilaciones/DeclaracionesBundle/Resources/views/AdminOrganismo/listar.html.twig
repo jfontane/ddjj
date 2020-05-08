@@ -1,6 +1,6 @@
 {% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
 {% block title %}
-Listado de Usuarios
+Listado de Organismos
 
 {% endblock %}
 {% block pageid 'admin' %}
@@ -25,9 +25,9 @@ Listado de Usuarios
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th>Username</th>
-        <th>Roles</th>
-        <th>Zona</th>
+        <th>Codigo</th>
+        <th>Nombre</th>
+        <th>Representante</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -35,13 +35,17 @@ Listado de Usuarios
       {# table body #}
       {% for item in pagination.items %}
       <tr {% if loop.index is odd %}class="color"{% endif %}>
-        <td>{{ item.username }}</td>
-        <td>{{ item.roles[0] }}</td>
-        <td>{{ item.zona }}</td>
+        <td>{{ item.codigo }}</td>
+        <td>{{ item.nombre }}</td>
+        {% if item.representante is null %}
+        <td>Sin Representante</td>
+        {% else %}
+        <td>{{ item.representante.cuil }} {{ item.representante.apellido }}, {{ item.representante.nombres }}</td>
+        {% endif %}
         <td>
           <a href="">Ver</a>&nbsp;&nbsp;
           <a href="">Editar</a>&nbsp;&nbsp;
-          <a href="" id="btn_borrar" data-id="{{ item.id }}">Borrar</a>&nbsp;&nbsp;
+          <a href="" id="btn_borrar" data-id="">Borrar</a>&nbsp;&nbsp;
         </td>
       </tr>
       {% endfor %}

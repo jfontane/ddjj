@@ -4,31 +4,51 @@ registrar_representante:
   
 organismo_declaracion_listar:
     path:     /declaracion/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:listar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:listar }
+    
+organismo_declaracion_listar_pdf:
+    path:     /declaracion/listarPdf
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:listarPdf }    
     
 organismo_declaracion_ver:
     path:     /declaracion/ver/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:ver } 
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:ver } 
     requirements:
         id: \d+    
     
 organismo_declaracion_nuevo:
     path:     /declaracion/nuevo
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:nuevo } 
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:nuevo } 
     
 organismo_declaracion_editar:
     path:     /declaracion/editar/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:editar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:editar }
     requirements:
         id: \d+
 
 organismo_declaracion_borrar:
     path:     /declaracion/borrar/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:borrar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:borrar }
     requirements:
         id: \d+
 
 organismo_declaracion_error:    
     path:     /declaracion/error/{error}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:error }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:error }
+    
+organismo_organismo_listar:    
+    path:     /organismo/listar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoOrganismo:listar }    
+    
+organismo_organismo_ver_falta:    
+    path:     /organismo/ver/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoOrganismo:ver }    
+    
+organismo_representante_listar:    
+    path:     /representante/listar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoRepresentante:listar }      
+    
+organismo_representante_ver:    
+    path:     /representante/ver/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoRepresentante:ver }          
     

@@ -33,3 +33,9 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+#    app.twig_extension:
+#        class: JubilacionesDeclaracionesBundle\Twig\AppExtension
+#        public: false
+#        tags:
+#            - { name: twig.extension }
+                 

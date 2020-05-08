@@ -21,13 +21,15 @@ class ImportacionType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('nombre', ChoiceType::class, array(
-                    'choices' => array('Usuarios' => 'Usuarios', 'Organismos' => 'Organismos', 'Declaraciones' => 'Declaraciones')))
+                    'choices' => array('Usuarios' => 'Usuarios', 'Organismos' => 'Organismos', 'Representantes' => 'Representantes',
+                                       'Organismo_Representante' => 'Organismo_Representante', 'Usuario_Organismo' => 'Usuario_Organismo',
+                                       'Declaraciones_Organismo' => 'Declaraciones_Organismo','ConvenioCuotas_Organismo' => 'ConvenioCuotas_Organismo')))
                 ->add('archivo', FileType::class,array(
                      'label' => "Archivo",
                      'mapped' => false,
                      'constraints' => [
                    new File([
-                       'maxSize' => '1548k',
+                       'maxSize' => '21548k',
                        ])
                ],))
                ->add('descripcion', TextType::class);
