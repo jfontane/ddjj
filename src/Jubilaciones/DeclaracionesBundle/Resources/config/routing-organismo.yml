@@ -57,5 +57,5 @@ organismo_convenio_cuota_listar:
     defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoConveniocuota:listar }              
     
 organismo_convenio_cuota_ver:    
-    path:     /conveniocuota/ver/{codigo}
+    path:     /conveniocuota/ver/{codigo_convenio}/{tramo}
     defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoConveniocuota:ver }              

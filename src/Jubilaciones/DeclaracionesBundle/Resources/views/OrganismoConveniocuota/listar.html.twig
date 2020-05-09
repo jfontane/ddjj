@@ -23,6 +23,7 @@
                 <thead>
                     <tr>
                         <th>Convenio</th>
+                        <th>Tramo</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -34,9 +35,12 @@
                             <tr>
                                 <td>
                                     {{arreglo['codigo_convenio']}}
+                                    <td>
+                                    {{arreglo['tramo']}}
+                                </td>
                                 </td>
                                 <td>
-                                    <a href="{{ path('organismo_convenio_cuota_ver', {'codigo' : arreglo['codigo_convenio']}) }}">Boletas Vigentes</a>&nbsp;&nbsp;
+                                    <a href="{{ path('organismo_convenio_cuota_ver', {'codigo_convenio' : arreglo['codigo_convenio'], 'tramo' : arreglo['tramo']}) }}">Boletas Vigentes</a>&nbsp;&nbsp;
                                 </td>
                             </tr>
                         {% endfor %}   
