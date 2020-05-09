@@ -22,6 +22,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th>#</th>
                         <th>Nombre</th>
                         <th>Fecha</th>
                         <th>Descripcion</th>
@@ -32,6 +33,9 @@
                 <tbody>
                     {% for archivo in archivos %}
                         <tr>
+                            <td>
+                                {{ archivo.id }}
+                            </td>
                             <td>
                                 {{ archivo.nombre }}
                             </td>

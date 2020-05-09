@@ -17,7 +17,7 @@
                 <li><a href="{{ path('contralor_declaracion_listar') }}">Declaraciones</a></li>
                 {% elseif is_granted('ROLE_USER') %}
                 <li><a href="{{ path('organismo_organismo_listar') }}">Organismo</a></li>
-                <li><a href="{{ path('organismo_representante_listar') }}">Representante</a></li>
+                <li><a href="{{ path('organismo_convenio_cuota_listar') }}">Convenios</a></li>
                 <li><a href="{{ path('organismo_declaracion_listar') }}">Declaraciones</a></li>
             {% endif %}
 

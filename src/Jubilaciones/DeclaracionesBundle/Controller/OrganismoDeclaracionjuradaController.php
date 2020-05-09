@@ -76,7 +76,7 @@ class OrganismoDeclaracionjuradaController extends Controller {
         $pdf->setTitle( '$title' );
         
         $pdf->render($declaraciones);
-        $pdf->Output( 'Recibo.pdf', 'I');
+        $pdf->Output( 'DDJJ.pdf', 'I');
         
         
         

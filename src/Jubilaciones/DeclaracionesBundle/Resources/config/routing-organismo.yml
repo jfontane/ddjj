@@ -50,5 +50,12 @@ organismo_representante_listar:
     
 organismo_representante_ver:    
     path:     /representante/ver/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoRepresentante:ver }          
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoRepresentante:ver }      
     
+organismo_convenio_cuota_listar:    
+    path:     /conveniocuota/listar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoConveniocuota:listar }              
+    
+organismo_convenio_cuota_ver:    
+    path:     /conveniocuota/ver/{codigo}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoConveniocuota:ver }              

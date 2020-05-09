@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 //use Symfony\Component\Validator\Constraints\Length; 
 
-class OrganismoRepresentanteController extends Controller {
+class OrganismoRepresentanteAController extends Controller {
 
     public function listarAction(UserInterface $user) {
         $user = $this->getUser();

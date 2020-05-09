@@ -41,7 +41,7 @@ class Conveniocuota {
     protected $tramo;
     
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     protected $cuota;
 
@@ -51,7 +51,7 @@ class Conveniocuota {
     protected $pagado;
     
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     protected $vencimiento1;
     
@@ -61,7 +61,7 @@ class Conveniocuota {
     protected $importe1;
     
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
     protected $vencimiento2;
     
@@ -71,7 +71,7 @@ class Conveniocuota {
     protected $importe2;
     
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="date", nullable=true)
      */
     protected $vencimiento3;
     
@@ -80,14 +80,7 @@ class Conveniocuota {
      */
     protected $importe3;
     
-    /**
-     * @ORM\ManyToOne(targetEntity="Organismo", inversedBy="convenioscuotas")
-     * @ORM\JoinColumn(name="organismo_id", referencedColumnName="id")
-     */
-    protected $organismo;
     
-    
-
     /**
      * Get id
      *
@@ -336,30 +329,6 @@ class Conveniocuota {
     public function getImporte3()
     {
         return $this->importe3;
-    }
-
-    /**
-     * Set organismo
-     *
-     * @param \Jubilaciones\DeclaracionesBundle\Entity\Organismo $organismo
-     *
-     * @return Conveniocuota
-     */
-    public function setOrganismo(\Jubilaciones\DeclaracionesBundle\Entity\Organismo $organismo = null)
-    {
-        $this->organismo = $organismo;
-
-        return $this;
-    }
-
-    /**
-     * Get organismo
-     *
-     * @return \Jubilaciones\DeclaracionesBundle\Entity\Organismo
-     */
-    public function getOrganismo()
-    {
-        return $this->organismo;
     }
 
     /**

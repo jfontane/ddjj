@@ -49,11 +49,12 @@ class AdminImportacionController extends Controller {
 
             $importacion->setFechaCreacion(new \DateTime('now'));
             $importacion->setProcesado('No');
-            $file_name = $importacion->getNombre() . ".txt";
+            
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($importacion);
             $em->flush();
+            $file_name = $importacion->getId().'_'.$importacion->getNombre() . ".txt";
             $fileImportacion->move("uploads", $file_name);
 
             // ... do any other work - like sending them an email, etc
@@ -72,7 +73,7 @@ class AdminImportacionController extends Controller {
         $tipo_importacion = $importacion->getNombre();
         $esta_procesado = $importacion->getProcesado();
 
-        $fileName = $importacion->getNombre() . '.txt';
+        $fileName = $id.'_'.$importacion->getNombre() . '.txt';
         //dump($esta_procesado);die;
         if ($esta_procesado == 'No') {
             if ($tipo_importacion == 'Usuarios') {
@@ -116,7 +117,13 @@ class AdminImportacionController extends Controller {
                 $importacion->setProcesado('Si');
                 $em->persist($importacion);
                 $em->flush();
-                AbstractBaseController::addInfoMessage('La Vinculacion de ConvenioCuotas y Organismos se ha realizado con Exito.');
+                AbstractBaseController::addInfoMessage('La Carga de ConvenioCuotas se ha realizado con Exito.');
+            } else if ($tipo_importacion == 'ConvenioCtaCte_Organismo') {
+                $this->cargarConvenioCtaCte($fileName);
+                $importacion->setProcesado('Si');
+                $em->persist($importacion);
+                $em->flush();
+                AbstractBaseController::addInfoMessage('La Carga de ConvenioCtaCte se ha realizado con Exito.');
             }
         } else
             AbstractBaseController::addInfoMessage('No se ha realizado ninguna importacion con Exito.');
@@ -127,7 +134,7 @@ class AdminImportacionController extends Controller {
     public function borrarAction($id) {
         $em = $this->getDoctrine()->getManager();
         $importacion = $em->getRepository('JubilacionesDeclaracionesBundle:Importacion')->findOneBy(array('id' => $id));
-        $fileName = $importacion->getNombre() . '.txt';
+        $fileName = $id.'_'.$importacion->getNombre() . '.txt';
         // Para borrar el archivo
         $fs = new Filesystem();
         $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
@@ -390,42 +397,62 @@ class AdminImportacionController extends Controller {
         $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
         $lineas = count($archivo);
 
-        //$codigo_organismo_obtenido = explode(';', $archivo[0])[0];
-        //dump($codigo_organismo_actual.'-'.$codigo_organismo_proximo);die;
+
         $em = $this->getDoctrine()->getManager();
-        $organismo = new Organismo;
-        //dump($organismo);die;
+        $db = $em->getConnection();
+
         for ($i = 0; $i < $lineas; $i++) {
-            $codigo_organismo_obtenido = explode(';', $archivo[$i])[0];
             $conve_nro_convenio = explode(';', $archivo[$i])[1];
             $conve_tramo = explode(';', $archivo[$i])[2];
             $conve_nro_cuota = explode(';', $archivo[$i])[3];
-            $conve_pagado = explode(';', $archivo[$i])[4];
+            $conve_pagado = (explode(';', $archivo[$i])[4])==""?0:(explode(';', $archivo[$i])[4]);
             $conve_vencimiento1 = explode(';', $archivo[$i])[5];
             $conve_importe1 = explode(';', $archivo[$i])[6];
             $conve_vencimiento2 = explode(';', $archivo[$i])[7];
             $conve_importe2 = explode(';', $archivo[$i])[8];
             $conve_vencimiento3 = explode(';', $archivo[$i])[9];
             $conve_importe3 = explode(';', $archivo[$i])[10];
+            $codigo_organismo_obtenido = explode(';', $archivo[$i])[0];
+            $query = "INSERT INTO conveniocuota (codigo_convenio, tramo, cuota, pagado, vencimiento1, importe1, vencimiento2, importe2, vencimiento3, importe3, codigo_organismo) 
+                     VALUES ('$conve_nro_convenio', '$conve_tramo', '$conve_nro_cuota', $conve_pagado, '$conve_vencimiento1', $conve_importe1, '$conve_vencimiento2', $conve_importe2, "
+                    . "'$conve_vencimiento3', $conve_importe3, '$codigo_organismo_obtenido')";
+            
+            $stmt = $db->prepare($query);
+            $params = array();
+            $stmt->execute($params);
+        }; // END for
+    }
+    
+    
+    private function cargarConvenioCtaCte($fileName) {
+        $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
+        $lineas = count($archivo);
 
-            $fecha_1_venc = new \DateTime($conve_vencimiento1);
-            $fecha_2_venc = new \DateTime($conve_vencimiento2);
-            $fecha_3_venc = ($conve_vencimiento3 != 'NULL') ? new \DateTime($conve_vencimiento3) : '';
 
-            $convenio = new Conveniocuota;
-            $convenio->setCodigoConvenio($conve_nro_convenio);
-            $convenio->setCodigoOrganismo($codigo_organismo_obtenido);
-            $convenio->setTramo($conve_tramo);
-            $convenio->setCuota($conve_nro_cuota);
-            $convenio->setPagado($conve_pagado);
-            $convenio->setVencimiento1($fecha_1_venc);
-            $convenio->setImporte1($conve_importe1);
-            $convenio->setVencimiento2($fecha_2_venc);
-            $convenio->setImporte2($conve_importe2);
-            $convenio->setVencimiento3($fecha_3_venc);
-            $convenio->setImporte3($conve_importe3);
-            $em->persist($convenio);
-            $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $db = $em->getConnection();
+
+        for ($i = 0; $i < $lineas; $i++) {
+            $conve_nro_convenio = explode(';', $archivo[$i])[0];
+            $codigo_organismo = explode(';', $archivo[$i])[1];
+            $conve_tramo = explode(';', $archivo[$i])[2];
+            $conve_nro_cuota = explode(';', $archivo[$i])[3];
+            $conve_tipo_movimiento = explode(';', $archivo[$i])[4];
+            $conve_fecha_movimiento = explode(';', $archivo[$i])[5];
+            $conve_fecha_pago = explode(';', $archivo[$i])[6];
+            $conve_fecha_vencimiento = explode(';', $archivo[$i])[7];
+            $conve_codigo_movimiento = explode(';', $archivo[$i])[8];
+            $conve_importe = explode(';', $archivo[$i])[9];
+            $conve_saldo = explode(';', $archivo[$i])[10];
+            
+            $query="INSERT INTO conveniocuentacorriente (codigo_convenio, codigo_organismo, tramo, cuota, tipo_movimiento, "
+                    . "fecha_movimiento, fecha_pago, fecha_vencimiento, codigo_movimiento, importe, saldo) "
+                   . "VALUES ('$conve_nro_convenio', '$codigo_organismo', '$conve_tramo', '$conve_nro_cuota', '$conve_tipo_movimiento', '$conve_fecha_movimiento', "
+                   . "'$conve_fecha_pago', '$conve_fecha_vencimiento', '$conve_codigo_movimiento', $conve_importe, $conve_saldo);";
+            
+            $stmt = $db->prepare($query);
+            $params = array();
+            $stmt->execute($params);
         }; // END for
     }
 

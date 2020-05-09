@@ -46,6 +46,35 @@
                 <tbody>
             </table>
             <br>
+            <hr>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>CUIL</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {# table body #}
+                    {% if organismo %}
+                        <tr>
+                            <td>{{ organismo.representante.cuil }}</td>
+                            <td>{{ organismo.representante }}</td>
+                            <td>{{ organismo.representante.email }}</td>
+                            <td>
+                                <a href="">Ver</a>&nbsp;&nbsp;
+                                <a href="">Editar</a>&nbsp;&nbsp;
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4">No Existe Organismo Asociado al Usuario.</td>
+                        </tr>
+                    {% endif %}
+                <tbody>
+            </table>
 
         </div>
 

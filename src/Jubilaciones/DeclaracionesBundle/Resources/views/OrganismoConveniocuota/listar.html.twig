@@ -1,0 +1,62 @@
+{% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
+{% block title %}Convenios Realizados{% endblock %}
+{% block pageid 'admin' %}
+
+    {% block body %}
+        {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Convenios</li>
+            </ol>
+        </nav>
+
+        <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
+        <div class="flash_admin">
+            {% for mensaje in app.session.flashbag.get('warn') %}
+                <p class="warn">{{ mensaje }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="grid_16">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Convenio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {# table body #}
+                <tbody>
+                    {% if convenios %}
+                        {% for arreglo in convenios %}
+                            <tr>
+                                <td>
+                                    {{arreglo['codigo_convenio']}}
+                                </td>
+                                <td>
+                                    <a href="{{ path('organismo_convenio_cuota_ver', {'codigo' : arreglo['codigo_convenio']}) }}">Boletas Vigentes</a>&nbsp;&nbsp;
+                                </td>
+                            </tr>
+                        {% endfor %}   
+                    {% else %}
+                        <tr>
+                            <td colspan="2">No existe ningun Convenio Asociado.</td>
+                        </tr>
+
+                    {% endif %}
+                </tbody>
+
+            </table>
+        </div>
+    {% endblock %}
+    {% block javascripts %}
+        <script>
+            function confirmaBorrar() {
+                if (confirm("Desea Eliminar un Evento???")) {
+                    //location.href
+                }
+            }
+        </script>
+    {% endblock %}    
