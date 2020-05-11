@@ -10,6 +10,7 @@ use Jubilaciones\DeclaracionesBundle\Entity\Declaracionjurada;
 use Jubilaciones\DeclaracionesBundle\Form\DeclaracionjuradaType;
 use Jubilaciones\DeclaracionesBundle\Entity\Conveniocuota;
 use Jubilaciones\DeclaracionesBundle\Classes\Util;
+use Jubilaciones\DeclaracionesBundle\Classes\BoletaConvenioPdf;
 use Jubilaciones\DeclaracionesBundle\Controller\AbstractBaseController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,14 +30,15 @@ class OrganismoConveniocuotaController extends Controller {
         $arreglo_cuotas_vencidas = $this->obtenerCuotasVencidas($organismo_codigo, $codigo_convenio, $tramo);
         $arreglo_cuotas_vigentes = $this->obtenerCuotasVigentes($organismo_codigo, $codigo_convenio, $tramo);
         $arreglo_cuotas_pagadas = $this->obtenerCuotasPagadas($organismo_codigo, $codigo_convenio, $tramo);
-        $cantidad_boletas_vigentes=count($arreglo_cuotas_vigentes);
+        $cantidad_boletas_vigentes = count($arreglo_cuotas_vigentes);
         //dump($arreglo_cuotas_pagadas);die;
-        
-        $cantidad_vencimientos=0;
+
+        $cantidad_vencimientos = 0;
         if (($codigo_convenio == '000000012018') or ( $codigo_convenio == '000000012020')) {
             $cantidad_vencimientos = 2;
-        } else $cantidad_vencimientos = 3; 
-        
+        } else
+            $cantidad_vencimientos = 3;
+
         //dump($arreglo_cuotas_vigentes);
         //dump($arreglo_cuotas_vencidas);
         //die;
@@ -47,14 +49,78 @@ class OrganismoConveniocuotaController extends Controller {
         //$convenios=array("saludo"=>"hola");
         //return new Response("sasdasdasd");
         return $this->render('@JubilacionesDeclaraciones/OrganismoConveniocuota/ver.html.twig', array(
-            'cuotas_vencidas' => $arreglo_cuotas_vencidas,
-            'cuotas_vigentes' => $arreglo_cuotas_vigentes,
-            'cuotas_pagadas' => $arreglo_cuotas_pagadas,
-            'cantidad_vencimientos' => $cantidad_vencimientos,
-            'cantidad_boletas_vigentes' => $cantidad_boletas_vigentes,
-            'convenio' => $codigo_convenio,
-            'tramo' => $tramo
-                ));
+                    'cuotas_vencidas' => $arreglo_cuotas_vencidas,
+                    'cuotas_vigentes' => $arreglo_cuotas_vigentes,
+                    'cuotas_pagadas' => $arreglo_cuotas_pagadas,
+                    'cantidad_vencimientos' => $cantidad_vencimientos,
+                    'cantidad_boletas_vigentes' => $cantidad_boletas_vigentes,
+                    'convenio' => $codigo_convenio,
+                    'tramo' => $tramo
+        ));
+    }
+
+    public function boletaPdfAction($codigo_convenio, $tramo, $cuota, $vencimiento, UserInterface $user) {
+        $user = $this->getUser();
+        $organismo_codigo = $user->getUsername();
+
+        $em = $this->getDoctrine()->getManager();
+        $db = $em->getConnection();
+
+        $queryCuota = "SELECT codigo_convenio, codigo_organismo, tramo, cuota, importe1, vencimiento1,importe2, vencimiento2, pagado
+                      FROM conveniocuota
+                      WHERE ( codigo_organismo = :codigo_organismo ) AND
+                            ( codigo_convenio = :codigo_convenio ) AND
+                            ( tramo = :tramo ) AND
+                            ( cuota = :cuota )";
+
+        $stmt = $db->prepare($queryCuota);
+        $params = array('codigo_organismo' => $organismo_codigo, 'codigo_convenio' => $codigo_convenio, 'tramo' => $tramo, 'cuota' => $cuota);
+        $stmt->execute($params);
+        $arreglo_cuota_a_pagar = $stmt->fetchAll();
+
+
+        $cuota = new Conveniocuota;
+        foreach ($arreglo_cuota_a_pagar as $item) {
+            $cuota->setCodigoOrganismo($item['codigo_organismo']);
+            $cuota->setCodigoConvenio($item['codigo_convenio']);
+            $cuota->setTramo($item['tramo']);
+            $cuota->setCuota($item['cuota']);
+
+            if ($vencimiento == 1) {
+                $cuota->setImporte1($item['importe1']);
+                $cuota->setVencimiento1($item['vencimiento1']);
+            } else if ($vencimiento == 2) {
+                $cuota->setImporte2($item['importe2']);
+                $cuota->setVencimiento2($item['vencimiento2']);
+            } else if ($vencimiento == 3) {
+                $cuota->setImporte3($item['importe3']);
+                $cuota->setVencimiento3($item['vencimiento3']);
+            };
+        };
+
+        //dump($cuota);
+        //die;
+        $path = $this->get('kernel')->getRootDir() . '/../web/bundles/jubilacionesdeclaraciones/img';
+        $pdf = new BoletaConvenioPdf($path);
+        $pdf->setTitle('title algoooooo');
+        $pdf->render($cuota);
+        $pdf->Output('boletaConvenio.pdf', 'I');
+
+
+
+        //dump($arreglo_cuota_a_pagar);die;
+
+        /* $em = $this->getDoctrine()->getManager();
+          $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array( 'codigo' => $organismo_codigo ));
+
+          $declaraciones = $organismo->getDeclaracionesjuradas();
+          //dump(count($declaraciones));die;
+          $path = $this->get('kernel')->getRootDir() . '/../web/bundles/jubilacionesdeclaraciones/img';
+          $pdf = new OrganismoDeclaracionListarPdf($path);
+          $pdf->setTitle( '$title' );
+          $pdf->render($declaraciones);
+          $pdf->Output( 'DDJJ.pdf', 'I');
+         * */
     }
 
     private function obtenerConveniosVigentes($organismo_codigo) {
@@ -128,7 +194,7 @@ class OrganismoConveniocuotaController extends Controller {
     private function obtenerCuotasVigentes($organismo_codigo, $codigo_convenio, $tramo) {
         $em = $this->getDoctrine()->getManager();
         $db = $em->getConnection();
-        
+
         if (($codigo_convenio == '000000012018') or ( $codigo_convenio == '000000012020')) {
             $QueryCuotasVigentes = "SELECT DISTINCT  codigo_convenio, codigo_organismo ,tramo , cuota, importe1, vencimiento1, importe2, vencimiento2, pagado
                                     FROM conveniocuota
@@ -155,11 +221,11 @@ class OrganismoConveniocuotaController extends Controller {
         $arreglo_cuotas_vigentes = $stmt->fetchAll();
         return $arreglo_cuotas_vigentes;
     }
-    
+
     private function obtenerCuotasPagadas($organismo_codigo, $codigo_convenio, $tramo) {
         $em = $this->getDoctrine()->getManager();
         $db = $em->getConnection();
-        
+
         if (($codigo_convenio == '000000012018') or ( $codigo_convenio == '000000012020')) {
             $QueryCuotasVigentes = "SELECT DISTINCT  codigo_convenio, codigo_organismo ,tramo , cuota, importe1, vencimiento1, importe2, vencimiento2, pagado
                                     FROM conveniocuota
@@ -184,9 +250,5 @@ class OrganismoConveniocuotaController extends Controller {
         $arreglo_cuotas_pagadas = $stmt->fetchAll();
         return $arreglo_cuotas_pagadas;
     }
-
-    
-    
-    
 
 }

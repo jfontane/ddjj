@@ -1,0 +1,83 @@
+{% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
+{% block title %}Listado de Declaraciones Juradas{% endblock %}
+{% block pageid 'admin' %}
+
+    {% block body %}
+        {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Declaraciones Juradas</li>
+            </ol>
+        </nav>
+
+        <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
+        <div>
+            <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/rojo.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Algooooo&nbsp;&nbsp;</b><a href="#">Click Aquí</a></p>
+        </div>
+        
+        <div class="flash_admin">
+            {% for mensaje in app.session.flashbag.get('warn') %}
+                <p class="warn">{{ mensaje }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="grid_16">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Organismo</th>
+                        <th>Zona</th>
+                        <th>Periodo</th>
+                        <th>T.Liq.</th>
+                        <th>F.Entrega</th>
+                        <th>F.Ingreso</th>
+
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for declaracion in pagination %}
+                        <tr>
+                            <td>{{ declaracion.organismo.codigo }}</td>
+                            <td>
+                                {{ declaracion.organismo.zona }}
+                            </td>
+                            <td>
+                                <a href="">  {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}</a>
+                            </td>
+                            <td>{{ declaracion.tipoLiquidacion }}</td>
+                            <td>
+                                {{  declaracion.fechaEntrega is empty ? "" : declaracion.fechaEntrega | date('Y-m-d H:i') }}
+                            </td>
+                            <td>
+                                {{  declaracion.fechaIngreso is empty ? "" : declaracion.fechaIngreso | date('Y-m-d H:i') }}
+                            </td>
+                            <td>{{ declaracion.estado }}</td>
+                            <td><div style='display:inline'>
+                                    <a href="{{path('contralor_mostrar_totales',{'id' : declaracion.id })}}" class="btn btn-primary">Cargar</a> 
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8">No existe ninguna Declaracion Jurada</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    {% endblock %}
+    {% block javascripts %}
+        <script>
+            function confirmaBorrar() {
+                if (confirm("Desea Eliminar un Evento???")) {
+                    //location.href
+                }
+            }
+        </script>
+    {% endblock %}    

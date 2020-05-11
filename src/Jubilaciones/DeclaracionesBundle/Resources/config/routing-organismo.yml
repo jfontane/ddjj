@@ -58,4 +58,12 @@ organismo_convenio_cuota_listar:
     
 organismo_convenio_cuota_ver:    
     path:     /conveniocuota/ver/{codigo_convenio}/{tramo}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoConveniocuota:ver }              
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoConveniocuota:ver }          
+    requirements:
+        id: \d+
+
+organismo_convenio_imprimir_boleta:    
+    path:     /conveniocuota/imprimir/{codigo_convenio}/{tramo}/{cuota}/{vencimiento}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoConveniocuota:boletaPdf }              
+    requirements:
+        id: \d+

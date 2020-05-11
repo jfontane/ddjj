@@ -12,60 +12,14 @@
         </nav>
 
         <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
-        <div class="flash_admin">
-            {% for mensaje in app.session.flashbag.get('warn') %}
-                <p class="warn">{{ mensaje }}</p>
-            {% endfor %}
+        <div>
+            <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/rojo.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Rechazadas&nbsp;&nbsp;</b><a href="#">Click Aquí</a></p>
         </div>
-
-        <div class="grid_16">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Organismo</th>
-                        <th>Zona</th>
-                        <th>Periodo</th>
-                        <th>T.Liq.</th>
-                        <th>F.Entrega</th>
-                        <th>F.Ingreso</th>
-
-                        <th>Estado</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for declaracion in pagination %}
-                        <tr>
-                            <td>{{ declaracion.organismo.codigo }}</td>
-                            <td>
-                                {{ declaracion.organismo.zona }}
-                            </td>
-                            <td>
-                                <a href="">  {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}</a>
-                            </td>
-                            <td>{{ declaracion.tipoLiquidacion }}</td>
-                            <td>
-                                {{  declaracion.fechaEntrega is empty ? "" : declaracion.fechaEntrega | date('Y-m-d H:i') }}
-                            </td>
-                            <td>
-                                {{  declaracion.fechaIngreso is empty ? "" : declaracion.fechaIngreso | date('Y-m-d H:i') }}
-                            </td>
-                            <td>{{ declaracion.estado }}</td>
-                            <td><div style='display:inline'>
-                                    <a href="{{path('contralor_mostrar_totales',{'id' : declaracion.id })}}" class="btn btn-primary">Cargar</a> 
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="8">No existe ninguna Declaracion Jurada</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-
-            </table>
-            <div class="navigation">
-                {{ knp_pagination_render(pagination) }}
-            </div>
+         <div>
+            <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/amarillo.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Pendientes&nbsp;&nbsp;</b><a href="#">Click Aquí</a></p>
+        </div>
+         <div>
+            <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/verde.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Aprobadas&nbsp;&nbsp;</b><a href="#">Click Aquí</a></p>
         </div>
     {% endblock %}
     {% block javascripts %}

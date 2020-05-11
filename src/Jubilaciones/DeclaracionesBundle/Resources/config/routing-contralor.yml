@@ -2,9 +2,9 @@ contralor_portada:
     path: /
     defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:listar }
     
-contralor_declaracion_listar:
-    path: /declaracion/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:listar }  
+contralor_declaracion_opciones:
+    path: /declaracion/opciones
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:opciones }  
     
 contralor_jubidat:
     path:     /declaracion/jubidat/{id}

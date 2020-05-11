@@ -1,5 +1,5 @@
 {% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
-{% block title %}Convenios Realizados{% endblock %}
+{% block title %}Cuotas{% endblock %}
 {% block pageid 'admin' %}
 
     {% block body %}
@@ -8,14 +8,13 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ path('organismo_convenio_cuota_listar') }}">Convenios</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Boletas</li>
+                <li class="breadcrumb-item active" aria-current="page">Cuotas</li>
             </ol>
         </nav>
 
         <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
-        <div>
-            <h3><p><b>Convenio:</b> {{ convenio }}&nbsp;&nbsp;&nbsp;<b>Tramo:</b> {{ tramo }}</p></h3>
-        </div>    
+
+        <h4><p> Convenio:</b> {{ convenio }}&nbsp;&nbsp;&nbsp;<b>Tramo:</b> {{ tramo }}</p></h4>
         <hr>
         <div class="grid_16">
             <div>
@@ -61,7 +60,6 @@
                 </tbody>
 
             </table>
-            <hr>
             <div>
                 <h5><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/amarillo.png') }}">&nbsp;&nbsp;Boletas Vigentes</h5>
             </div>
@@ -94,17 +92,34 @@
                             {% set i = i + 1 %}
                             {% if i<4 %} 
                                 <tr>
-                                    <td>{{cuota_vigente.cuota}} {{curDate}}</td>
+                                    <td>{{cuota_vigente.cuota}}</td>
                                     <td>{{cuota_vigente.vencimiento1}}&nbsp;
                                         {% if curDate<=cuota_vigente.vencimiento1 %}
-                                            <img src="{{ asset('bundles/jubilacionesdeclaraciones/img/icon-print.gif') }}">
+                                            <a href="{{ path('organismo_convenio_imprimir_boleta' , { 'codigo_convenio' : convenio, 'tramo' : tramo, 'cuota' : cuota_vigente.cuota, 'vencimiento' : 1 }) }}" target="_blank">
+                                               Imprimir
+                                            </a>
                                         {% endif %}
                                     </td>
                                     <td>{{cuota_vigente.importe1}}</td>
-                                    <td>{{cuota_vigente.vencimiento2}}&nbsp;<img src="{{ asset('bundles/jubilacionesdeclaraciones/img/icon-print.gif') }}"></td>
+                                    <td>{{cuota_vigente.vencimiento2}}
+                                        &nbsp;
+                                        {% if curDate<=cuota_vigente.vencimiento2 %}
+                                            <a href="{{ path('organismo_convenio_imprimir_boleta' , { 'codigo_convenio' : convenio, 'tramo' : tramo, 'cuota' : cuota_vigente.cuota, 'vencimiento' : 2 }) }}" target="_blank">
+                                                Imprimir
+                                            </a>
+                                        {% endif %}
+                                    </td>
                                     <td>{{cuota_vigente.importe2}}</th>
                                         {% if cantidad_vencimientos==3 %}
-                                        <td>{{cuota_vigente.vencimiento3}}&nbsp;<img src="{{ asset('bundles/jubilacionesdeclaraciones/img/icon-print.gif') }}"></td>
+                                        <td>
+                                            {{cuota_vigente.vencimiento3}}
+                                            &nbsp;
+                                            {% if curDate<=cuota_vigente.vencimiento3 %}
+                                            <a href="{{ path('organismo_convenio_imprimir_boleta' , { 'codigo_convenio' : convenio, 'tramo' : tramo, 'cuota' : cuota_vigente.cuota, 'vencimiento' : 3 }) }}" target="_blank">
+                                                   Imprimir
+                                                </a>
+                                            {% endif %}
+                                        </td>
                                         <td>{{cuota_vigente.importe3}}</td>
                                     {% endif %}
                                 </tr>
@@ -120,7 +135,6 @@
 
             </table>   
 
-            <hr>
             <div>
                 <h5><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/verde.png') }}">&nbsp;&nbsp;Boletas Pagadas</h5>
             </div>
@@ -136,7 +150,7 @@
                             <th>3er Vencimiento</th>
                             <th>Importe</th>
                             {% endif %}
-                        <th># Venc.</th>
+                        <th>Pagada</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -165,7 +179,6 @@
                     {% endif %}
                 </tbody>
             </table>
-
         </div>
     {% endblock %}
     {% block javascripts %}

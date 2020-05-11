@@ -26,6 +26,10 @@ class ContralorDeclaracionjuradaController extends Controller {
         return $this->render('JubilacionesDeclaracionesBundle:Default:index.html.twig');
     }
 
+    public function opcionesAction(Request $request, UserInterface $user) {
+        return $this->render('@JubilacionesDeclaraciones/ContralorDeclaracionjurada/declaracionesjuradas.html.twig');
+    }
+    
     public function listarAction(Request $request, UserInterface $user) {
 //        try {
 //        $this->denyAccessUnlessGranted('ROLE_ADMIN', User, 'Unable to access this page - Javier!');
