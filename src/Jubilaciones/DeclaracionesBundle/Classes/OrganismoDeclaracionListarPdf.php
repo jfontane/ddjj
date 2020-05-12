@@ -51,11 +51,11 @@ class OrganismoDeclaracionListarPdf extends \TCPDF {
         $this->setFontSize(12);
         $this->SetFont('helvetica', '');
 
-        //Seccion renderizado de los conceptos                        
+        //Seccion renderizado de los conceptos
         $primerFilaY = 30.65;
         $altoCeldaEncabezado = 4.60;
         $pseudoMargen = 12;
-        //Periodo Liq                                    
+        //Periodo Liq
 
 
         $cantidad_ddjj = count($declaraciones);
@@ -99,19 +99,6 @@ class OrganismoDeclaracionListarPdf extends \TCPDF {
                 $this->SetFont('helvetica', '');
             }
         }
-        $x0=20;
-        $codOrganismo="4080010000";
-        $cod_banco = '910'; // Tipo de Boleta de Pagos para "Aportes no vencidos"
-        $cod_periodo = "202012";
-        $aporte_personal = "226262626";
-        $aporte_patronal = "226262626";
-        $aporte_otros    = "226262626";
-        $aporte_total    = "226262626";        
-        $codificacion    = $cod_banco.$codOrganismo.$cod_periodo.$aporte_personal.$aporte_patronal.$aporte_otros.$aporte_total; 
-        $digito          = "3";
-        $codificacion    = $codificacion.$digito;
-        // Interleaved 2 of 5
-        $this->write1DBarcode($codificacion, 'I25', $x0+17, 126, '', 16, 0.4, $style=array('border'=>false, 'padding'=>0, 'text'=>false, 'align'=>'C'), 'N');
         
     }
 
