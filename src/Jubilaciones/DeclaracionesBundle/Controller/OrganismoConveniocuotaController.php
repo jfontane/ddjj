@@ -103,7 +103,7 @@ class OrganismoConveniocuotaController extends Controller {
         $path = $this->get('kernel')->getRootDir() . '/../web/bundles/jubilacionesdeclaraciones/img';
         $pdf = new BoletaConvenioPdf($path);
         $pdf->setTitle('title algoooooo');
-        $pdf->render($cuota);
+        $pdf->render($cuota,$vencimiento);
         $pdf->Output('boletaConvenio.pdf', 'I');
 
 
