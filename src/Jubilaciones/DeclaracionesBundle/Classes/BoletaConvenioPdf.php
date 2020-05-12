@@ -41,7 +41,7 @@ class BoletaConvenioPdf extends \TCPDF {
 
     public function render($cuota, $vencimiento) {
         $mes = 12;
-        $this->setTitle("Listado Declaraciones Juradas");
+        $this->setTitle("Boleta de Convenio Caja de Jubilaciones");
         /* TODO: Una vez que este todo listo, contemplar el caso de que haya mas
           concetos que filas */
 
@@ -62,7 +62,7 @@ class BoletaConvenioPdf extends \TCPDF {
         $this->SetY(37);
         $this->setFontSize(12);
         $this->SetFont('helvetica', 'B');
-        $this->cell(190, $altoCeldaEncabezado + 0.16, "LISTADO DE DECLARACIONES JURADAS ENTREGADAS", 0, 1, 'C');
+        $this->cell(190, $altoCeldaEncabezado + 0.16, "BOLETA DE CONVENIO", 0, 1, 'C');
         $this->cell(190, $altoCeldaEncabezado + 0.16, "", 0, 1, 'C');
         $this->cell(30, $altoCeldaEncabezado + 0.16, "Periodo", 1, 0, 'C');
         $this->cell(40, $altoCeldaEncabezado + 0.16, "T.Liquidacion", 1, 0, 'C');
