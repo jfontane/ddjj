@@ -66,17 +66,20 @@ class OrganismoConveniocuotaController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $db = $em->getConnection();
 
-        $queryCuota = "SELECT codigo_convenio, codigo_organismo, tramo, cuota, importe1, vencimiento1,importe2, vencimiento2, pagado
-                      FROM conveniocuota
-                      WHERE ( codigo_organismo = :codigo_organismo ) AND
-                            ( codigo_convenio = :codigo_convenio ) AND
-                            ( tramo = :tramo ) AND
-                            ( cuota = :cuota )";
+        $queryCuota = "SELECT a.codigo_convenio, a.codigo_organismo, a.tramo, a.cuota, a.importe1, a.vencimiento1,
+                              a.importe2, a.vencimiento2, a.pagado, b.nombre
+                      FROM conveniocuota a, organismo b
+                      WHERE ( a.codigo_organismo = :codigo_organismo ) AND
+                            ( a.codigo_convenio = :codigo_convenio ) AND
+                            ( a.tramo = :tramo ) AND
+                            ( a.cuota = :cuota ) AND
+                            ( a.codigo_organismo = b.codigo )";
 
         $stmt = $db->prepare($queryCuota);
         $params = array('codigo_organismo' => $organismo_codigo, 'codigo_convenio' => $codigo_convenio, 'tramo' => $tramo, 'cuota' => $cuota);
         $stmt->execute($params);
         $arreglo_cuota_a_pagar = $stmt->fetchAll();
+      //dump($arreglo_cuota_a_pagar);die;
 
 
         $cuota = new Conveniocuota;
@@ -96,6 +99,7 @@ class OrganismoConveniocuotaController extends Controller {
                 $cuota->setImporte3($item['importe3']);
                 $cuota->setVencimiento3($item['vencimiento3']);
             };
+            $organismo_nombre=$item['nombre'];
         };
 
         //dump($cuota);
@@ -103,7 +107,7 @@ class OrganismoConveniocuotaController extends Controller {
         $path = $this->get('kernel')->getRootDir() . '/../web/bundles/jubilacionesdeclaraciones/img';
         $pdf = new BoletaConvenioPdf($path);
         $pdf->setTitle('title algoooooo');
-        $pdf->render($cuota,$vencimiento);
+        $pdf->render($cuota,$vencimiento,$organismo_nombre);
         $pdf->Output('boletaConvenio.pdf', 'I');
 
 
@@ -143,7 +147,7 @@ class OrganismoConveniocuotaController extends Controller {
         foreach ($resultado as $fila) {
             $sql2 = "SELECT DISTINCT IF(count(*)=0,\"No Finalizado\", \"Finalizado\") as Estado
                                                 FROM conveniocuentacorriente
-                                                WHERE codigo_organismo = :codigo_organismo AND codigo_convenio = :codigo_convenio AND 
+                                                WHERE codigo_organismo = :codigo_organismo AND codigo_convenio = :codigo_convenio AND
                                                       tramo= :tramo AND codigo_movimiento='CC'";
             $stmt2 = $db->prepare($sql2);
             $params2 = array('codigo_organismo' => $organismo_codigo, 'codigo_convenio' => $fila['codigo_convenio'], 'tramo' => $fila['tramo']);

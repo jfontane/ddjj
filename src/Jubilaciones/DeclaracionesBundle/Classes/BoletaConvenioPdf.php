@@ -39,7 +39,7 @@ class BoletaConvenioPdf extends \TCPDF {
         $this->setRuta($ruta);
     }
 
-    public function render($cuota, $vencimiento) {
+    public function render($cuota, $vencimiento, $organismo_nombre) {
         $mes = 12;
         $this->setTitle("Boleta de Convenio Caja de Jubilaciones");
         /* TODO: Una vez que este todo listo, contemplar el caso de que haya mas
@@ -51,11 +51,11 @@ class BoletaConvenioPdf extends \TCPDF {
         $this->setFontSize(12);
         $this->SetFont('helvetica', '');
 
-        //Seccion renderizado de los conceptos                        
+        //Seccion renderizado de los conceptos
         $primerFilaY = 30.65;
         $altoCeldaEncabezado = 4.60;
         $pseudoMargen = 12;
-        //Periodo Liq                                    
+        //Periodo Liq
         //$cantidad_ddjj = count($declaraciones);
         //$this->SetFont('Arial', 'I', 8);
         //dump($cantidad_ddjj);
@@ -64,11 +64,17 @@ class BoletaConvenioPdf extends \TCPDF {
         $this->SetFont('helvetica', 'B');
         $this->cell(190, $altoCeldaEncabezado + 0.16, "BOLETA DE CONVENIO", 0, 1, 'C');
         $this->cell(190, $altoCeldaEncabezado + 0.16, "", 0, 1, 'C');
-        $this->cell(30, $altoCeldaEncabezado + 0.16, "Periodo", 1, 0, 'C');
+
+
+
+
+/*        $this->cell(30, $altoCeldaEncabezado + 0.16, "Periodo", 1, 0, 'C');
         $this->cell(40, $altoCeldaEncabezado + 0.16, "T.Liquidacion", 1, 0, 'C');
         $this->cell(40, $altoCeldaEncabezado + 0.16, "F.Entrega", 1, 0, 'C');
         $this->cell(40, $altoCeldaEncabezado + 0.16, "F.Dictaminacion", 1, 0, 'C');
-        $this->cell(40, $altoCeldaEncabezado + 0.16, "Resultado", 1, 1, 'C');
+
+        /*
+
         $this->setFontSize(10);
         $this->SetFont('helvetica', '');
         /*
@@ -109,27 +115,97 @@ class BoletaConvenioPdf extends \TCPDF {
         $codTramo = $cuota->getTramo();
         $codRelleno = '000000';
         if ($vencimiento == 1) {
-            $codFechaVencimiento = substr($cuota->getVencimiento1(), 0, 2) . substr($cuota->getVencimiento1(), 5, 2) . substr($cuota->getVencimiento1(), 8, 2);
-            $codImporte = $this->rellenar_con_ceros($cuota->getImporte1(), 9);
+            $codFechaVencimientoTmp = $cuota->getVencimiento1();
+            $codImporteTmp = $cuota->getImporte1();
         } else if ($vencimiento == 2) {
-            $codFechaVencimiento = substr($cuota->getVencimiento2(), 0, 2) . substr($cuota->getVencimiento2(), 5, 2) . substr($cuota->getVencimiento2(), 8, 2);
-            $codImporte = $this->rellenar_con_ceros($cuota->getImporte2(), 9);
+            $codFechaVencimientoTmp = $cuota->getVencimiento2();
+            $codImporteTmp = $cuota->getImporte2();
         } else if ($vencimiento == 3) {
-            $codFechaVencimiento = substr($cuota->getVencimiento3(), 0, 2) . substr($cuota->getVencimiento3(), 5, 2) . substr($cuota->getVencimiento3(), 8, 2);
-            $codImporte = $this->rellenar_con_ceros($cuota->getImporte3(), 9);
+            $codFechaVencimientoTmp = $cuota->getVencimiento3();
+            $codImporteTmp = $cuota->getImporte3();
         };
 
-        $codNumeroVencimiento = '000' . $vencimiento;
+        $codFechaVencimiento = substr($codFechaVencimientoTmp, 0, 2) . substr($codFechaVencimientoTmp, 5, 2) . substr($codFechaVencimientoTmp, 8, 2);
+        $codImporte = $this->rellenar_con_ceros($codImporteTmp,9);
 
+        $codNumeroVencimiento = '000' . $vencimiento;
         $codificacion = $cod_banco . $codOrganismo8Caracteres . $codConvenio . $codCuota . $codTramo . $codRelleno . $codFechaVencimiento . $codImporte . $codNumeroVencimiento;
         $cant = strlen($codificacion);
         $digito = $this->digito_ctrl($codificacion, $cant);
         $codificacion = $codificacion . $digito;
         $codificacion_agrupada = $this->agrupar_de_4($codificacion);
-        
 
-//        $codificacion = $cod_banco . $codOrganismo . $cod_periodo . $aporte_personal . $aporte_patronal . $aporte_otros . $aporte_total;
-//        $codificacion = $codificacion . $digito;
+        $tipo_org=substr($codOrganismo8Caracteres,0,1);
+
+        if ($tipo_org=='0') $cuenta='19322/00';
+        elseif ($tipo_org=='1') $cuenta='19319/00';
+        elseif ($tipo_org=='2') $cuenta='19321/02';
+        elseif ($tipo_org=='4') $cuenta='19320/04';
+        elseif ($tipo_org=='5') $cuenta='19323/09';
+
+        if ($codNumeroVencimiento=='0001') $queVencimiento='Primer Vencimiento';
+        else if ($codNumeroVencimiento=='0002') $queVencimiento='Segundo Vencimiento';
+        else if ($codNumeroVencimiento=='0003') $queVencimiento='Tercer Vencimiento';
+
+        $this->SetY(45);
+          $this->SetFont('Times','',12);
+          $this->Cell(35,7,"Identificacion",1,0,'C',0);
+          $this->SetX(47);
+          $this->SetFont('Times','',12);
+          $this->Cell(116,7,"Organismo",1,0,'C',0);
+        $this->SetX(165);
+          $this->SetFont('Times','',12);
+          $this->Cell(35,7,"Nro Cuenta",1,0,'C',0);
+
+          $this->SetY(52);
+            $this->SetFont('Times','B',12);
+          $this->SetFillColor(220,220,220);
+            $this->Cell(35,7,$codOrganismo8Caracteres,1,0,'C',1);
+            $this->SetX(47);
+            $this->SetFont('Times','B',12);
+          $this->SetFillColor(220,220,220);
+            $this->Cell(116,7,$organismo_nombre,1,0,'C',1);
+          $this->SetX(165);
+            $this->SetFont('Times','B',12);
+          $this->SetFillColor(220,220,220);
+          $nroCuenta=$cuenta;
+            $this->Cell(35,7,$nroCuenta,1,0,'C',1);
+
+            $this->SetY(65);
+          	//$this->SetFont('Arial','',10);
+              $this->SetX(15);
+              $this->Cell(30,7,"Convenio",1,0,'C');
+
+              $this->SetX(50);
+          	  $this->Cell(30,7,"Cuota",1,0,'C');
+              $this->SetX(85);
+          	//$this->SetFont('Arial','',10);
+              $this->Cell(25,7,"Tramo",1,0,'C');
+          	$this->SetX(115);
+          	//$this->SetFont('Arial','',10);
+          	$this->Cell(45,7,$queVencimiento,1,0,'C');
+          	$this->SetX(165);
+          	//$this->SetFont('Arial','',10);
+          	$this->Cell(30,7,"Importe",1,1,'C');
+
+            $this->SetY(72);
+            //$this->SetFont('Arial','',10);
+              $this->SetX(15);
+              $this->Cell(30,7,$codConvenio,1,0,'C',1);
+
+              $this->SetX(50);
+              $this->Cell(30,7,$codCuota,1,0,'C',1);
+              $this->SetX(85);
+            //$this->SetFont('Arial','',10);
+              $this->Cell(25,7,$codTramo,1,0,'C',1);
+            $this->SetX(115);
+            //$this->SetFont('Arial','',10);
+            $this->Cell(45,7,$codFechaVencimientoTmp,1,0,'C',1);
+            $this->SetX(165);
+            //$this->SetFont('Arial','',10);
+            $this->Cell(30,7,$codImporteTmp,1,0,'C',1);
+
+
         // Interleaved 2 of 5
         $this->write1DBarcode($codificacion, 'I25', $x0 + 5, 126, '', 16, 0.4, $style = array('border' => false, 'padding' => 0, 'text' => false, 'align' => 'C'), 'N');
         $this->cell(190, $altoCeldaEncabezado + 0.16, $codificacion_agrupada,0, 0, 'C');

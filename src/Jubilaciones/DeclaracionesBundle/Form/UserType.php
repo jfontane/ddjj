@@ -25,7 +25,7 @@ class UserType extends AbstractType {
                 ])
                 ->add('roles', ChoiceType::class, array(
                     'mapped' => false,
-                    'choices' => array('ROLE_ADMIN' => 'ROLE_ADMIN', 'ROLE_CONTRALOR' => 'ROLE_CONTRALOR',
+                    'choices' => array('ROLE_SUPER_ADMIN' => 'ROLE_SUPER_ADMIN','ROLE_ADMIN' => 'ROLE_ADMIN', 'ROLE_CONTRALOR' => 'ROLE_CONTRALOR',
                         'ROLE_ORGANISMO' => 'ROLE_ORGANISMO', 'ROLE_USER' => 'ROLE_USER'))
                 )
                 ->add('zona', ChoiceType::class, array(

@@ -44,7 +44,7 @@ class User implements UserInterface {
      * @ORM\Column(type="array")
      */
     private $roles;
-    
+
     /**
      * @ORM\Column(type="string", columnDefinition="enum('Norte', 'Sur','Sin Datos')", nullable=true)
      */
@@ -136,7 +136,7 @@ class User implements UserInterface {
         return $this->organismo;
     }
 
-    
+
 
     /**
      * Set zona

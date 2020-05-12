@@ -49,7 +49,7 @@ class AdminImportacionController extends Controller {
 
             $importacion->setFechaCreacion(new \DateTime('now'));
             $importacion->setProcesado('No');
-            
+
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($importacion);
@@ -78,6 +78,7 @@ class AdminImportacionController extends Controller {
         if ($esta_procesado == 'No') {
             if ($tipo_importacion == 'Usuarios') {
                 $this->importarUsuarios($fileName);
+                $this->vincularUsuariosOrganismos($fileName);
                 $importacion->setProcesado('Si');
                 $em->persist($importacion);
                 $em->flush();
@@ -90,22 +91,11 @@ class AdminImportacionController extends Controller {
                 AbstractBaseController::addInfoMessage('La importacion de Organismos se ha realizado con Exito.');
             } else if ($tipo_importacion == 'Representantes') {
                 $this->importarRepresentantes($fileName);
-                $importacion->setProcesado('Si');
-                $em->persist($importacion);
-                $em->flush();
-                AbstractBaseController::addInfoMessage('La importacion de Representantes se ha realizado con Exito.');
-            } else if ($tipo_importacion == 'Organismo_Representante') {
                 $this->vincularOrganismosRepresentantes($fileName);
                 $importacion->setProcesado('Si');
                 $em->persist($importacion);
                 $em->flush();
-                AbstractBaseController::addInfoMessage('La Vinculacion de Organismos y Representantes se ha realizado con Exito.');
-            } else if ($tipo_importacion == 'Usuario_Organismo') {
-                $this->vincularUsuariosOrganismos($fileName);
-                $importacion->setProcesado('Si');
-                $em->persist($importacion);
-                $em->flush();
-                AbstractBaseController::addInfoMessage('La Vinculacion de Usuarios y Organismos se ha realizado con Exito.');
+                AbstractBaseController::addInfoMessage('La importacion de Representantes se ha realizado con Exito.');
             } else if ($tipo_importacion == 'Declaraciones_Organismo') {
                 $this->vincularDeclaracionesOrganismos($fileName);
                 $importacion->setProcesado('Si');
@@ -166,6 +156,7 @@ class AdminImportacionController extends Controller {
             $usuario->setPlainPassword($password);
             $password = $passwordEncoder->encodePassword($usuario, $usuario->getPlainPassword());
             $usuario->setPassword($password);
+            $usuario->setRoles('ROLE_USER');
 
             //dump('Password: '.$password);die;
             // 4) save the User!
@@ -413,17 +404,17 @@ class AdminImportacionController extends Controller {
             $conve_vencimiento3 = explode(';', $archivo[$i])[9];
             $conve_importe3 = explode(';', $archivo[$i])[10];
             $codigo_organismo_obtenido = explode(';', $archivo[$i])[0];
-            $query = "INSERT INTO conveniocuota (codigo_convenio, tramo, cuota, pagado, vencimiento1, importe1, vencimiento2, importe2, vencimiento3, importe3, codigo_organismo) 
+            $query = "INSERT INTO conveniocuota (codigo_convenio, tramo, cuota, pagado, vencimiento1, importe1, vencimiento2, importe2, vencimiento3, importe3, codigo_organismo)
                      VALUES ('$conve_nro_convenio', '$conve_tramo', '$conve_nro_cuota', $conve_pagado, '$conve_vencimiento1', $conve_importe1, '$conve_vencimiento2', $conve_importe2, "
                     . "'$conve_vencimiento3', $conve_importe3, '$codigo_organismo_obtenido')";
-            
+
             $stmt = $db->prepare($query);
             $params = array();
             $stmt->execute($params);
         }; // END for
     }
-    
-    
+
+
     private function cargarConvenioCtaCte($fileName) {
         $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
         $lineas = count($archivo);
@@ -444,12 +435,12 @@ class AdminImportacionController extends Controller {
             $conve_codigo_movimiento = explode(';', $archivo[$i])[8];
             $conve_importe = explode(';', $archivo[$i])[9];
             $conve_saldo = explode(';', $archivo[$i])[10];
-            
+
             $query="INSERT INTO conveniocuentacorriente (codigo_convenio, codigo_organismo, tramo, cuota, tipo_movimiento, "
                     . "fecha_movimiento, fecha_pago, fecha_vencimiento, codigo_movimiento, importe, saldo) "
                    . "VALUES ('$conve_nro_convenio', '$codigo_organismo', '$conve_tramo', '$conve_nro_cuota', '$conve_tipo_movimiento', '$conve_fecha_movimiento', "
                    . "'$conve_fecha_pago', '$conve_fecha_vencimiento', '$conve_codigo_movimiento', $conve_importe, $conve_saldo);";
-            
+
             $stmt = $db->prepare($query);
             $params = array();
             $stmt->execute($params);
