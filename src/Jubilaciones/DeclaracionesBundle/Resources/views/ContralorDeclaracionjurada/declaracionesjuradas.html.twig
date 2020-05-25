@@ -16,7 +16,7 @@
             <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/rojo.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Rechazadas&nbsp;&nbsp;</b><a href="#">Click Aquí</a></p>
         </div>
          <div>
-            <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/amarillo.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Pendientes&nbsp;&nbsp;</b><a href="#">Click Aquí</a></p>
+            <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/amarillo.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Pendientes&nbsp;&nbsp;</b><a href="{{ path('contralor_declaracion_listar_pendientes') }}">Click Aquí</a></p>
         </div>
          <div>
             <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/verde.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Aprobadas&nbsp;&nbsp;</b><a href="#">Click Aquí</a></p>
@@ -30,4 +30,4 @@
                 }
             }
         </script>
-    {% endblock %}    
+    {% endblock %}

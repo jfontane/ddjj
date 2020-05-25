@@ -19,8 +19,8 @@
         </div>
 
         <div class="grid_16">
-            <table>
-                <thead>
+            <table class="table">
+                <thead class="thead-dark">
                     <tr>
                         <th>Convenio</th>
                         <th>Tramo</th>
@@ -43,7 +43,7 @@
                                     <a href="{{ path('organismo_convenio_cuota_ver', {'codigo_convenio' : arreglo['codigo_convenio'], 'tramo' : arreglo['tramo']}) }}">Cuotas</a>&nbsp;&nbsp;
                                 </td>
                             </tr>
-                        {% endfor %}   
+                        {% endfor %}
                     {% else %}
                         <tr>
                             <td colspan="2">No existe ningun Convenio Asociado.</td>
@@ -63,4 +63,4 @@
                 }
             }
         </script>
-    {% endblock %}    
+    {% endblock %}

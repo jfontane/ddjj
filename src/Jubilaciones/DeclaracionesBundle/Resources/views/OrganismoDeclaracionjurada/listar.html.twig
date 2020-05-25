@@ -19,8 +19,8 @@
         </div>
 
         <div class="grid_16">
-            <table>
-                <thead>
+            <table class="table">
+                <thead class="thead-dark">
                     <tr>
                         <th>Periodo</th>
                         <th>T.Liq.</th>
@@ -31,7 +31,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% if pagination %}  
+                    {% if pagination %}
                         {% for declaracion in pagination.items %}
                             <tr>
                                 <td>
@@ -48,11 +48,11 @@
                                 <td>
 
                                     {% if declaracion.estado == 'Pendiente' %}
-                                        <a href="{{ path ('organismo_declaracion_ver',{'id' : declaracion.id }) }}">Ver</a>&nbsp;&nbsp;    
+                                        <a href="{{ path ('organismo_declaracion_ver',{'id' : declaracion.id }) }}">Ver</a>&nbsp;&nbsp;
                                         <a href="{{ path ('organismo_declaracion_editar',{'id' : declaracion.id }) }}">Editar</a>&nbsp;&nbsp;
                                         <a href="" id="btn_borrar" data-id="{{ declaracion.id }}">Borrar</a>
-                                    {% elseif declaracion.estado == 'Procesando' %}   
-                                        <a href="{{ path ('organismo_declaracion_ver',{'id' : declaracion.id }) }}">Ver</a>&nbsp;&nbsp;    
+                                    {% elseif declaracion.estado == 'Procesando' %}
+                                        <a href="{{ path ('organismo_declaracion_ver',{'id' : declaracion.id }) }}">Ver</a>&nbsp;&nbsp;
                                     {% endif %}
                                 </td>
                             </tr>
@@ -63,7 +63,7 @@
                         {% endfor %}
                     {% else %}
                     <td colspan="6">No existen Declaraciones Juradas.</td>
-                {% endif %}    
+                {% endif %}
                 </tbody>
             </table>
             <div>
@@ -76,7 +76,7 @@
             </div>
             <br><br><br>
             <br>
-            {% if pagination %}  
+            {% if pagination %}
                 <div class="navigation">
                     {{ knp_pagination_render(pagination) }}
                 </div>

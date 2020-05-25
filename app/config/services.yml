@@ -2,8 +2,13 @@
 # https://symfony.com/doc/current/service_container.html
 parameters:
     #parameter_name: value
+    eventos.notificacion.class: Jubilaciones\DeclaracionesBundle\Classes\Notificacion
 
 services:
+    eventos.notificacion:
+        class: %eventos.notificacion.class%
+        arguments: ["@doctrine", "@mailer"]
+        public: true
     # default configuration for services in *this* file
     _defaults:
         # automatically injects dependencies in your services
@@ -38,4 +43,3 @@ services:
 #        public: false
 #        tags:
 #            - { name: twig.extension }
-                 

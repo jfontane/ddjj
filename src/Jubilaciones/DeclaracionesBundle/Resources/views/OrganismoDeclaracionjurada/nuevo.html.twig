@@ -1,41 +1,53 @@
 {% extends "@JubilacionesDeclaraciones/layout-organismo.html.twig" %}
 {% block title %}Nuevo Declaracion{% endblock %}
-{% block pageid 'admin' %}
     {% block body %}
-        <!-- AGREGAR CÓDIGO FALTANTE -->
-        {{ form_errors(form) }}
-        {{ form_start(form) }}
-        {{ form_errors(form.tipoLiquidacion) }}
-        <p>
-            {{ form_label(form.tipoLiquidacion) }}
-            {{ form_widget(form.tipoLiquidacion) }}
-        </p>
-        <br>
-        {{ form_errors(form.periodoAnio) }}
-        <p>
-            {{ form_label(form.periodoAnio) }}
-            {{ form_widget(form.periodoAnio) }}
-        </p>
-        <br>
-        {{ form_errors(form.periodoMes) }}
-        <p>
-            {{ form_label(form.periodoMes) }}
-            {{ form_widget(form.periodoMes) }}
-        </p>
-        <br>
-        {{ form_errors(form.jubidat) }}
-        <p>
-            {{ form_label(form.jubidat) }}
-            {{ form_widget(form.jubidat) }}
-        </p>
-        <br>&nbsp;
-        {{ form_errors(form.jubi1ind) }}
-        <p>
-            {{ form_label(form.jubi1ind) }}
-            {{ form_widget(form.jubi1ind) }}
-        </p>
-        <br>&nbsp;   
-        {{ form_end(form) }}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ path('organismo_declaracion_listar') }}">Declaraciones</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Nueva</li>
+        </ol>
+    </nav>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card bg-light mb-12">
+          <div class="card-header">Declaracion Jurada - Nueva </div>
 
+          <div class="card-body">
+            <!-- AGREGAR CÓDIGO FALTANTE -->
+            {{ form_errors(form) }}
+            {{ form_start(form) }}
+            {{ form_errors(form.tipoLiquidacion) }}
+            <p>
+                {{ form_label(form.tipoLiquidacion) }}
+                {{ form_widget(form.tipoLiquidacion) }}
+            </p>
+            {{ form_errors(form.periodoAnio) }}
+            <p>
+                {{ form_label(form.periodoAnio) }}
+                {{ form_widget(form.periodoAnio) }}
+            </p>
+            {{ form_errors(form.periodoMes) }}
+            <p>
+                {{ form_label(form.periodoMes) }}
+                {{ form_widget(form.periodoMes) }}
+            </p>
+            {{ form_errors(form.jubidat) }}
+            <p>
+                {{ form_label(form.jubidat) }}
+                {{ form_widget(form.jubidat) }}
+            </p>
+            {{ form_errors(form.jubi1ind) }}
+            <p>
+                {{ form_label(form.jubi1ind) }}
+                {{ form_widget(form.jubi1ind) }}
+            </p>
+            {{ form_end(form) }}
+          </div>
+          <div class="card-footer" id="resultado">
+          </div>
+        </div>
+      </div>
+    </div>
 
     {% endblock %}

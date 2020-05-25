@@ -1,14 +1,21 @@
 {% extends "base.html.twig" %}
 {% block header %}
-    <h1 class="grid_5 alpha">
-         <a href="">    <img src="http://listas.santafe.gob.ar/boletines/images/diseno2020/Marca_SantaFev3-07.png" width="120">
-       &nbsp;&nbsp;PredeJu </a>
-    </h1>
-    <nav class="grid_11 omega">
-        <ul>
-            <li><a href="">Representantes</a></li>
-            <li><a href="{{ path('login') }}">Ingresar</a></li>
-        </ul>
-    </nav>
-    <h1>{{ block('title') }}</h1>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="">Notificaciones</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="">Politicas</a>
+      </li>
+    </ul>
+    <ul class="list-inline custom-icon-middle">
+
+      <li class="list-inline-item">
+        <a class="nav-link" href="{{ path('login') }}">Ingresar <span class="sr-only">(current)</span></a>
+      </li>
+    <!--  <li class="list-inline-item">
+    <a href="" title="Salir"><i class="material-icons">exit_to_app</i></a>
+    </li>-->
+    </ul>
+
 {% endblock %}

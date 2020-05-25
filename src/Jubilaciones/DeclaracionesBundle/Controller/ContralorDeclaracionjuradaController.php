@@ -18,7 +18,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 
-//use Symfony\Component\Validator\Constraints\Length; 
+//use Symfony\Component\Validator\Constraints\Length;
 
 class ContralorDeclaracionjuradaController extends Controller {
 
@@ -29,15 +29,15 @@ class ContralorDeclaracionjuradaController extends Controller {
     public function opcionesAction(Request $request, UserInterface $user) {
         return $this->render('@JubilacionesDeclaraciones/ContralorDeclaracionjurada/declaracionesjuradas.html.twig');
     }
-    
+
     public function listarAction(Request $request, UserInterface $user) {
 //        try {
 //        $this->denyAccessUnlessGranted('ROLE_ADMIN', User, 'Unable to access this page - Javier!');
 //        } catch (\Exception $e)
 //        {
-//          die('noooooooooooooooo');  
+//          die('noooooooooooooooo');
 //        }
-        
+
         $user = $this->getUser();
         $zona=$user->getZona();
         //die($zona);
@@ -63,6 +63,42 @@ class ContralorDeclaracionjuradaController extends Controller {
                     'pagination' => $pagination
         ));
     }
+
+
+    public function listarPendientesAction(Request $request, UserInterface $user) {
+    //        try {
+    //        $this->denyAccessUnlessGranted('ROLE_ADMIN', User, 'Unable to access this page - Javier!');
+    //        } catch (\Exception $e)
+    //        {
+    //          die('noooooooooooooooo');
+    //        }
+
+        $user = $this->getUser();
+        $zona=$user->getZona();
+        //die($zona);
+        $em = $this->getDoctrine()->getManager();
+        //$declaraciones = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findAllDeclaracionesPorPeriodo();
+
+        $dql = "SELECT d, o
+                FROM JubilacionesDeclaracionesBundle:Declaracionjurada d
+                JOIN d.organismo o
+                WHERE (d.estado = 'Pendiente' or d.estado = 'Procesando') and o.zona = :zona
+                ORDER BY d.fechaEntrega Desc";
+        $declaraciones = $em->createQuery($dql)->setParameter('zona', $zona)->getResult();
+        //dump($declaraciones);die;
+
+        $paginator = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                    $declaraciones, $request->query->getInt('page', 1), 1
+            );
+        //$organismo = $em->createQuery($dql)->setParameter('codigo', $organismo_codigo)->getOneOrNullResult();
+
+
+        return $this->render('@JubilacionesDeclaraciones/ContralorDeclaracionjurada/listar.html.twig', array(
+                    'pagination' => $pagination, 'tipo' => 'Pendientes'
+        ));
+    }
+
 
     public function declaracionAction($id) {
         $em = $this->getDoctrine()->getManager();
@@ -126,7 +162,7 @@ class ContralorDeclaracionjuradaController extends Controller {
         $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
         $fileName = $declaracion->getJubidat();
         // Para borrar el archivo
-        //    $fs = new Filesystem(); 
+        //    $fs = new Filesystem();
         //    $fs->remove($this->get('kernel')->getRootDir().'/../web/uploads/'.$file_name);
         $arch = new File($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
 
@@ -177,9 +213,9 @@ class ContralorDeclaracionjuradaController extends Controller {
         //$em = $this->getDoctrine()->getManager();
         //$declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
         // Para borrar el archivo
-        //    $fs = new Filesystem(); 
+        //    $fs = new Filesystem();
         //    $fs->remove($this->get('kernel')->getRootDir().'/../web/uploads/'.$file_name);
-//Hacer redirect        
+//Hacer redirect
     }
 
 }

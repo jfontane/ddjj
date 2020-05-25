@@ -12,23 +12,22 @@
             </ol>
         </nav>
         <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
-        <div class="flash_admin">
+        <div class="alert alert-warning" role="alert">
             {% for mensaje in app.session.flashbag.get('warn') %}
                 <p class="warn">{{ mensaje }}</p>
             {% endfor %}
         </div>
 
         <div class="grid_16">
-            <table>
-                <thead>
+            <table class="table table-bordered">
+                <thead class="thead-dark">
                     <tr>
                         <th>Codigo</th>
                         <th>Nombre</th>
-                        <th>CUIT</th>
                         <th>Email</th>
-                        <th>Representante</th>
-                        <th>FR-20</th>
-                        <th>Amparo</th>
+                        <th>Rep.</th>
+                        <th>Debe FR20</th>
+                        <th>Amp.</th>
                         <th>Zona</th>
                         <th>Acciones</th>
                     </tr>
@@ -41,22 +40,19 @@
                             </td>
                             <td>{{ organismo.nombre }}</td>
                             <td>
-                                {{  organismo.cuit }}
-                            </td>
-                            <td>
                                 {{  organismo.email }}
                             </td>
                             {% if organismo.representante %}
                                 <td>Si</td>
-                            {% else %}   
+                            {% else %}
                                 <td>No</td>
-                            {% endif %}    
+                            {% endif %}
                             <td>{{ organismo.entregoFormulario }}</td>
                             <td>{{ organismo.amparo }}</td>
                             <td>{{ organismo.zona }}</td>
                             <td>
                                 <a href="{{ path('contralor_organismo_ver',{'id':organismo.id}) }}">Ver</a>&nbsp;&nbsp;
-                                <a href="">Editar</a>&nbsp;&nbsp;
+                                <a href="{{ path('contralor_organismo_editar',{'id':organismo.id}) }}">Editar</a>&nbsp;&nbsp;
                             </td>
                         </tr>
                     {% else %}
@@ -76,4 +72,4 @@
                 }
             }
         </script>
-    {% endblock %}    
+    {% endblock %}

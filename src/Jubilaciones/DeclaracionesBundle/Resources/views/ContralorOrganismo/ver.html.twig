@@ -13,7 +13,7 @@
             </ol>
         </nav>
         <div class="grid_16">
-            <table>
+            <table class="table">
 
                 <!-- ITERACIÓN SOBRE LOS EVENTOS DE UN DISERTANTE -->
                 <tr>
@@ -29,7 +29,7 @@
                         Domicilio
                     </td>
                     <td>
-                        {{ organismo.domicilio }}
+                        {{ organismo.domicilioCalle }}&nbsp;{{ organismo.domicilioNumero }}
                     </td>
                 </tr>
                 {% if organismo.representante %}
@@ -43,7 +43,7 @@
                     </tr>
                     <tr>
                         <td>
-                            Representante Cuil
+                            <label>Representante Cuil</label> 
                         </td>
                         <td>
                             {{ organismo.representante.cuil }}
@@ -55,10 +55,11 @@
                             No tiene Representante Asignado
                         </td>
                     </tr>
-                {% endif %}    
+                {% endif %}
             </table>
         </div>
         <br>&nbsp;
+        <img src="{{ asset('bundles/jubilacionesdeclaraciones/img/email.png') }}" width="60">&nbsp;<a href="#">Enviar Correo</a>
 
     {% endblock %}
     {% block javascripts %}
@@ -69,4 +70,4 @@
                 }
             }
         </script>
-    {% endblock %}    
+    {% endblock %}

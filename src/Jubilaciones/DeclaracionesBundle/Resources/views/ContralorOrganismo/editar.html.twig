@@ -1,0 +1,75 @@
+{% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
+{% block title %}Editar Declaracion{% endblock %}
+{% block pageid 'admin' %}
+    {% block body %}
+        <!-- AGREGAR CÓDIGO FALTANTE -->
+        {{ form_errors(form) }}
+        {{ form_start(form) }}
+
+<table class="table">
+<tr>
+  <td>{{ form_label(form.nombre) }} </td><td>{{ form_widget(form.nombre) }}</td>
+  <td>{{ form_label(form.departamento) }} </td><td>{{ form_widget(form.departamento) }}</td>
+</tr>
+
+<tr colspan='2'>
+  <td>{{ form_errors(form.nombre) }} </td><td>{{ form_errors(form.departamento) }}</td>
+</tr>
+
+<tr>
+  <td>{{ form_label(form.domicilioCalle) }} </td><td>{{ form_widget(form.domicilioCalle) }}</td>
+  <td>{{ form_label(form.domicilioNumero) }} </td><td>{{ form_widget(form.domicilioNumero) }}</td>
+</tr>
+
+<tr colspan='2'>
+  <td>{{ form_errors(form.domicilioCalle) }} </td><td>{{ form_errors(form.domicilioNumero) }}</td>
+</tr>
+
+<tr>
+  <td>{{ form_label(form.localidad) }} </td><td>{{ form_widget(form.localidad) }}</td>
+  <td>{{ form_label(form.codigoPostal) }} </td><td>{{ form_widget(form.codigoPostal) }}</td>
+</tr>
+
+<tr colspan='2'>
+  <td>{{ form_errors(form.localidad) }} </td><td>{{ form_errors(form.codigoPostal) }}</td>
+</tr>
+
+<tr>
+  <td>  {{ form_label(form.telefonoCaracteristica) }} </td><td>{{ form_widget(form.telefonoCaracteristica) }}</td>
+  <td>{{ form_label(form.telefonoNumero) }} </td><td>{{ form_widget(form.telefonoNumero) }}</td>
+</tr>
+
+<tr colspan='2'>
+  <td>{{ form_errors(form.telefonoCaracteristica) }} </td><td>{{ form_errors(form.telefonoNumero) }}</td>
+</tr>
+
+<tr>
+  <td>  {{ form_label(form.cuit) }} </td><td>{{ form_widget(form.cuit) }}</td>
+  <td>  {{ form_label(form.email) }} </td><td>  {{ form_widget(form.email) }}</td>
+</tr>
+
+<tr colspan='2'>
+  <td>{{ form_errors(form.cuit) }} </td><td>{{ form_errors(form.email) }}</td>
+</tr>
+
+<tr>
+  <td>  {{ form_label(form.entregoFormulario) }} </td><td>{{ form_widget(form.entregoFormulario) }}</td>
+  <td>  {{ form_label(form.habilitado) }} </td><td>  {{ form_widget(form.habilitado) }}</td>
+</tr>
+
+<tr colspan='2'>
+  <td>{{ form_errors(form.entregoFormulario) }} </td><td>{{ form_errors(form.habilitado) }}</td>
+</tr>
+
+<tr>
+  <td>  {{ form_label(form.zona) }}</td><td>{{ form_widget(form.zona) }}</td>
+  <td>    {{ form_label(form.amparo) }} </td><td>  {{ form_widget(form.amparo) }}</td>
+</tr>
+
+<tr colspan='2'>
+  <td>{{ form_errors(form.zona) }} </td><td>{{ form_errors(form.amparo) }}</td>
+</tr>
+
+</table>
+{{ form_end(form) }}
+{% endblock %}

@@ -14,14 +14,14 @@
 
         <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
 
-        <h4><p> Convenio:</b> {{ convenio }}&nbsp;&nbsp;&nbsp;<b>Tramo:</b> {{ tramo }}</p></h4>
+        <h2><p> Convenio:</b> {{ convenio }}&nbsp;&nbsp;&nbsp;<b>Tramo:</b> {{ tramo }}</p></h2>
         <hr>
         <div class="grid_16">
             <div>
-                <h5><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/rojo.png') }}">&nbsp;&nbsp;Boletas Vencidas</h5>
+                <h3><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/rojo.png') }}">&nbsp;&nbsp;Boletas Vencidas</h3>
             </div>
-            <table>
-                <thead>
+            <table class="table">
+                <thead class="thead-dark">
                     <tr>
                         <th># Cuota</th>
                         <th>1er Vencimiento</th>
@@ -50,7 +50,7 @@
                                     <td>{{cuota.importe3}}</td>
                                 {% endif %}
                             </tr>
-                        {% endfor %}   
+                        {% endfor %}
                     {% else %}
                         <tr>
                             <td colspan="2">No existe ningun Cuota Vencida.</td>
@@ -61,10 +61,10 @@
 
             </table>
             <div>
-                <h5><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/amarillo.png') }}">&nbsp;&nbsp;Boletas Vigentes</h5>
+                <h3><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/amarillo.png') }}">&nbsp;&nbsp;Boletas Vigentes</h3>
             </div>
-            <table>
-                <thead>
+            <table class="table">
+                <thead class="thead-dark">
                     <tr>
                         <th># Cuota</th>
                         <th>1er Vencimiento</th>
@@ -83,14 +83,14 @@
                     {% if cuotas_vigentes %}
                         {% if (cantidad_boletas_vigentes>3) %}
                             {% set iteraciones = 3 %}
-                        {% else %}    
-                            {% set iteraciones = cantidad_boletas_vigentes %}    
+                        {% else %}
+                            {% set iteraciones = cantidad_boletas_vigentes %}
                         {% endif %}
                         {% set i = 0 %}
                         {% for cuota_vigente in cuotas_vigentes %}
                             {% set curDate = "now"|date('Y-m-d') %}
                             {% set i = i + 1 %}
-                            {% if i<4 %} 
+                            {% if i<4 %}
                                 <tr>
                                     <td>{{cuota_vigente.cuota}}</td>
                                     <td>{{cuota_vigente.vencimiento1}}&nbsp;
@@ -124,7 +124,7 @@
                                     {% endif %}
                                 </tr>
                             {% endif %}
-                        {% endfor %}   
+                        {% endfor %}
                     {% else %}
                         <tr>
                             <td colspan="2">No existe ningun Cuota Vencida.</td>
@@ -133,13 +133,13 @@
                     {% endif %}
                 </tbody>
 
-            </table>   
+            </table>
 
             <div>
-                <h5><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/verde.png') }}">&nbsp;&nbsp;Boletas Pagadas</h5>
+                <h3><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/verde.png') }}">&nbsp;&nbsp;Boletas Pagadas</h3>
             </div>
-            <table>
-                <thead>
+            <table class="table">
+                <thead class="thead-dark">
                     <tr>
                         <th># Cuota</th>
                         <th>1er Vencimiento</th>
@@ -170,7 +170,7 @@
                                 {% endif %}
                                 <td>{{cuota_pagada.pagado}}&nbsp;Venc.</td>
                             </tr>
-                        {% endfor %}   
+                        {% endfor %}
                     {% else %}
                         <tr>
                             <td colspan="2">No existe ningun Cuota Vencida.</td>
@@ -189,4 +189,4 @@
                 }
             }
         </script>
-    {% endblock %}    
+    {% endblock %}

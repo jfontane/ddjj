@@ -1,33 +1,69 @@
 {% extends "base.html.twig" %}
 {% block header %}
-    <h1 class="grid_5 alpha">
-        <a href="{{ path('contralor_portada') }}">    <img src="http://listas.santafe.gob.ar/boletines/images/diseno2020/Marca_SantaFev3-07.png" width="120">
-            &nbsp;&nbsp;PredeJu </a>
-    </h1>
-    <nav class="grid_11 omega">
-        <ul>
+
             {#Roles :#} {#{ dump(app.user.getRoles()) }#}
             {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <li><a href="{{ path('admin_organismo_listar') }}">Organismos</a></li>
                 <li><a href="{{ path('admin_usuario_listar') }}">Usuarios</a></li>
                 <li><a href="{{ path('admin_importacion_listar') }}">Importacion</a></li>
                 {% elseif is_granted('ROLE_ADMIN') %}
-                <li><a href="{{ path('contralor_organismo_listar') }}">Organismos</a></li>
-                <li><a href="{{ path('contralor_representante_listar') }}">Representantes</a></li>
-                <li><a href="{{ path('contralor_declaracion_opciones') }}">Declaraciones</a></li>
+                <ul class="navbar-nav mr-auto">
+                  <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('contralor_organismo_listar') }}">Organismos <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ path('contralor_representante_listar') }}">Representantes</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ path('contralor_declaracion_opciones') }}">Declaraciones</a>
+                  </li>
+                </ul>
+                <ul class="list-inline custom-icon-middle">
+                  <li class="list-inline-item">
+                    <a href="#" class="dropdown-toggle" id="dropdownMenuLinkPerson" data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false" title="Usuario logeado"><i class="material-icons">person</i></a>
+                    <div class="dropdown-menu custom-dropdown-menu-right" aria-labelledby="dropdownMenuLinkPerson">
+                      <a class="dropdown-item" href="#">Perfil</a>
+                      <a class="dropdown-item" href="#">Configuración</a>
+                      <a class="dropdown-item" href="#">Acerca de</a>
+                    </div>
+
+                  </li>
+                  <li class="list-inline-item"><a href="{{ path('logout') }}" title="Salir"><i class="material-icons">exit_to_app</i></a>
+                  </li>
+                </ul>
+
                 {% elseif is_granted('ROLE_USER') %}
-                <li><a href="{{ path('organismo_organismo_listar') }}">Organismo</a></li>
-                <li><a href="{{ path('organismo_convenio_cuota_listar') }}">Convenios</a></li>
-                <li><a href="{{ path('organismo_declaracion_listar') }}">Declaraciones</a></li>
+                <ul class="navbar-nav mr-auto">
+                  <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('organismo_organismo_listar') }}">Organismo <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ path('organismo_convenio_cuota_listar') }}">Convenios</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{{ path('organismo_declaracion_listar') }}">Declaraciones</a>
+                  </li>
+                </ul>
+                <ul class="list-inline custom-icon-middle">
+                  <li class="list-inline-item">
+                    <a href="#" class="dropdown-toggle" id="dropdownMenuLinkPerson" data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false" title="Usuario logeado"><i class="material-icons">person</i></a>
+                    <div class="dropdown-menu custom-dropdown-menu-right" aria-labelledby="dropdownMenuLinkPerson">
+                      <a class="dropdown-item" href="#">Perfil</a>
+                      <a class="dropdown-item" href="#">Configuración</a>
+                      <a class="dropdown-item" href="#">Acerca de</a>
+                    </div>
+
+                  </li>
+                  <li class="list-inline-item"><a href="{{ path('logout') }}" title="Salir"><i class="material-icons">exit_to_app</i></a>
+                  </li>
+                </ul>
+
             {% endif %}
 
-            {% if app.user %}
-                <li>
-                  <a href="{{ path('logout') }}"> {{  app.user.username }}&nbsp;<i class="fa fa-sign-out" aria-hidden="true"></i></a>
-                </li>
-            {% endif %}
-        </ul>
-    </nav>
-    <h1>{{ block('title') }}</h1>
+
 
 {% endblock %}

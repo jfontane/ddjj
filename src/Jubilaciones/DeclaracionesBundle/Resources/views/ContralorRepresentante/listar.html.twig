@@ -19,8 +19,8 @@
         </div>
 
         <div class="grid_16">
-            <table>
-                <thead>
+          <table class="table">
+            <thead class="thead-dark">
                     <tr>
                         <th>Cuil</th>
                         <th>Apellido</th>
@@ -43,7 +43,6 @@
                             <td>
                                 <a href="{{ path('contralor_representante_ver', { 'id' : representante.id }) }}">Ver</a>&nbsp;&nbsp;
                                 <a href="">Editar</a>&nbsp;&nbsp;
-                                <a href="">Borrar</a>
                             </td>
                         </tr>
                     {% else %}
@@ -65,4 +64,4 @@
                 }
             }
         </script>
-    {% endblock %}    
+    {% endblock %}
