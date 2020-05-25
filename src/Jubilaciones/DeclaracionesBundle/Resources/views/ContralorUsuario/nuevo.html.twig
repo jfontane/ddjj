@@ -1,0 +1,52 @@
+{% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
+{% block title %}REGISTRO DE USUARIO{% endblock %}
+{% block pageid 'pagina' %}
+    {% block body %}
+        <H1>REGISTRO DE USUARIO</H1>
+        <br>
+        <!-- AGREGAR CÓDIGO FALTANTE -->
+        {{ form_errors(form) }}
+        {{ form_start(form) }}
+        {{ form_errors(form.username) }}
+        <p>
+            {{ form_label(form.username) }}
+            {{ form_widget(form.username) }}
+        </p>
+        <br>
+            {{ form_errors(form.roles) }}
+            <p>
+                {{ form_label(form.roles) }}
+                {{ form_widget(form.roles) }}
+            </p>
+        <br>
+            {{ form_errors(form.zona) }}
+            <p>
+                {{ form_label(form.zona) }}
+                {{ form_widget(form.zona) }}
+            </p>    
+        <br>
+        <div class="grid_6 alpha">
+            {{ form_errors(form.plainPassword.first) }}
+            <p>
+                {{ form_label(form.plainPassword.first, 'Clave') }}
+                {{ form_widget(form.plainPassword.first) }}
+            </p>
+        </div>
+        <div class="grid_6 omega">
+            {{ form_errors(form.plainPassword.second) }}
+            <p>
+                {{ form_label(form.plainPassword.second, 'Repetir clave') }}
+                {{ form_widget(form.plainPassword.second) }}
+            </p>
+        </div>&nbsp;&nbsp;
+        <br>
+
+        <br>&nbsp;&nbsp;
+        <div class="grid_6 alpha">
+            <button class="btn btn-primary" type="submit">Register!</button>
+        </div>
+        &nbsp;
+        {{ form_end(form) }}
+
+
+    {% endblock %}

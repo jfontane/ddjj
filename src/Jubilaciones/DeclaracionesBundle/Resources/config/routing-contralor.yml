@@ -69,3 +69,7 @@ contralor_organismo_editar:
 contralor_organismo_declaraciones_por_organismo:
     path: /organismo/{id}/ddjj
     defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorOrganismo:listarDeclaracionesPorOrganismo }
+
+contralor_usuario_listar:
+    path:     /usuario/listar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorUsuario:listar }

@@ -1,0 +1,68 @@
+{% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
+
+{% block body %}
+{# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
+  </ol>
+</nav>
+<div class="container-fluid">
+
+  {# total items count #}
+  <br/>
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th>Username</th>
+        <th>Roles</th>
+        <th>Zona</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {# table body #}
+      {% for item in pagination.items %}
+      {% if item.roles[0]=='ROLE_USER' %}
+      <tr {% if loop.index is odd %}class="color"{% endif %}>
+        <td>{{ item.username }}</td>
+        <td>{{ item.roles[0] }}</td>
+        <td>{{ item.zona }}</td>
+        <td>
+          <a href="">Ver</a>&nbsp;&nbsp;
+          <a href="">Editar</a>&nbsp;&nbsp;
+          <a href="" id="btn_borrar" data-id="{{ item.id }}">Borrar</a>&nbsp;&nbsp;
+        </td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+      <tbody>
+      </table>
+      <a href="{{path('admin_usuario_nuevo')}}"> Nuevo </a>
+      <br>
+      {# display navigation #}
+      <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+      </div>
+    </div>
+
+
+    {% endblock %}
+    {% block javascripts %}
+    {{ parent() }}
+    <script>
+    $(document).ready(function () {
+      $('a[id=btn_borrar]').on('click', function () {
+        event.preventDefault();
+        id = $(this).data("id");
+        //var url = "../admin/declaracion/listar";
+        var url = "./borrar/" + id;
+        if (confirm('Esta seguro de Eliminar El Usuario??')) {
+          $(location).attr('href', url);
+        }
+      });
+    });
+    </script>
+
+    {% endblock %}
