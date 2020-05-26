@@ -1,66 +1,64 @@
-{% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
-{% block title %}Convenios Realizados{% endblock %}
-{% block pageid 'admin' %}
+{% extends "@JubilacionesDeclaraciones/layout-organismo.html.twig" %}
+{% block body %}
+{# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Convenios</li>
+  </ol>
+</nav>
 
-    {% block body %}
-        {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Convenios</li>
-            </ol>
-        </nav>
 
-        <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
-        <div class="flash_admin">
-            {% for mensaje in app.session.flashbag.get('warn') %}
-                <p class="warn">{{ mensaje }}</p>
-            {% endfor %}
-        </div>
+<div class="grid_16">
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th>Convenio</th>
+        <th>Tramo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {# table body #}
+        {% if convenios %}
+        {% for arreglo in convenios %}
+        <tr>
+          <td>
+            {{arreglo['codigo_convenio']}}
+            <td>
+              {{arreglo['tramo']}}
+            </td>
+          </td>
+          <td>
+            <a href="{{ path('organismo_convenio_cuota_ver', {'codigo_convenio' : arreglo['codigo_convenio'], 'tramo' : arreglo['tramo']}) }}">Cuotas</a>&nbsp;&nbsp;
+          </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <tr>
+          <td colspan="2">No existe ningun Convenio Asociado.</td>
+        </tr>
 
-        <div class="grid_16">
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Convenio</th>
-                        <th>Tramo</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {# table body #}
-                <tbody>
-                    {% if convenios %}
-                        {% for arreglo in convenios %}
-                            <tr>
-                                <td>
-                                    {{arreglo['codigo_convenio']}}
-                                    <td>
-                                    {{arreglo['tramo']}}
-                                </td>
-                                </td>
-                                <td>
-                                    <a href="{{ path('organismo_convenio_cuota_ver', {'codigo_convenio' : arreglo['codigo_convenio'], 'tramo' : arreglo['tramo']}) }}">Cuotas</a>&nbsp;&nbsp;
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    {% else %}
-                        <tr>
-                            <td colspan="2">No existe ningun Convenio Asociado.</td>
-                        </tr>
+        {% endif %}
+      </tbody>
 
-                    {% endif %}
-                </tbody>
+    </table>
+  </div>
 
-            </table>
-        </div>
-    {% endblock %}
-    {% block javascripts %}
-        <script>
-            function confirmaBorrar() {
-                if (confirm("Desea Eliminar un Evento???")) {
-                    //location.href
-                }
-            }
-        </script>
-    {% endblock %}
+
+{% endblock %}
+
+
+
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+function confirmaBorrar() {
+    if (confirm("Desea Eliminar un Evento???")) {
+      //location.href
+    }
+  }
+</script>
+
+{% endblock %}

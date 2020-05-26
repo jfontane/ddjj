@@ -1,4 +1,4 @@
-{% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
+{% extends "@JubilacionesDeclaraciones/layout-organismo.html.twig" %}
 {% block title %}
     Organismo
 
@@ -35,7 +35,7 @@
                             <td>{{ organismo.domicilioCalle }} {{ organismo.domicilioNumero }}</td>
                             <td>
                                 <a href="">Ver</a>&nbsp;&nbsp;
-                                <a href="">Editar</a>&nbsp;&nbsp;
+                                <a href="{{ path('organismo_organismo_editar') }}">Editar</a>&nbsp;&nbsp;
                             </td>
                         </tr>
                     {% else %}
@@ -64,7 +64,7 @@
                             <td>{{ organismo.representante }}</td>
                             <td>{{ organismo.representante.email }}</td>
                             <td>
-                                <a href="">Ver</a>&nbsp;&nbsp;
+                                <a href="">Desvincular</a>&nbsp;&nbsp;
                                 <a href="">Editar</a>&nbsp;&nbsp;
                             </td>
                         </tr>

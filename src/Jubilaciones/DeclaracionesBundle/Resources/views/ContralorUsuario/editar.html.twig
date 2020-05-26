@@ -1,0 +1,33 @@
+{% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
+{% block title %}REGISTRO DE USUARIO{% endblock %}
+{% block pageid 'pagina' %}
+    {% block body %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
+        <li class="breadcrumb-item" aria-current="page"><a href="{{ path('contralor_usuario_listar') }}">Usuarios</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Cambiar Contraseña</li>
+      </ol>
+    </nav>
+        <H1>Cambiar Contraseña</H1>
+        <br>
+        <!-- AGREGAR CÓDIGO FALTANTE -->
+        {{ form_errors(form) }}
+        {{ form_start(form) }}
+
+        <table class="table">
+          <tr>
+            <td>{{ form_label(form.plainPassword.first, 'Clave') }}</td><td>{{ form_widget(form.plainPassword.first) }}</td>
+          </tr>
+          <tr colspan='2'>
+            <td>{{ form_errors(form.plainPassword.first) }}</td>
+          </tr>
+          <tr>
+            <td>{{ form_label(form.plainPassword.second, 'Repetir clave') }}</td><td>  {{ form_widget(form.plainPassword.second) }}</td>
+          </tr>
+          <tr colspan='2'>
+            <td>{{ form_errors(form.plainPassword.second) }}</td>
+          </tr>
+        </table>
+        {{ form_end(form) }}
+    {% endblock %}

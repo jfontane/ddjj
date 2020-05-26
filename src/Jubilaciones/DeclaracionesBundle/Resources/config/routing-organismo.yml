@@ -1,25 +1,25 @@
 registrar_representante:
     path: /representante/nuevo
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Default:nuevoRepresentante }     
-  
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Default:nuevoRepresentante }
+
 organismo_declaracion_listar:
     path:     /declaracion/listar
     defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:listar }
-    
+
 organismo_declaracion_listar_pdf:
     path:     /declaracion/listarPdf
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:listarPdf }    
-    
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:listarPdf }
+
 organismo_declaracion_ver:
     path:     /declaracion/ver/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:ver } 
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:ver }
     requirements:
-        id: \d+    
-    
+        id: \d+
+
 organismo_declaracion_nuevo:
     path:     /declaracion/nuevo
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:nuevo } 
-    
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:nuevo }
+
 organismo_declaracion_editar:
     path:     /declaracion/editar/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:editar }
@@ -32,38 +32,50 @@ organismo_declaracion_borrar:
     requirements:
         id: \d+
 
-organismo_declaracion_error:    
+organismo_declaracion_error:
     path:     /declaracion/error/{error}
     defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:error }
-    
-organismo_organismo_listar:    
+
+organismo_organismo_listar:
     path:     /organismo/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoOrganismo:listar }    
-    
-organismo_organismo_ver_falta:    
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoOrganismo:listar }
+
+organismo_organismo_editar:
+    path:     /organismo/editar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoOrganismo:editar }
+
+organismo_organismo_ver_falta:
     path:     /organismo/ver/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoOrganismo:ver }    
-    
-organismo_representante_listar:    
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoOrganismo:ver }
+
+organismo_representante_listar:
     path:     /representante/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoRepresentante:listar }      
-    
-organismo_representante_ver:    
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoRepresentante:listar }
+
+organismo_representante_editar:
+    path:     /representante/editar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoRepresentante:editar }    
+
+organismo_representante_ver:
     path:     /representante/ver/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoRepresentante:ver }      
-    
-organismo_convenio_cuota_listar:    
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoRepresentante:ver }
+
+organismo_convenio_cuota_listar:
     path:     /conveniocuota/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoConveniocuota:listar }              
-    
-organismo_convenio_cuota_ver:    
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoConveniocuota:listar }
+
+organismo_convenio_cuota_ver:
     path:     /conveniocuota/ver/{codigo_convenio}/{tramo}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoConveniocuota:ver }          
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoConveniocuota:ver }
     requirements:
         id: \d+
 
-organismo_convenio_imprimir_boleta:    
+organismo_convenio_imprimir_boleta:
     path:     /conveniocuota/imprimir/{codigo_convenio}/{tramo}/{cuota}/{vencimiento}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoConveniocuota:boletaPdf }              
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoConveniocuota:boletaPdf }
     requirements:
         id: \d+
+
+organismo_usuario_editar:
+    path:     /usuario/editar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoUsuario:editar }

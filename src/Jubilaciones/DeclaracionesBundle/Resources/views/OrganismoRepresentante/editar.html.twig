@@ -1,0 +1,18 @@
+{% extends "@JubilacionesDeclaraciones/layout-organismo.html.twig" %}
+    {% block body %}
+         <H1>REGISTRO DE REPRESENTANTE</H1>
+         <br>
+        <!-- AGREGAR CÓDIGO FALTANTE -->
+        {{ form_errors(form) }}
+        {{ form_start(form) }}
+        {{ form_errors(form.email) }}
+        <p>
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email) }}
+        </p>
+        <br>
+        &nbsp;
+        {{ form_end(form) }}
+
+
+    {% endblock %}

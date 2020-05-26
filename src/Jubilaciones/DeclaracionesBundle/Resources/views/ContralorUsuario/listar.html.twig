@@ -8,6 +8,13 @@
     <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
   </ol>
 </nav>
+<!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
+<div class="alert alert-warning" role="alert">
+    {% for mensaje in app.session.flashbag.get('warn') %}
+        <p class="warn">{{ mensaje }}</p>
+    {% endfor %}
+</div>
+
 <div class="container-fluid">
 
   {# total items count #}
@@ -31,8 +38,7 @@
         <td>{{ item.zona }}</td>
         <td>
           <a href="">Ver</a>&nbsp;&nbsp;
-          <a href="">Editar</a>&nbsp;&nbsp;
-          <a href="" id="btn_borrar" data-id="{{ item.id }}">Borrar</a>&nbsp;&nbsp;
+          <a href="{{ path('contralor_usuario_editar',{'id': item.id}) }}">Contraseña</a>&nbsp;&nbsp;
         </td>
       </tr>
       {% endif %}

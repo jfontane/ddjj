@@ -73,3 +73,7 @@ contralor_organismo_declaraciones_por_organismo:
 contralor_usuario_listar:
     path:     /usuario/listar
     defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorUsuario:listar }
+
+contralor_usuario_editar:
+    path:     /usuario/editar/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorUsuario:editar }    

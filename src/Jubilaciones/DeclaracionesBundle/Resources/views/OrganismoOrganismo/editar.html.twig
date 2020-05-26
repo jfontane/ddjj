@@ -1,0 +1,55 @@
+{% extends "@JubilacionesDeclaraciones/layout-organismo.html.twig" %}
+{% block title %}Editar Declaracion{% endblock %}
+    {% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
+            <li class="breadcrumb-item" aria-current="page"><a href="{{ path('organismo_organismo_listar') }}">Organismo</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Editar</li>
+        </ol>
+    </nav>
+        <!-- AGREGAR CÓDIGO FALTANTE -->
+        {{ form_errors(form) }}
+        {{ form_start(form) }}
+
+<table class="table">
+<tr>
+  <td>{{ form_label(form.domicilioCalle) }} </td><td>{{ form_widget(form.domicilioCalle) }}</td>
+  <td>{{ form_label(form.domicilioNumero) }} </td><td>{{ form_widget(form.domicilioNumero) }}</td>
+</tr>
+
+<tr colspan='2'>
+  <td>{{ form_errors(form.domicilioCalle) }} </td><td>{{ form_errors(form.domicilioNumero) }}</td>
+</tr>
+
+<tr>
+  <td>{{ form_label(form.localidad) }} </td><td>{{ form_widget(form.localidad) }}</td>
+  <td>{{ form_label(form.codigoPostal) }} </td><td>{{ form_widget(form.codigoPostal) }}</td>
+</tr>
+
+<tr colspan='2'>
+  <td>{{ form_errors(form.localidad) }} </td><td>{{ form_errors(form.codigoPostal) }}</td>
+</tr>
+
+<tr>
+  <td>  {{ form_label(form.telefonoCaracteristica) }} </td><td>{{ form_widget(form.telefonoCaracteristica) }}</td>
+  <td>{{ form_label(form.telefonoNumero) }} </td><td>{{ form_widget(form.telefonoNumero) }}</td>
+</tr>
+
+<tr colspan='2'>
+  <td>{{ form_errors(form.telefonoCaracteristica) }} </td><td>{{ form_errors(form.telefonoNumero) }}</td>
+</tr>
+
+<tr>
+  <td>  {{ form_label(form.cuit) }} </td><td>{{ form_widget(form.cuit) }}</td>
+  <td>  {{ form_label(form.email) }} </td><td>  {{ form_widget(form.email) }}</td>
+</tr>
+
+<tr colspan='2'>
+  <td>{{ form_errors(form.cuit) }} </td><td>{{ form_errors(form.email) }}</td>
+</tr>
+
+
+</table>
+{{ form_end(form) }}
+{% endblock %}

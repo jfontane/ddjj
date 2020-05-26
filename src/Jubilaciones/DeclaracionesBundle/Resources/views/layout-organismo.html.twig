@@ -20,24 +20,16 @@
       <li class="nav-item active">
         <a class="nav-link" href="{{ path('organismo_declaracion_listar') }}">Declaraciones</a>
       </li>
-
     </ul>
 
     <ul class="list-inline custom-icon-middle">
-
-
       <li class="list-inline-item">
-
         <a href="#" class="dropdown-toggle" id="dropdownMenuLinkPerson" data-toggle="dropdown"
         aria-haspopup="true"
         aria-expanded="false" title="Usuario logeado"><i class="material-icons">person</i></a>
-
         <div class="dropdown-menu custom-dropdown-menu-right" aria-labelledby="dropdownMenuLinkPerson">
-          <a class="dropdown-item" href="#">Perfil</a>
-          <a class="dropdown-item" href="#">Configuración</a>
-          <a class="dropdown-item" href="#">Acerca de</a>
+          <a class="dropdown-item" href="{{ path('organismo_usuario_editar') }}">Cambiar Contraseña</a>
         </div>
-
       </li>
 
       <li class="list-inline-item"><a href="{{ path('logout') }}" title="Salir"><i class="material-icons">exit_to_app</i></a>
