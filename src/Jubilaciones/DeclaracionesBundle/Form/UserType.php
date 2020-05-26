@@ -30,7 +30,7 @@ class UserType extends AbstractType {
                 )
                 ->add('zona', ChoiceType::class, array(
                     'choices' => array('Seleccion' => 'Sin Datos', 'Norte' => 'Norte',
-                        'Sur' => 'Sur')
+                        'Sur' => 'Sur', 'Todas' => 'Todas')
         ));
         //->add('Guardar',SubmitType::class, array('label' => 'Nuevo Usuario'));
     }

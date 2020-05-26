@@ -12,15 +12,15 @@
             </ol>
         </nav>
         <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
-        <div class="flash_admin">
+        <div class="alert alert-info" role="alert" >
             {% for mensaje in app.session.flashbag.get('info') %}
                 <p class="info">{{ mensaje }}</p>
             {% endfor %}
         </div>
 
         <div class="grid_16">
-            <table>
-                <thead>
+            <table class="table">
+                <thead class="thead-dark">
                     <tr>
                         <th>#</th>
                         <th>Nombre</th>

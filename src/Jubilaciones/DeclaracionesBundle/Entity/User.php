@@ -46,7 +46,7 @@ class User implements UserInterface {
     private $roles;
 
     /**
-     * @ORM\Column(type="string", columnDefinition="enum('Norte', 'Sur','Sin Datos')", nullable=true)
+     * @ORM\Column(type="string", columnDefinition="enum('Norte', 'Sur','Sin Datos','Todas')", nullable=true)
      */
     protected $zona;
 

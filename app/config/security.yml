@@ -8,14 +8,23 @@ security:
     role_hierarchy:
         ROLE_ADMIN: [ROLE_CONTRALOR,ROLE_ORGANISMO,ROLE_USER]
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALOWED_TO_SWITCH]
-        
+
     providers:
+        todos:
+            chain:
+                providers: [usuarios_db, in_memory]
         usuarios_db:
             entity:
                 class: JubilacionesDeclaracionesBundle:User
                 property: username
                 # if you're using multiple entity managers
-                # manager_name: customer    
+                # manager_name: customer
+        in_memory:
+            memory:
+                users:
+                    jfontanellaz:
+                        password: $2y$13$rbRVmZlqbce02et8zJ2YvOOahqzXlDxPrwnp/paYxB8Bs64Sz2Q36
+                        roles: 'ROLE_SUPER_ADMIN'
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -38,7 +47,7 @@ security:
                 # por defecto, esta funcionalidad está disponible en una
                 # checkbox en el formulario de login, descomenta la
                 # siguiente línea para activarlo siempre.
-                #always_remember_me: true    
+                #always_remember_me: true
             logout:
                 path: /logout
                 target: /
@@ -58,5 +67,3 @@ security:
         - { path: '^/admin', roles: ROLE_SUPER_ADMIN }
         - { path: '^/contralor', roles: ROLE_ADMIN }
         - { path: '^/organismo', roles: ROLE_USER }
-        
-        

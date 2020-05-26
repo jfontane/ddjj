@@ -20,6 +20,13 @@ use Symfony\Component\Validator\Constraints\File;
 class ImportacionType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
+      //  dump(ini_get('upload_max_filesize'));exit;
+      $tam_max_filesize = ini_get('upload_max_filesize');
+      $tam_max_upload_post = ini_get('post_max_size');
+      $tam_final = $tam_max_upload_post;
+      //if ($tam_max_filesize<=$tam_max_upload_post ) $tam_final = $tam_max_filesize;
+      //else $tam_final = $tam_max_upload_post;
+
         $builder->add('nombre', ChoiceType::class, array(
                     'choices' => array('Usuarios' => 'Usuarios', 'Organismos' => 'Organismos', 'Representantes' => 'Representantes',
                                        'Declaraciones_Organismo' => 'Declaraciones_Organismo','ConvenioCuotas_Organismo' => 'ConvenioCuotas_Organismo',
@@ -29,7 +36,7 @@ class ImportacionType extends AbstractType {
                      'mapped' => false,
                      'constraints' => [
                    new File([
-                       'maxSize' => '21548k',
+                       'maxSize' => $tam_final,
                        ])
                ],))
                ->add('descripcion', TextType::class);

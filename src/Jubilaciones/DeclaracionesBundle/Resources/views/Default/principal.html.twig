@@ -6,7 +6,6 @@
             {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
             <H1>Principal</H1>
             <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
-            <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
             <div class="alert alert-warning" role="alert">
                 {% for mensaje in app.session.flashbag.get('warn') %}
                     <p class="warn">{{ mensaje }}</p>
