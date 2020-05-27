@@ -15,6 +15,10 @@
   <div>
     <h3><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/rojo.png') }}">&nbsp;&nbsp;Boletas Vencidas</h3>
   </div>
+  <div class="alert alert-danger" role="alert">
+    <h4>*  Si el Convenio es del 2018 y adeuda 3 Cuotas o mas del Convenio en cuestion, no se podran pagar las cuotas subsiguientes hasta que se regularice la situacion.</h4>
+    <h4>** Si el Convenio es del 2009 y adeuda 3 Cuotas o mas tanto de los periodos corrientes como del convenio en cuestion, no se podran pagar las cuotas subsiguientes hasta que se regularice la situacion.</h4>
+  </div>
   <table class="table">
     <thead class="thead-dark">
       <tr>
@@ -89,7 +93,7 @@
             <tr>
               <td>{{cuota_vigente.cuota}}</td>
               <td>{{cuota_vigente.vencimiento1}}&nbsp;
-                {% if curDate<=cuota_vigente.vencimiento1 %}
+                {% if curDate<=cuota_vigente.vencimiento1 and habilitarImprimir %}
                 <a href="{{ path('organismo_convenio_imprimir_boleta' , { 'codigo_convenio' : convenio, 'tramo' : tramo, 'cuota' : cuota_vigente.cuota, 'vencimiento' : 1 }) }}" target="_blank">
                   Imprimir
                 </a>
@@ -98,7 +102,7 @@
               <td>{{cuota_vigente.importe1}}</td>
               <td>{{cuota_vigente.vencimiento2}}
                 &nbsp;
-                {% if curDate<=cuota_vigente.vencimiento2 %}
+                {% if curDate<=cuota_vigente.vencimiento2 and habilitarImprimir %}
                 <a href="{{ path('organismo_convenio_imprimir_boleta' , { 'codigo_convenio' : convenio, 'tramo' : tramo, 'cuota' : cuota_vigente.cuota, 'vencimiento' : 2 }) }}" target="_blank">
                   Imprimir
                 </a>

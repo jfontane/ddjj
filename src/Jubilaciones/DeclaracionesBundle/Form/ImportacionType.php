@@ -30,7 +30,7 @@ class ImportacionType extends AbstractType {
         $builder->add('nombre', ChoiceType::class, array(
                     'choices' => array('Usuarios' => 'Usuarios', 'Organismos' => 'Organismos', 'Representantes' => 'Representantes',
                                        'Declaraciones_Organismo' => 'Declaraciones_Organismo','ConvenioCuotas_Organismo' => 'ConvenioCuotas_Organismo',
-                                       'ConvenioCtaCte_Organismo' => 'ConvenioCtaCte_Organismo')))
+                                       'ConvenioCtaCte_Organismo' => 'ConvenioCtaCte_Organismo', 'Impagos' => 'Impagos')))
                 ->add('archivo', FileType::class,array(
                      'label' => "Archivo",
                      'mapped' => false,

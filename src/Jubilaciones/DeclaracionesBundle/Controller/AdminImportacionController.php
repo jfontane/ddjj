@@ -44,6 +44,8 @@ class AdminImportacionController extends Controller {
             // 4) save the User!
             //Obtenemos el archivo del formulario y lo subimos al servidor
             $fileImportacion = $form->get('archivo')->getData();
+            $nombre_archivo = $form->get('nombre')->getData();
+
             $contenido = file_get_contents($fileImportacion);
             // Le ponemos un nombre al fichero
 
@@ -54,10 +56,13 @@ class AdminImportacionController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($importacion);
             $em->flush();
-            $file_name = $importacion->getId().'_'.$importacion->getNombre() . ".txt";
+            if ($nombre_archivo=='Impagos') {
+              $file_name = "impa3.txt";
+            } else {
+               $file_name = $importacion->getId().'_'.$importacion->getNombre() . ".txt";
+            }
             $fileImportacion->move("uploads", $file_name);
 
-            // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
             // Mensaje para notificar al usuario que todo ha salido bien
             AbstractBaseController::addInfoMessage('El Archivo de importacion ' . $importacion->getNombre() . '  sido Creado.');
