@@ -8,19 +8,18 @@ login:
 
 login_check:
     path: /login_check
-    
+
 logout:
     path: /logout
-    
-estatica:
-    path: /sitio/{pagina}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Default:estatica } 
+
+politicas:
+    path: /politicas
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Default:estatica }
 
 registrar_representante:
     path: /representante/nuevo
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Default:nuevoRepresentante }  
-    
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Default:nuevoRepresentante }
+
 principal_logueado:
     path: /principal
     defaults: { _controller: JubilacionesDeclaracionesBundle:Default:principal }
-  

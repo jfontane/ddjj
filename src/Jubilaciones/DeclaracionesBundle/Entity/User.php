@@ -103,6 +103,10 @@ class User implements UserInterface {
         return $this->roles;
     }
 
+    public function hasRole($rol) {
+      return in_array($rol,$this->roles);
+    }
+
     public function eraseCredentials() {
 
     }

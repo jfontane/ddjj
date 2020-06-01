@@ -24,13 +24,23 @@ class ImportacionType extends AbstractType {
       $tam_max_filesize = ini_get('upload_max_filesize');
       $tam_max_upload_post = ini_get('post_max_size');
       $tam_final = $tam_max_upload_post;
+
+
+      $obligatorio_choice=array('ConvenioCuotas_Organismo' => 'ConvenioCuotas_Organismo',
+      'ConvenioCtaCte_Organismo' => 'ConvenioCtaCte_Organismo',
+      'Impagos' => 'Impagos');
+
+       if ($options['bandera']) {
+          $obligatorio_choice=array_merge($obligatorio_choice, array('Usuarios' => 'Usuarios', 'Organismos' => 'Organismos', 'Representantes' => 'Representantes',
+                             'Declaraciones_Organismo' => 'Declaraciones_Organismo'));
+       }
+
+
       //if ($tam_max_filesize<=$tam_max_upload_post ) $tam_final = $tam_max_filesize;
       //else $tam_final = $tam_max_upload_post;
 
         $builder->add('nombre', ChoiceType::class, array(
-                    'choices' => array('Usuarios' => 'Usuarios', 'Organismos' => 'Organismos', 'Representantes' => 'Representantes',
-                                       'Declaraciones_Organismo' => 'Declaraciones_Organismo','ConvenioCuotas_Organismo' => 'ConvenioCuotas_Organismo',
-                                       'ConvenioCtaCte_Organismo' => 'ConvenioCtaCte_Organismo', 'Impagos' => 'Impagos')))
+                    'choices' => $obligatorio_choice))
                 ->add('archivo', FileType::class,array(
                      'label' => "Archivo",
                      'mapped' => false,
@@ -45,7 +55,7 @@ class ImportacionType extends AbstractType {
     }
 
     public function configureOptions(OptionsResolver $resolver) {
-        $resolver->setDefaults(array('data_class' => 'Jubilaciones\DeclaracionesBundle\Entity\Importacion'));
+        $resolver->setDefaults(array('data_class' => 'Jubilaciones\DeclaracionesBundle\Entity\Importacion','bandera' => false));
     }
 
 }

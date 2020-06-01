@@ -2,10 +2,13 @@
 {% block header %}
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="">Notificaciones</a>
+        <a class="nav-link" href="{{ path('inicio') }}">Home</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="">Politicas</a>
+        <a class="nav-link" href="{{ path('politicas') }}">Representantes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ path('politicas') }}">Politicas de Uso</a>
       </li>
     </ul>
     <ul class="list-inline custom-icon-middle">

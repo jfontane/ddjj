@@ -18,9 +18,18 @@ class DefaultController extends Controller {
      public function principalAction() {
         return $this->render('@JubilacionesDeclaraciones\Default\principal.html.twig');
     }
-    
-    public function estaticaAction($pagina) {
-        return $this->render("@JubilacionesDeclaraciones\Default\\" . $pagina . ".html.twig");
+
+    public function estaticaAction() {
+        return $this->render("@JubilacionesDeclaraciones\Default\politicas.html.twig");
+    }
+
+    public function listarRepresentanteAction() {
+        $em = $this->getDoctrine()->getManager();
+        $representantes = $em->getRepository('JubilacionesDeclaracionesBundle:Representante')->findAllRepresentantesAlfabeticamente();
+        //dump($declaraciones);die;
+        return $this->render('@JubilacionesDeclaraciones/ContralorRepresentante/listar.html.twig', array(
+                    'representantes' => $representantes
+        ));
     }
 
     public function nuevoRepresentanteAction(Request $request) {
@@ -29,7 +38,7 @@ class DefaultController extends Controller {
                 ->add('Guardar', SubmitType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            //Saco el organismo del Formulario de Alta de Representante 
+            //Saco el organismo del Formulario de Alta de Representante
             $representanteOrganismo = $form->get('organismo')->getData();
             //Saco el ID del Organismo del Formulario de Alta de Representante
             $idRepresentanteOrganismo = $representanteOrganismo->getId();

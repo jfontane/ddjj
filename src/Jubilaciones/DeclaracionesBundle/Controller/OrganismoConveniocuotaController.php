@@ -40,7 +40,7 @@ class OrganismoConveniocuotaController extends Controller {
 
     $habilitarImprimir = false;
     if ($codigo_convenio == '000000012018') {
-      if (count($arreglo_cuotas_vencidas)>1) {
+      if (count($arreglo_cuotas_vencidas)>2) {
         $habilitarImprimir = false;
       } else {
         $habilitarImprimir = true;
@@ -167,7 +167,6 @@ class OrganismoConveniocuotaController extends Controller {
             $pdf->Output('boletaConvenio.pdf', 'I');
     } else if ($determinacion == 'vencida') die('Boleta Vencida');
      else die('Errorrrrr'); // else hacer render a una twig
-
   }
 
   private function obtenerConveniosVigentes($organismo_codigo) {

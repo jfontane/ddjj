@@ -31,8 +31,9 @@ class AdminImportacionController extends Controller {
     }
 
     public function nuevoAction(Request $request) {
+        $user = $this->getUser();
         $importacion = new Importacion();
-        $form = $this->createForm(ImportacionType::class, $importacion)
+        $form = $this->createForm(ImportacionType::class, $importacion, array('bandera'=> !$user->hasRole('ROLE_ADMIN')))
                 ->add('Guardar', SubmitType::class);
 
         $form->handleRequest($request);
@@ -48,24 +49,23 @@ class AdminImportacionController extends Controller {
 
             $contenido = file_get_contents($fileImportacion);
             // Le ponemos un nombre al fichero
-
             $importacion->setFechaCreacion(new \DateTime('now'));
-            $importacion->setProcesado('No');
-
 
             $em = $this->getDoctrine()->getManager();
-            $em->persist($importacion);
-            $em->flush();
             if ($nombre_archivo=='Impagos') {
               $file_name = "impa3.txt";
+              $importacion->setProcesado('Si');
             } else {
                $file_name = $importacion->getId().'_'.$importacion->getNombre() . ".txt";
+               $importacion->setProcesado('No');
             }
+            $em->persist($importacion);
+            $em->flush();
             $fileImportacion->move("uploads", $file_name);
 
             // maybe set a "flash" success message for the user
             // Mensaje para notificar al usuario que todo ha salido bien
-            AbstractBaseController::addInfoMessage('El Archivo de importacion ' . $importacion->getNombre() . '  sido Creado.');
+            AbstractBaseController::addInfoMessage('El Archivo de importacion "' . $importacion->getNombre() . '"  sido Creado.');
             return $this->redirectToRoute('admin_importacion_listar');
         }
         return $this->render('@JubilacionesDeclaraciones/AdminImportacion/nuevo.html.twig', array('form' => $form->createView()
@@ -132,7 +132,12 @@ class AdminImportacionController extends Controller {
         $fileName = $id.'_'.$importacion->getNombre() . '.txt';
         // Para borrar el archivo
         $fs = new Filesystem();
-        $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
+        if ($importacion->getNombre()=='Impagos') {
+           $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/impa3.txt');
+        } else {
+           $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/'.$fileName);
+        }
+
 
         $em->remove($importacion);
         $em->flush();
