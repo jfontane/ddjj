@@ -16,10 +16,16 @@ politicas:
     path: /politicas
     defaults: { _controller: JubilacionesDeclaracionesBundle:Default:estatica }
 
-registrar_representante:
+registrar_rep:
     path: /representante/nuevo
     defaults: { _controller: JubilacionesDeclaracionesBundle:Default:nuevoRepresentante }
 
+representante_ver:
+    path: /representante/ver/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Default:verRepresentante }
+    requirements:
+        id: \d+
+        
 principal_logueado:
     path: /principal
     defaults: { _controller: JubilacionesDeclaracionesBundle:Default:principal }

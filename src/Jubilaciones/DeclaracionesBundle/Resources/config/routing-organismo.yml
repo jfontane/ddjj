@@ -1,4 +1,4 @@
-registrar_representante:
+organismo_representante_registrar:
     path: /representante/nuevo
     defaults: { _controller: JubilacionesDeclaracionesBundle:Default:nuevoRepresentante }
 
@@ -54,7 +54,7 @@ organismo_representante_listar:
 
 organismo_representante_editar:
     path:     /representante/editar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoRepresentante:editar }    
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoRepresentante:editar }
 
 organismo_representante_ver:
     path:     /representante/ver/{id}

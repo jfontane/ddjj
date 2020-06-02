@@ -1,0 +1,28 @@
+{% extends "@JubilacionesDeclaraciones/layout-publico.html.twig" %}
+    {% block pageid 'index' %}
+        {% block body %}
+
+        <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
+          <div class="flash_admin">
+                  {% for mensaje in app.session.flashbag.get('warn') %}
+                      <p class="warn">{{ mensaje }}</p>
+                  {% endfor %}
+          </div>
+
+          <table class="table">
+            <tr>
+              <th>Apellido</th><td>{{ representante.apellido }}</td>
+            </tr>
+            <tr>
+              <th>Nombres</th><td>{{ representante.nombres }}</td>
+            </tr>
+            <tr>
+              <th>Cuil</th><td>{{ representante.cuil }}</td>
+            </tr>
+            <tr>
+              <th>email</th><td>{{ representante.email }}</td>
+            </tr>
+          </table>
+
+
+{% endblock %}
