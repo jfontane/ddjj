@@ -233,7 +233,25 @@ class OrganismoConveniocuotaController extends Controller {
     $stmt->execute($params);
     $arreglo_cuotas_vencidas = $stmt->fetchAll();
 
-    return $arreglo_cuotas_vencidas;
+    //dump($arreglo_cuotas_vencidas);die;
+    $arreglo_cuotas_pagadas=$this->obtenerCuotasPagadas($organismo_codigo, $codigo_convenio, $tramo);
+    $array_venc=array();
+    foreach($arreglo_cuotas_vencidas as $itemCuota) {
+        // echo $itemCuota['cuota']."<br>";
+         $band=false;
+         foreach($arreglo_cuotas_pagadas as $itemPagada) {
+            //echo $itemPagada['cuota']."<br>";
+            if ($itemCuota['cuota']==$itemPagada['cuota']) {
+              $band=true;
+            }
+         }
+         if (!$band) {
+           array_push($array_venc,$itemCuota);
+         }
+
+    }
+  //dump($array_venc);die;
+   return $array_venc;
   }
 
   //completar esteee
@@ -268,32 +286,18 @@ class OrganismoConveniocuotaController extends Controller {
     return $arreglo_cuotas_vigentes;
   }
 
+
   private function obtenerCuotasPagadas($organismo_codigo, $codigo_convenio, $tramo) {
     $em = $this->getDoctrine()->getManager();
     $db = $em->getConnection();
-
-    if (($codigo_convenio == '000000012018') or ( $codigo_convenio == '000000012020')) {
-      $QueryCuotasVigentes = "SELECT DISTINCT  codigo_convenio, codigo_organismo ,tramo , cuota, importe1, vencimiento1, importe2, vencimiento2, pagado
-      FROM conveniocuota
-      WHERE ( codigo_organismo = :codigo_organismo ) AND
-      ( codigo_convenio = :codigo_convenio ) AND
-      ( pagado <> 0 ) AND
-      ( tramo = :tramo )";
-      $stmt = $db->prepare($QueryCuotasVigentes);
-      $params = array('codigo_organismo' => $organismo_codigo, 'codigo_convenio' => $codigo_convenio, 'tramo' => $tramo);
-    } else {
-      $QueryCuotasVigentes = "SELECT DISTINCT  codigo_convenio, codigo_organismo ,tramo , cuota, importe1, vencimiento1, importe2, vencimiento2, importe3, vencimiento3, pagado
-      FROM conveniocuota
-      WHERE ( codigo_organismo = :codigo_organismo ) AND
-      ( codigo_convenio = :codigo_convenio ) AND
-      ( pagado <> 0 ) AND
-      ( tramo = :tramo )";
-      $stmt = $db->prepare($QueryCuotasVigentes);
-      $params = array('codigo_organismo' => $organismo_codigo, 'codigo_convenio' => $codigo_convenio, 'tramo' => $tramo);
-    };
-
+    $QueryCuotasPagadas="SELECT DISTINCT  codigo_convenio, codigo_organismo, tramo, fecha_pago, cuota, importe
+            FROM conveniocuentacorriente
+            WHERE (codigo_organismo = :codigo_organismo) AND (codigo_convenio = :codigo_convenio) AND (tramo = :tramo) AND (tipo_movimiento = 'H')";
+    $stmt = $db->prepare($QueryCuotasPagadas);
+    $params = array('codigo_organismo' => $organismo_codigo, 'codigo_convenio' => $codigo_convenio, 'tramo' => $tramo);
     $stmt->execute($params);
     $arreglo_cuotas_pagadas = $stmt->fetchAll();
+    //dump($arreglo_cuotas_pagadas);die;
     return $arreglo_cuotas_pagadas;
   }
 

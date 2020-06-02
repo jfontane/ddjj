@@ -123,50 +123,7 @@ class Representante {
         return $this->fechaIngreso;
     }
 
-    /**
-     * Set documentoTipo
-     *
-     * @param string $documentoTipo
-     *
-     * @return Representante
-     */
-    public function setDocumentoTipo($documentoTipo) {
-        $this->documentoTipo = $documentoTipo;
-
-        return $this;
-    }
-
-    /**
-     * Get documentoTipo
-     *
-     * @return string
-     */
-    public function getDocumentoTipo() {
-        return $this->documentoTipo;
-    }
-
-    /**
-     * Set documentoNumero
-     *
-     * @param string $documentoNumero
-     *
-     * @return Representante
-     */
-    public function setDocumentoNumero($documentoNumero) {
-        $this->documentoNumero = $documentoNumero;
-
-        return $this;
-    }
-
-    /**
-     * Get documentoNumero
-     *
-     * @return string
-     */
-    public function getDocumentoNumero() {
-        return $this->documentoNumero;
-    }
-
+    
     /**
      * Set apellido
      *

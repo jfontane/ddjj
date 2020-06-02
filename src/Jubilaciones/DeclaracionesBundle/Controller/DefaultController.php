@@ -42,10 +42,10 @@ class DefaultController extends Controller {
             $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('id' => $idRepresentanteOrganismo));
 //            dump($organismo);
 //            die;
-            $nroDocumento = $representante->getDocumentoNumero();
-            $representante->setDocumentoTipo('Dni');
+            //$nroDocumento = $representante->getDocumentoNumero();
+            //$representante->setDocumentoTipo('Dni');
             $representante->setConfirmoDatos('No');
-            $representante->setDocumentoNumero(substr($nroDocumento, 2, 8));
+            //$representante->setDocumentoNumero(substr($nroDocumento, 2, 8));
             $representante->setFechaSolicitud(new \DateTime('now'));
 
             $em->persist($representante);

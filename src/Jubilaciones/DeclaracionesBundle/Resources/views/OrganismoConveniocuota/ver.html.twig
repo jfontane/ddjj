@@ -141,40 +141,25 @@
             <thead class="thead-dark">
               <tr>
                 <th># Cuota</th>
-                <th>1er Vencimiento</th>
+                <th>Fecha de Pago</th>
                 <th>Importe</th>
-                <th>2do Vencimiento</th>
-                <th>Importe</th>
-                {% if cantidad_vencimientos==3 %}
-                <th>3er Vencimiento</th>
-                <th>Importe</th>
-                {% endif %}
-                <th>Pagada</th>
               </tr>
             </thead>
             <tbody>
               {# table body #}
               <tbody>
                 {% if cuotas_pagadas %}
-                {% for cuota_pagada in cuotas_pagadas %}
-                <tr>
-                  <td>{{cuota_pagada.cuota}}</td>
-                  <td>{{cuota_pagada.vencimiento1}}</td>
-                  <td>{{cuota_pagada.importe1}}</td>
-                  <td>{{cuota_pagada.vencimiento2}}</td>
-                  <td>{{cuota_pagada.importe2}}</th>
-                    {% if cantidad_vencimientos==3 %}
-                    <td>{{cuota_pagada.vencimiento3}}</td>
-                    <td>{{cuota_pagada.importe3}}</td>
-                    {% endif %}
-                    <td>{{cuota_pagada.pagado}}&nbsp;Venc.</td>
-                  </tr>
-                  {% endfor %}
+                      {% for cuota_pagada in cuotas_pagadas %}
+                        <tr>
+                            <td>{{cuota_pagada.cuota}}</td>
+                            <td>{{cuota_pagada.fecha_pago}}</td>
+                            <td>{{cuota_pagada.importe}}</td>
+                        </tr>
+                        {% endfor %}
                   {% else %}
                   <tr>
-                    <td colspan="2">No existe ningun Cuota Vencida.</td>
+                      <td colspan="2">No existe ningun Cuota Vencida.</td>
                   </tr>
-
                   {% endif %}
                 </tbody>
               </table>
