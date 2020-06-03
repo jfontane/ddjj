@@ -1,9 +1,8 @@
 {% extends "@JubilacionesDeclaraciones/layout-organismo.html.twig" %}
 {% block title %}
     Organismo
-
 {% endblock %}
-{% block pageid 'admin' %}
+{% block pageid 'organismo' %}
 
     {% block body %}
         {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
@@ -34,7 +33,7 @@
                             <td>{{ organismo.nombre }}</td>
                             <td>{{ organismo.domicilioCalle }} {{ organismo.domicilioNumero }}</td>
                             <td>
-                                <a href="">Ver</a>&nbsp;&nbsp;
+                                <a href="{{ path('organismo_organismo_ver',{ "id": organismo.id }) }}">Ver</a>&nbsp;&nbsp;
                                 <a href="{{ path('organismo_organismo_editar') }}">Editar</a>&nbsp;&nbsp;
                             </td>
                         </tr>
@@ -53,6 +52,7 @@
                         <th>CUIL</th>
                         <th>Nombre</th>
                         <th>Email</th>
+                        <th>Entrego FR020</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -63,6 +63,7 @@
                             <td>{{ organismo.representante.cuil }}</td>
                             <td>{{ organismo.representante }}</td>
                             <td>{{ organismo.representante.email }}</td>
+                            <td>{{ organismo.entregoFormulario }}</td>
                             <td>
                                 <a href="">Desvincular</a>&nbsp;&nbsp;
                                 <a href="">Editar</a>&nbsp;&nbsp;

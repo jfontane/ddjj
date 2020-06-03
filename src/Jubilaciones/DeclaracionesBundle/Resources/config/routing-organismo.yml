@@ -44,9 +44,11 @@ organismo_organismo_editar:
     path:     /organismo/editar
     defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoOrganismo:editar }
 
-organismo_organismo_ver_falta:
+organismo_organismo_ver:
     path:     /organismo/ver/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoOrganismo:ver }
+    requirements:
+        id: \d+
 
 organismo_representante_listar:
     path:     /representante/listar

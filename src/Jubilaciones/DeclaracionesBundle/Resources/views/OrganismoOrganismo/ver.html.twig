@@ -2,51 +2,109 @@
 {% block title %}Datos del Organismo{% endblock %}
 {% block pageid 'admin' %}
 
-    {% block body %}
+    {% block body pageid 'organismo' %}
         {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
+        <br>
+        <h1>Datos del Organismo</h1>
+        <br>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{path('contralor_organismo_listar')}}">Organismos</a></li>
+                <li class="breadcrumb-item"><a href="{{path('organismo_organismo_listar')}}">Organismos</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Ver</li>
-                <li class="breadcrumb-item"><a href="{{ path('contralor_organismo_declaraciones_por_organismo',{'id':organismo.id}) }}">Declaraciones Juradas</a></li>
             </ol>
         </nav>
+
         <div class="grid_16">
-            <table>
+            <table class="table">
 
                 <!-- ITERACIÓN SOBRE LOS EVENTOS DE UN DISERTANTE -->
                 <tr>
-                    <td>
+                    <th>
                         Nombre
-                    </td>
+                    </th>
                     <td>
                         {{ organismo.nombre }}
                     </td>
                 </tr>
                 <tr>
+                    <th>
+                        Codigo
+                    </th>
                     <td>
+                        {{ organismo.codigo }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        CUIT
+                    </th>
+                    <td>
+                        {{ organismo.cuit }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
                         Domicilio
-                    </td>
+                    </th>
                     <td>
-                        {{ organismo.domicilio }}
+                        {{ organismo.domicilioCalle }} {{ organismo.domicilioNumero }}
                     </td>
+                </tr>
+                <tr>
+                    <th>
+                        Localidad
+                    </th>
+                    <td>
+                        {{ organismo.localidad }}  <b>CP:</b>  {{ organismo.codigoPostal }} <b>Zona:</b> {{ organismo.zona }}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        Telefono
+                    </th>
+                    <td>
+                        {{ organismo.telefonoCaracteristica }} - {{ organismo.telefonoNumero }}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        Email
+                    </th>
+                    <td>
+                        {{ organismo.email }}
+                    </td>
+                </tr>
+
+                <tr colspan="2">
+                    <th>
+                        <hr>
+                    </th>
                 </tr>
                 {% if organismo.representante %}
                     <tr>
-                        <td>
+                        <th>
                             Representante Nombres
-                        </td>
+                        </th>
                         <td>
                             {{ organismo.representante.apellido }},{{ organismo.representante.nombres }}
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <th>
                             Representante Cuil
-                        </td>
+                        </th>
                         <td>
                             {{ organismo.representante.cuil }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Representante Email
+                        </th>
+                        <td>
+                            {{ organismo.representante.email }}
                         </td>
                     </tr>
                 {% else %}
@@ -55,7 +113,7 @@
                             No tiene Representante Asignado
                         </td>
                     </tr>
-                {% endif %}    
+                {% endif %}
             </table>
         </div>
         <br>&nbsp;
@@ -69,4 +127,4 @@
                 }
             }
         </script>
-    {% endblock %}    
+    {% endblock %}
