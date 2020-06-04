@@ -1,7 +1,8 @@
 {% extends "@JubilacionesDeclaraciones/layout-organismo.html.twig" %}
 {% block title %}{{declaracion.organismo.nombre}} - {{declaracion.organismo.codigo}}
      {% endblock %}
-{% block pageid 'admin' pageid 'ddjj' %}
+{% block pageid 'ddjj' %}
+{% block pageid 'admin'%}
 
     {% block body %}
         {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}

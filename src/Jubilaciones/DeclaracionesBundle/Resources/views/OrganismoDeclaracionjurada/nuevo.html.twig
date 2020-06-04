@@ -1,5 +1,6 @@
 {% extends "@JubilacionesDeclaraciones/layout-organismo.html.twig" %}
-    {% block body pageid 'ddjj'  %}
+{% block pageid 'ddjj' %}
+    {% block body  %}
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
@@ -13,34 +14,51 @@
           <div class="card-header">Declaracion Jurada - Nueva </div>
 
           <div class="card-body">
-            <!-- AGREGAR CÓDIGO FALTANTE -->
+
             {{ form_errors(form) }}
             {{ form_start(form) }}
-            {{ form_errors(form.tipoLiquidacion) }}
-            <p>
-                {{ form_label(form.tipoLiquidacion) }}
-                {{ form_widget(form.tipoLiquidacion) }}
-            </p>
-            {{ form_errors(form.periodoAnio) }}
-            <p>
-                {{ form_label(form.periodoAnio) }}
-                {{ form_widget(form.periodoAnio) }}
-            </p>
-            {{ form_errors(form.periodoMes) }}
-            <p>
-                {{ form_label(form.periodoMes) }}
-                {{ form_widget(form.periodoMes) }}
-            </p>
-            {{ form_errors(form.jubidat) }}
-            <p>
-                {{ form_label(form.jubidat) }}
-                {{ form_widget(form.jubidat) }}
-            </p>
-            {{ form_errors(form.jubi1ind) }}
-            <p>
-                {{ form_label(form.jubi1ind) }}
-                {{ form_widget(form.jubi1ind) }}
-            </p>
+            <table>
+              <tr>
+                <th>{{ form_label(form.tipoLiquidacion) }}</th> <td>{{ form_widget(form.tipoLiquidacion) }}</td>
+              </tr>
+
+              <tr colspan="2">
+                <th>{{ form_errors(form.tipoLiquidacion) }}</th>
+              </tr>
+
+              <tr>
+                <th>{{ form_label(form.periodoAnio) }}</th> <td>{{ form_widget(form.periodoAnio) }}</td>
+              </tr>
+
+              <tr colspan="2">
+                <th>{{ form_errors(form.periodoAnio) }}</th>
+              </tr>
+
+              <tr>
+                <th>{{ form_label(form.periodoMes) }}</th> <td>{{ form_widget(form.periodoMes) }}</td>
+              </tr>
+
+              <tr colspan="2">
+                <th>{{ form_errors(form.periodoMes) }}</th>
+              </tr>
+
+              <tr>
+                <th>{{ form_label(form.jubidat) }}</th> <td>{{ form_widget(form.jubidat) }}</td>
+              </tr>
+
+              <tr colspan="2">
+                <th>{{ form_errors(form.jubidat) }}</th>
+              </tr>
+
+              <tr>
+                <th>{{ form_label(form.jubi1ind) }}</th> <td> {{ form_widget(form.jubi1ind) }}</td>
+              </tr>
+
+              <tr colspan="2">
+                <th>{{ form_errors(form.jubi1ind) }}</th>
+              </tr>
+
+            </table>
             {{ form_end(form) }}
           </div>
           <div class="card-footer" id="resultado">

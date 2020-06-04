@@ -80,13 +80,11 @@ class Organismo {
 
     /**
      * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')", nullable=true)
-     * @Assert\Choice({"Si","No"})
      */
     protected $entregoFormulario;
 
     /**
      * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')", nullable=true)
-     * @Assert\Choice({"Si","No"})
      */
     protected $habilitado;
 
@@ -97,7 +95,6 @@ class Organismo {
 
     /**
      * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')", nullable=true)
-     * @Assert\Choice({"Si","No"})
      */
     protected $amparo;
 

@@ -29,14 +29,16 @@ class OrganismoType extends AbstractType {
                 ->add('codigoPostal', TextType::class)
                 ->add('departamento', TextType::class)
 
-                ->add('telefonoCaracteristica', TextType::class)
-                ->add('telefonoNumero', TextType::class)
-
-                ->add('cuit', TextType::class)
-                ->add('email', TextType::class)
+                ->add('telefonoCaracteristica', TextType::class, [
+                'required' => false])
+                ->add('telefonoNumero', TextType::class, [
+                'required' => false])
+                ->add('cuit', TextType::class, [
+                'required' => false])
+                ->add('email', TextType::class, [
+                'required' => false])
                 ->add('entregoFormulario', ChoiceType::class, array(
                             'choices' => array('Si' => 'Si', 'No' => 'No')))
-
                 ->add('habilitado', ChoiceType::class, array(
                             'choices' => array('Si' => 'Si', 'No' => 'No')))
                 ->add('zona',  ChoiceType::class, array(
@@ -107,7 +109,7 @@ class OrganismoType extends AbstractType {
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         // CONFIGURAR EL DATA_CLASS CORRECTO
-        $resolver->setDefaults(array('data_class' => 'Jubilaciones\DeclaracionesBundle\Entity\Organismo'));
+        $resolver->setDefaults(array('data_class' => 'Jubilaciones\DeclaracionesBundle\Entity\Organismo','bandera' => false));
     }
 
     public function getName() {

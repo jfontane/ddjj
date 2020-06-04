@@ -56,11 +56,14 @@ class AdminImportacionController extends Controller {
               $file_name = "impa3.txt";
               $importacion->setProcesado('Si');
             } else {
-               $file_name = $importacion->getId().'_'.$importacion->getNombre() . ".txt";
-               $importacion->setProcesado('No');
-            }
+              //$file_name = $importacion->getId().'_'.$importacion->getNombre() . ".txt";
+              $importacion->setProcesado('No');
+            };
+
             $em->persist($importacion);
             $em->flush();
+
+            $file_name = $importacion->getId().'_'.$importacion->getNombre() . ".txt";
             $fileImportacion->move("uploads", $file_name);
 
             // maybe set a "flash" success message for the user
@@ -312,14 +315,22 @@ class AdminImportacionController extends Controller {
             $fecha_ingreso = ($declaracion_fecha_ingreso != 'NULL') ? new \DateTime($declaracion_fecha_ingreso) : '';
 
             $declaracion_estado = explode(';', $archivo[$i])[6];
+            $dj_estado="";
+            if ($declaracion_estado=='C') {
+              $dj_estado='Aprobada';
+            } else if ($declaracion_estado=='I') {
+              $dj_estado='Rechazada';
+            } else if ($declaracion_estado=='P') {
+              $dj_estado='Procesando';
+            };
+
             $declaracion = new Declaracionjurada;
             $declaracion->setPeriodoAnio($declaracion_periodo_anio);
             $declaracion->setPeriodoMes($declaracion_periodo_mes);
             $declaracion->setTipoLiquidacion($declaracion_tipo_liquidacion);
             $declaracion->setFechaEntrega($declaracion_fecha_entrega);
-            if ($fecha_ingreso)
-                $declaracion->setFechaIngreso($fecha_ingreso);
-            $declaracion->setEstado($declaracion_estado);
+            if ($fecha_ingreso) $declaracion->setFechaIngreso($fecha_ingreso);
+            $declaracion->setEstado($dj_estado);
 
             if ($codigo_organismo_actual == $codigo_organismo_obtenido) {
                 $declaracion->setOrganismo($organismo);
@@ -333,7 +344,6 @@ class AdminImportacionController extends Controller {
                 $em->flush();
             }
         }; // END for
-        die;
     }
 
     /*

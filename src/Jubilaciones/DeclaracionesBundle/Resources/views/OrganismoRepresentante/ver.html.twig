@@ -1,6 +1,6 @@
 {% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
 {% block title %}Datos del Representante{% endblock %}
-{% block pageid 'admin' %}
+{% block pageid 'Representante' %}
 
     {% block body %}
         {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
@@ -13,13 +13,13 @@
             </ol>
         </nav>
         <p>
-            <strong>   
-                CUIL: 
+            <strong>
+                CUIL:
             </strong>
             {{ representante.cuil }}
             &nbsp;&nbsp;
-            <strong>   
-                Apellido y Nombres: 
+            <strong>
+                Apellido y Nombres:
             </strong>
             {{ representante.apellido }}, {{ representante.nombres }}
 
@@ -68,4 +68,4 @@
                 }
             }
         </script>
-    {% endblock %}    
+    {% endblock %}
