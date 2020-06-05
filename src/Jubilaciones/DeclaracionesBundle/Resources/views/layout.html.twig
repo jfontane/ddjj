@@ -5,7 +5,10 @@
 {% if is_granted('ROLE_SUPER_ADMIN') %}
 
 <ul class="navbar-nav mr-auto">
-<li class="nav-item active">
+  <li class="nav-item active">
+    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+  </li>
+<li class="nav-item">
 <a class="nav-link" href="{{ path('admin_organismo_listar') }}">Organismos <span class="sr-only">(current)</span></a>
 </li>
 <li class="nav-item">
@@ -34,7 +37,10 @@ aria-expanded="false" title="Usuario logeado"><i class="material-icons">person</
 
 {% elseif is_granted('ROLE_ADMIN') %}
 <ul class="navbar-nav mr-auto">
-<li class="nav-item active">
+  <li class="nav-item active">
+    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+  </li>
+<li class="nav-item">
 <a class="nav-link" href="{{ path('contralor_organismo_listar') }}">Organismos <span class="sr-only">(current)</span></a>
 </li>
 <li class="nav-item">
@@ -67,7 +73,10 @@ aria-expanded="false" title="Usuario logeado"><i class="material-icons">person</
 {% elseif is_granted('ROLE_USER') %}
 
 <ul class="navbar-nav mr-auto">
-<li class="nav-item active">
+  <li class="nav-item active">
+    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+  </li>
+<li class="nav-item">
 <a class="nav-link" href="{{ path('organismo_organismo_listar') }}">Organismo <span class="sr-only">(current)</span></a>
 </li>
 <li class="nav-item">

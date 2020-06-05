@@ -113,7 +113,7 @@ class ContralorDeclaracionjuradaController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findOneBy(array('id' => $id));
         //dump($declaraciones);die;
-        $declaracion->setEstado('Correcto');
+        $declaracion->setEstado('Aprobada');
         $declaracion->setFechaIngreso(new \DateTime('now'));
         // aca borrar los archivos
         $fileNamejubidat = $declaracion->getJubidat();
@@ -130,7 +130,7 @@ class ContralorDeclaracionjuradaController extends Controller {
                 . $declaracion->getOrganismo()->getNombre()
                 . "' en el periodo: " . $declaracion->getPeriodoAnio()
                 . '/' . $declaracion->getPeriodoMes() . "' se ha APROBADO correctamente.");
-        return $this->redirect($this->generateUrl('contralor_declaraciones_listar_pendientes'));
+        return $this->redirect($this->generateUrl('contralor_declaracion_listar_pendientes'));
     }
 
     public function rechazarDeclaracionAction($id) {
