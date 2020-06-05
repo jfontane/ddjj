@@ -1,89 +1,83 @@
 {% extends "@JubilacionesDeclaraciones/layout-organismo.html.twig" %}
 {% block title %}{{declaracion.organismo.nombre}} - {{declaracion.organismo.codigo}}
-     {% endblock %}
+{% endblock %}
 {% block pageid 'ddjj' %}
-{% block pageid 'admin'%}
 
-    {% block body %}
-        {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{path('organismo_declaracion_listar')}}">Declaraciones</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Ver</li>
-            </ol>
-        </nav>
-        <p>
-            <strong>
-                Periodo:
-            </strong>
-            {{ declaracion.periodoAnio }} / {{ declaracion.periodoMes }}&nbsp;&nbsp;&nbsp;&nbsp;
-            <strong>
-                Tipo Liquidacion:
-            </strong>
-            {{ declaracion.tipoLiquidacion | raw }}
-        </p>
-        <p>
-            <strong>
-                Fecha Entrada:
-            </strong>
-            {{  declaracion.fechaEntrega is empty ? "" : declaracion.fechaEntrega | date('Y-m-d H:i') }}
-            &nbsp;&nbsp;&nbsp;&nbsp;
-        </p>
+{% block body %}
+{# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{path('organismo_declaracion_listar')}}">Declaraciones</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Ver</li>
+  </ol>
+</nav>
+<br>
+<table>
+  <tr>
+    <th>Periodo:</th> <td>{{ declaracion.periodoAnio }} / {{ declaracion.periodoMes }}</td>
+  </tr>
+  <tr>
+    <th>Tipo Liquidacion:</th> <td>{{ declaracion.tipoLiquidacion | raw }}</td>
+  </tr>
+  <tr>
+    <th>Fecha Entrada:</th> <td>{{  declaracion.fechaEntrega is empty ? "" : declaracion.fechaEntrega | date('Y-m-d H:i') }}</td>
+  </tr>
+  <tr>
+    <th>Estado:</th> <td>{{ declaracion.estado }}</td>
+  </tr>
+</table>
+<hr>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th>Concepto</th><th>Monto ($)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Remunerativo</th>
+      <td>{{ valores.totalRemunerativo | number_format(2, ',', '.') }}</td>
+    </tr>
+    <tr>
+      <th>No Remunerativo</th>
+      <td>{{ valores.totalNoRemunerativo | number_format(2, ',', '.') }}</td>
+    </tr>
+    <tr>
+      <th>Aporte Personal</th>
+      <td>{{ valores.totalApPersonal | number_format(2, ',', '.') }}</td>
+    </tr>
+    <tr>
+      <th>Contribucion Patronal</th>
+      <td>{{ valores.totalApPatronal | number_format(2, ',', '.') }}</td>
+    </tr>
+    <tr>
+      <th>Inasistencia - Suspensiones</th>
+      <td>{{ valores.totalInasisSusp | number_format(2, ',', '.') }}</td>
+    </tr>
+    <tr>
+      <th>Licencia sin goce de Haberes</th>
+      <td>{{ valores.totalLicSinSueldo | number_format(2, ',', '.') }}</td>
+    </tr>
+    <tr>
+      <th>Tarea Riesgosa</th>
+      <td>{{ valores.totalTareasRiesgoza | number_format(2, ',', '.') }}</td>
+    </tr>
+  </tbody>
 
-        <p>
-            <strong>Estado</strong>
-            {{ declaracion.estado }}
-        </p>
 
-        <div class="grid_16">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Concepto</th>
-                        <th>Monto ($)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Remunerativo</td>
-                        <td>{{ valores.totalRemunerativo | number_format(2, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <td>No Remunerativo</td>
-                        <td>{{ valores.totalNoRemunerativo | number_format(2, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Aporte Personal</td>
-                        <td>{{ valores.totalApPersonal | number_format(2, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Contribucion Patronal</td>
-                        <td>{{ valores.totalApPatronal | number_format(2, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Inasistencia - Suspensiones</td>
-                        <td>{{ valores.totalInasisSusp | number_format(2, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Licencia sin goce de Haberes</td>
-                        <td>{{ valores.totalLicSinSueldo | number_format(2, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Tarea Riesgosa</td>
-                        <td>{{ valores.totalTareasRiesgoza | number_format(2, ',', '.') }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <br>&nbsp;
-    {% endblock %}
-    {% block javascripts %}
-        <script>
-            function confirmaBorrar() {
-                if (confirm("Desea Eliminar un Evento???")) {
-                    //location.href
-                }
-            }
-        </script>
-    {% endblock %}
+
+</table>
+
+
+<br>&nbsp;
+{% endblock %}
+{% block javascripts %}
+<script>
+function confirmaBorrar() {
+  if (confirm("Desea Eliminar un Evento???")) {
+    //location.href
+  }
+}
+</script>
+{% endblock %}

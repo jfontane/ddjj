@@ -53,7 +53,7 @@
           {{ declaracion.organismo.zona }}
         </td>
         <td>
-          <a href="">  {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}</a>
+          {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}
         </td>
         <td>{{ declaracion.tipoLiquidacion }}</td>
         <td>
@@ -64,8 +64,9 @@
         </td>
         <td>{{ declaracion.estado }}</td>
         <td>
+          <a href="{{path('contralor_declaracion_ver',{'id' : declaracion.id })}}" class="btn btn-primary">Ver</a>&nbsp;&nbsp;
           {% if tipo == 'Pendientes' %}
-          <a href="{{path('contralor_mostrar_totales',{'id' : declaracion.id })}}" class="btn btn-primary">Cargar</a>
+          <a href="{{path('contralor_mostrar_totales',{'id' : declaracion.id })}}" style="color:#0275d8!important"><u>Cargar</u></a>
           {% endif %}
         </td>
       </tr>

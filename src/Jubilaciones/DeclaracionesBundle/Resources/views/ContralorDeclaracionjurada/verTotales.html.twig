@@ -1,7 +1,6 @@
 {% extends "@JubilacionesDeclaraciones/layout.html.twig" %}
 {% block title %}'{{ declaracion.organismo.nombre }}', Periodo {{declaracion.periodoAnio}}/{{declaracion.periodoMes}}{% endblock %}
 {% block pageid 'admin' %}
-
     {% block body %}
         {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
         <nav aria-label="breadcrumb">
@@ -12,8 +11,33 @@
             </ol>
         </nav>
         <div class="grid_16">
-            <table>
-                <thead>
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th colspan="2">Datos del Organismos</th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <th>Codigo Organismo</th><td>{{organismo.codigo}}</td>
+            </tr>
+            <tr>
+              <th>Nombre</th><td>{{organismo.nombre}}</td>
+            </tr>
+            <tr>
+              <th>Localidad</th><td>{{organismo.localidad}}</td>
+            </tr>
+            <tr>
+              <th>Periodo</th><td>{{declaracion.periodoAnio}}/{{declaracion.periodoMes}}</td>
+            </tr>
+            <tr>
+              <th>Tipo Liquidacion</th><td>{{declaracion.tipoLiquidacion}}</td>
+            </tr>
+          </tbody>
+          </table>
+          <hr>
+            <table class="table">
+                <thead class="thead-dark">
                     <tr>
                         <th>Concepto</th>
                         <th>Monto ($)</th>
@@ -21,41 +45,41 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Remunerativo</td>
+                        <th>Remunerativo</th>
                         <td>{{ valores.totalRemunerativo | number_format(2, ',', '.') }}</td>
                     </tr>
                     <tr>
-                        <td>No Remunerativo</td>
+                        <th>No Remunerativo</th>
                         <td>{{ valores.totalNoRemunerativo | number_format(2, ',', '.') }}</td>
                     </tr>
                     <tr>
-                        <td>Aporte Personal</td>
+                        <th>Aporte Personal</th>
                         <td>{{ valores.totalApPersonal | number_format(2, ',', '.') }}</td>
                     </tr>
                     <tr>
-                        <td>Contribucion Patronal</td>
+                        <th>Contribucion Patronal</th>
                         <td>{{ valores.totalApPatronal | number_format(2, ',', '.') }}</td>
                     </tr>
                     <tr>
-                        <td>Inasistencia - Suspensiones</td>
+                        <th>Inasistencia - Suspensiones</th>
                         <td>{{ valores.totalInasisSusp | number_format(2, ',', '.') }}</td>
                     </tr>
                     <tr>
-                        <td>Licencia sin goce de Haberes</td>
+                        <th>Licencia sin goce de Haberes</th>
                         <td>{{ valores.totalLicSinSueldo | number_format(2, ',', '.') }}</td>
                     </tr>
                     <tr>
-                        <td>Tarea Riesgosa</td>
+                        <th>Tarea Riesgosa</th>
                         <td>{{ valores.totalTareasRiesgoza | number_format(2, ',', '.') }}</td>
                     </tr>
                     <tr>
-                        <td>Archivo Jubi.dat</td>
+                        <th>Archivo Jubi.dat</th>
                         <td>
                             <a href="{{path('contralor_jubidat',{'id' : declaracion.id })}}">Jubi.dat</a>
                         </td>
                     </tr>
                     <tr>
-                        <td>Archivo Jubi.dat</td>
+                        <th>Archivo Jubi.dat</th>
                         <td>
                             <a href="{{path('contralor_jubi1ind',{'id' : declaracion.id })}}">Jubi1.ind</a>
                         </td>
@@ -67,8 +91,7 @@
                 <tr>
                     <td>&nbsp;</td>
                     <td colspan='2' align='center'>
-                        <a href="{{path('contralor_declaracion_aprobar',{'id' : declaracion.id })}}">Aprobar</a>&nbsp;&nbsp;
-                        <a href="{{path('contralor_declaracion_rechazar',{'id' : declaracion.id })}}">Rechazar</a>&nbsp;&nbsp;
+                        <a href="{{path('contralor_declaracion_listar_pendientes')}}">Volver</a>&nbsp;&nbsp;
                     </td>
                     <td>&nbsp;</td>
                 </tr>

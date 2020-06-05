@@ -89,7 +89,7 @@ class ContralorDeclaracionjuradaController extends Controller {
 
         $paginator = $this->get('knp_paginator');
             $pagination = $paginator->paginate(
-                    $declaraciones, $request->query->getInt('page', 1), 1
+                    $declaraciones, $request->query->getInt('page', 1), 10
             );
         //$organismo = $em->createQuery($dql)->setParameter('codigo', $organismo_codigo)->getOneOrNullResult();
 
@@ -208,6 +208,30 @@ class ContralorDeclaracionjuradaController extends Controller {
                     'valores' => $valores, 'declaracion' => $declaracion
         ));
     }
+
+    public function verAction($id) {
+
+        $em = $this->getDoctrine()->getManager();
+        $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
+        $organismo=$declaracion->getOrganismo();
+
+        $fileName = $declaracion->getJubidat();
+
+
+
+        //$file = fopen($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName, 'r');
+        //Output lines until EOF is reached
+        $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
+
+
+        //dump(Util::totaliza($archivo));
+        //die;
+        $valores = Util::totaliza($archivo);
+        return $this->render('@JubilacionesDeclaraciones/ContralorDeclaracionjurada/verTotales.html.twig', array(
+                    'valores' => $valores, 'declaracion' => $declaracion, 'organismo' => $organismo
+        ));
+    }
+
 
     public function borraJubidatAction($id) {
         //$em = $this->getDoctrine()->getManager();

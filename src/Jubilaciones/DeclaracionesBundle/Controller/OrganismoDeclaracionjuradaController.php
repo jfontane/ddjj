@@ -126,6 +126,12 @@ class OrganismoDeclaracionjuradaController extends Controller {
             $declaracionjurada->setEstado('Pendiente');
             $declaracionjurada->setOrganismo($organismo);
             $declaracionjurada->setTipoLiquidacion($tipoLiq);
+
+
+
+
+
+
             $em = $this->getDoctrine()->getManager();
 
             try {
@@ -135,8 +141,24 @@ class OrganismoDeclaracionjuradaController extends Controller {
                 AbstractBaseController::addErrorMessage("No se puede ingresar, clave compuesta Duplicada.");
                 return $this->redirect($this->generateUrl('organismo_declaracion_error', array('error' => 'Clave Duplicada')));
             }
+
             $fileJubidat->move("uploads", $file_name_jubidat);
             $fileJubi1ind->move("uploads", $file_name_jubi1ind);
+
+            $fileName = $declaracionjurada->getJubidat();
+            $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
+            $valores = Util::totaliza($archivo);
+            $importeRemunerativo=$valores['totalRemunerativo'];
+            $importeNoRemunerativo=$valores['totalNoRemunerativo'];
+            $importeOtros=0; //CAMBIAR ESTE VALOR COMO CORRESPONDA
+            $declaracionjurada->setImporteRemunerativo($importeRemunerativo);
+            $declaracionjurada->setImporteNoRemunerativo($importeNoRemunerativo);
+            $declaracionjurada->setImporteOtros($importeOtros);
+
+            $em->persist($declaracionjurada);
+            $em->flush();
+
+
             AbstractBaseController::addWarnMessage("La Declaracion Jurada  '" . $declaracionjurada->getPeriodoAnio()
                     . '/' . $declaracionjurada->getPeriodoMes() . "' se ha creado correctamente.");
             return $this->redirect($this->generateUrl('organismo_declaracion_listar'));

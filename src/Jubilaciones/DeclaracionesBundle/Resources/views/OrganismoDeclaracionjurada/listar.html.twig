@@ -10,7 +10,7 @@
         </nav>
 
         <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
-        <div class="flash_admin">
+        <div class="alert alert-warning" role="alert">
             {% for mensaje in app.session.flashbag.get('warn') %}
                 <p class="warn">{{ mensaje }}</p>
             {% endfor %}

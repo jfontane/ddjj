@@ -28,6 +28,12 @@ contralor_mostrar_totales:
     requirements:
         id: \d+
 
+contralor_declaracion_ver:
+    path:     /declaracion/ver/{id}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:ver }
+    requirements:
+        id: \d+
+
 contralor_declaracion_aprobar:
     path:     /declaracion/aprobar/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:aprobarDeclaracion }
@@ -76,4 +82,4 @@ contralor_usuario_listar:
 
 contralor_usuario_editar:
     path:     /usuario/editar/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorUsuario:editar }    
+    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorUsuario:editar }
