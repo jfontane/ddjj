@@ -45,7 +45,7 @@
                                 <td>{{ declaracion.estado }}</td>
                                 <td>
 
-                                    {% if declaracion.estado == 'Pendiente' %}
+                                    {% if declaracion.estado == 'Pendiente' or declaracion.estado == 'Rechazada'%}
                                         <a href="{{ path ('organismo_declaracion_ver',{'id' : declaracion.id }) }}">Ver</a>&nbsp;&nbsp;
                                         <a href="{{ path ('organismo_declaracion_editar',{'id' : declaracion.id }) }}">Editar</a>&nbsp;&nbsp;
                                         <a href="" id="btn_borrar" data-id="{{ declaracion.id }}">Borrar</a>

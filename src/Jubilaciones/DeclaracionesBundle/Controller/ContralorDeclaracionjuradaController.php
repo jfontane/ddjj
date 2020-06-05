@@ -130,7 +130,7 @@ class ContralorDeclaracionjuradaController extends Controller {
                 . $declaracion->getOrganismo()->getNombre()
                 . "' en el periodo: " . $declaracion->getPeriodoAnio()
                 . '/' . $declaracion->getPeriodoMes() . "' se ha APROBADO correctamente.");
-        return $this->redirect($this->generateUrl('contralor_declaraciones_listar'));
+        return $this->redirect($this->generateUrl('contralor_declaraciones_listar_pendientes'));
     }
 
     public function rechazarDeclaracionAction($id) {
@@ -154,7 +154,7 @@ class ContralorDeclaracionjuradaController extends Controller {
                 . $declaracion->getOrganismo()->getNombre()
                 . "' en el periodo: " . $declaracion->getPeriodoAnio()
                 . '/' . $declaracion->getPeriodoMes() . "' se ha RECHAZADO !!!.");
-        return $this->redirect($this->generateUrl('contralor_declaraciones_listar'));
+        return $this->redirect($this->generateUrl('contralor_declaracion_listar_pendientes'));
     }
 
     public function getJubidatAction($id) {
@@ -221,9 +221,12 @@ class ContralorDeclaracionjuradaController extends Controller {
 
         //$file = fopen($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName, 'r');
         //Output lines until EOF is reached
-        $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
-
-
+        try {
+          $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
+        }  catch (\Doctrine\DBAL\DBALException $e) {
+            AbstractBaseController::addErrorMessage("No se puede Ver DDJJ pq no hay archivo Asociado.");
+            return $this->redirect($this->generateUrl('contralor_declaracion_listar_pendientes'));
+        };
         //dump(Util::totaliza($archivo));
         //die;
         $valores = Util::totaliza($archivo);

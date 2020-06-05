@@ -80,7 +80,7 @@ class OrganismoDeclaracionjuradaController extends Controller {
         ));
     }
 
-    public function nuevoAction(Request $request, UserInterface $user) {
+public function nuevoAction(Request $request, UserInterface $user) {
         $organismo_codigo = $user->getUsername();
         $em = $this->getDoctrine()->getManager();
         $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' => $organismo_codigo));
@@ -126,12 +126,6 @@ class OrganismoDeclaracionjuradaController extends Controller {
             $declaracionjurada->setEstado('Pendiente');
             $declaracionjurada->setOrganismo($organismo);
             $declaracionjurada->setTipoLiquidacion($tipoLiq);
-
-
-
-
-
-
             $em = $this->getDoctrine()->getManager();
 
             try {
@@ -144,20 +138,17 @@ class OrganismoDeclaracionjuradaController extends Controller {
 
             $fileJubidat->move("uploads", $file_name_jubidat);
             $fileJubi1ind->move("uploads", $file_name_jubi1ind);
-
             $fileName = $declaracionjurada->getJubidat();
             $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
             $valores = Util::totaliza($archivo);
             $importeRemunerativo=$valores['totalRemunerativo'];
             $importeNoRemunerativo=$valores['totalNoRemunerativo'];
-            $importeOtros=0; //CAMBIAR ESTE VALOR COMO CORRESPONDA
+            $importeOtros=$valores['totalImportesOtros']; //CAMBIAR ESTE VALOR COMO CORRESPONDA
             $declaracionjurada->setImporteRemunerativo($importeRemunerativo);
             $declaracionjurada->setImporteNoRemunerativo($importeNoRemunerativo);
             $declaracionjurada->setImporteOtros($importeOtros);
-
             $em->persist($declaracionjurada);
             $em->flush();
-
 
             AbstractBaseController::addWarnMessage("La Declaracion Jurada  '" . $declaracionjurada->getPeriodoAnio()
                     . '/' . $declaracionjurada->getPeriodoMes() . "' se ha creado correctamente.");
@@ -167,10 +158,11 @@ class OrganismoDeclaracionjuradaController extends Controller {
         ));
     }
 
-    public function editarAction(Request $request, $id) {
+    public function editarAction(Request $request, $id, UserInterface $user) {
+        $organismo_codigo = $user->getUsername();
         $em = $this->getDoctrine()->getManager();
         // El codigo de organismo es para harcodear
-        $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' => '4080010000'));
+        $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' => $organismo_codigo));
 
         if (null == $declaracionjurada = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id)) {
             throw $this->createNotFoundException('No existe la Declaracion solicitada.');
@@ -179,7 +171,6 @@ class OrganismoDeclaracionjuradaController extends Controller {
         $fileNameJubidatOld = $declaracionjurada->getJubidat();
         $fileNameJubi1indOld = $declaracionjurada->getJubi1ind();
         //dump($fileNameJubidatOld.','.$fileNameJubi1indOld);die;
-
 
         $form = $this->createForm(DeclaracionjuradaType::class, $declaracionjurada)
                 ->add('Guardar', SubmitType::class);
@@ -203,9 +194,9 @@ class OrganismoDeclaracionjuradaController extends Controller {
                 $ext = $fileJubi1ind->guessExtension();
                 // Le ponemos un nombre al fichero
                 $file_name_jubi1ind = $organismo->getCodigo() . $declaracionjurada->getPeriodoAnio() . $declaracionjurada->getPeriodoMes() . $tipoLiq . ".ind";
-
                 // Verificar que coincida el encabezado del Jubi.dat con el formulario
                 $verificado = Util::verificarEncabezadoJubiDat($organismo_codigo, $declaracionjurada->getPeriodoAnio(), $declaracionjurada->getPeriodoMes(), $tipoLiq, $encabezado);
+
                 if (!$verificado) {
                     AbstractBaseController::addWarnMessage("No se puede Editar. Archivo Jubi.dat No coincide con lo que declara. Revisar Periodo/Tipo de Liquidacion.");
                     return $this->redirect($this->generateUrl('organismo_declaracion_listar'));
@@ -234,6 +225,17 @@ class OrganismoDeclaracionjuradaController extends Controller {
                 $fileJubidat->move("uploads", $file_name_jubidat);
                 $fileJubi1ind->move("uploads", $file_name_jubi1ind);
 
+                $fileName=$declaracionjurada->getJubidat();
+                $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
+                $valores = Util::totaliza($archivo);
+                $importeRemunerativo=$valores['totalRemunerativo'];
+                $importeNoRemunerativo=$valores['totalNoRemunerativo'];
+                $importeOtros=$valores['totalImportesOtros']; //CAMBIAR ESTE VALOR COMO CORRESPONDA
+                $declaracionjurada->setImporteRemunerativo($importeRemunerativo);
+                $declaracionjurada->setImporteNoRemunerativo($importeNoRemunerativo);
+                $declaracionjurada->setImporteOtros($importeOtros);
+                $em->persist($declaracionjurada);
+                $em->flush();
 
                 AbstractBaseController::addWarnMessage("La Declaracion Jurada  '" . $declaracionjurada->getPeriodoAnio()
                         . '/' . $declaracionjurada->getPeriodoMes() . "' se ha Actualizado correctamente.");

@@ -12,7 +12,7 @@ class Util {
     /**
      * Devuelve el slug de la cadena de texto que se le pasa.
      * Código copiado del método urlize() de Doctrine 1.
-     * 
+     *
      * @param string $cadena Cadena de texto original
      * @return string Slug calculado para la cadena original
      */
@@ -22,6 +22,7 @@ class Util {
         $totalRecCPriv = $totalRecSer = $totalDispPol = $totalPasividad = $totalLicEnf = 0;
         $totalLicSinSueldo = $totalLicMayor30Dias = $totalInasisSusp = $totalMultasTardanzas = 0;
         $totalOrgDeficit = $totalTareasRiesgoza = $totalOtrosAp = $totalUnifAportes = $totalCompDif = 0;
+        $importesOtros=0;
         $cantidad_empleados = 0;
         $lineas = count($archivo);
         $primerLinea = substr($archivo[0], 0, 255);
@@ -54,13 +55,15 @@ class Util {
             $totalCompDif = $totalCompDif + (float) (self::convierte(substr($archivo[$i], 320, 8)));
         }; // end for
         $cantidad_empleados = $i - 1;
+        $importesOtros=$totalInasisSusp+$totalLicSinSueldo;
         return Array('totalRemunerativo' => $totalRemunerativo, 'totalNoRemunerativo' => $totalNoRemunerativo, 'totalApPersonal' => $totalApPersonal,
             'totalApPatronal' => $totalApPatronal, 'totalApIAPOS' => $totalApIAPOS, 'totalApIAPOSsolidario' => $totalApIAPOSsolidario,
             'totalAdicional' => $totalAdicional, 'totalComputoPrivilegio' => $totalComputoPrivilegio, 'totalRecCPriv' => $totalRecCPriv,
             'totalRecSer' => $totalRecSer, 'totalDispPol' => $totalDispPol, 'totalPasividad' => $totalPasividad, 'totalLicEnf' => $totalLicEnf,
             'totalLicSinSueldo' => $totalLicSinSueldo, 'totalLicMayor30Dias' => $totalLicMayor30Dias, 'totalInasisSusp' => $totalInasisSusp, 'totalLicEnf' => $totalLicEnf,
             'totalMultasTardanzas' => $totalMultasTardanzas, 'totalOrgDeficit' => $totalOrgDeficit, 'totalTareasRiesgoza' => $totalTareasRiesgoza, 'totalOtrosAp' => $totalOtrosAp,
-            'totalUnifAportes' => $totalCompDif, 'cantidad_empleados' => $cantidad_empleados);
+            'totalUnifAportes' => $totalCompDif, 'cantidad_empleados' => $cantidad_empleados,
+            'totalImportesOtros' => $importesOtros);
     }
 
     private static function convierte($valor) {
@@ -177,17 +180,17 @@ class Util {
                 $tipoLiq = '303';
             else if ($tipoLiquidacion == '6')
                 $tipoLiq = '304';
-        } else if (( $periodoMes == '01' ) or 
-                   ( $periodoMes == '02' ) or 
-                   ( $periodoMes == '03' ) or 
-                   ( $periodoMes == '04' ) or 
-                   ( $periodoMes == '05' ) or 
-                   ( $periodoMes == '06' ) or 
-                   ( $periodoMes == '07' ) or 
-                   ( $periodoMes == '08' ) or 
-                   ( $periodoMes == '09' ) or 
-                   ( $periodoMes == '10' ) or 
-                   ( $periodoMes == '11' ) or 
+        } else if (( $periodoMes == '01' ) or
+                   ( $periodoMes == '02' ) or
+                   ( $periodoMes == '03' ) or
+                   ( $periodoMes == '04' ) or
+                   ( $periodoMes == '05' ) or
+                   ( $periodoMes == '06' ) or
+                   ( $periodoMes == '07' ) or
+                   ( $periodoMes == '08' ) or
+                   ( $periodoMes == '09' ) or
+                   ( $periodoMes == '10' ) or
+                   ( $periodoMes == '11' ) or
                    ( $periodoMes == '12' )) {
             if ($tipoLiquidacion == '1')
                 $tipoLiq = '111';
@@ -204,7 +207,7 @@ class Util {
         }
         return $tipoLiq;
     }
-    
+
     public static function verificarEncabezadoJubiDat($org,$anio,$mes,$tliq,$encabezado) {
         $str_encabezado_organismo = substr($encabezado,1,10).'-'.substr($encabezado,30,4).'-'.substr($encabezado,34,2).'-'.substr($encabezado,82,3);
         $str_encabezado_formulario = $org.'-'.$anio.'-'.$mes.'-'.$tliq;
@@ -212,9 +215,9 @@ class Util {
         if ($str_encabezado_organismo==$str_encabezado_formulario) return true;
         else return false;
 
-        
-        
-        
+
+
+
     }
 
 }
