@@ -1,0 +1,93 @@
+<?php
+
+namespace Jubilaciones\DeclaracionesBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * PagoConBase
+ *
+ * @ORM\Table(name="PagoConBaseDatos")
+ * @ORM\Entity()
+ */
+class PagoConBaseDatos {
+
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="5",max="5")
+     */
+    protected $identificadorDeuda;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="3",max="3")
+     */
+    protected $identificadorConcepto;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="19",max="19")
+     */
+    protected $identificadorUsuario;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="6",max="6")
+     */
+    protected $fechaPrimerVencimiento;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="12",max="12")
+     */
+    protected $importePrimerVencimiento;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="6",max="6")
+     */
+    protected $fechaSegundoVencimiento;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="12",max="12")
+     */
+    protected $importeSegundoVencimiento;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="6",max="6")
+     */
+    protected $fechaTercerVencimiento;
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="12",max="12")
+     */
+    protected $importeTercerVencimiento;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PagoConBase", inversedBy="pagosConBaseDatos")
+     * @ORM\JoinColumn(name="PagoConBase_id", referencedColumnName="id")
+     */
+    private $pagoConBaseDatos;
+
+
+}
