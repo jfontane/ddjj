@@ -13,7 +13,7 @@ class Util {
      * Devuelve el slug de la cadena de texto que se le pasa.
      * Código copiado del método urlize() de Doctrine 1.
      *
-     * @param string $cadena Cadena de texto original
+     * @param string $archivo ruta al archivo importa.dat
      * @return string Slug calculado para la cadena original
      */
     public static function totaliza($archivo) {
@@ -35,8 +35,12 @@ class Util {
             $totalNoRemunerativo = $totalNoRemunerativo + (float) (self::convierte(substr($archivo[$i], 117, 11)));
             $totalApIAPOS = $totalApIAPOS + (float) (self::convierte(substr($archivo[$i], 139, 11)));
             $totalApIAPOSsolidario = $totalApIAPOSsolidario + (float) (self::convierte(substr($archivo[$i], 150, 11)));
+            
             $totalApPersonal = $totalApPersonal + (float) (self::convierte(substr($archivo[$i], 161, 11)));
             $totalApPatronal = $totalApPatronal + (float) (self::convierte(substr($archivo[$i], 172, 11)));
+            //Aca va el otros
+            
+            
             $totalAdicional = $totalAdicional + (float) (self::convierte(substr($archivo[$i], 183, 11)));
             $totalComputoPrivilegio = $totalComputoPrivilegio + (float) (self::convierte(substr($archivo[$i], 194, 8)));
             $totalRecCPriv = $totalRecCPriv + (float) (self::convierte(substr($archivo[$i], 202, 8)));

@@ -18,6 +18,39 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Declaracionjurada {
 
+    const ESTADO_PENDIENTE = 1;
+    const ESTADO_PROCESANDO = 2;
+    const ESTADO_APROBADA = 3;
+    const ESTADO_RECHAZADA = 4;
+    
+    const TIPO_LIQ_ORIG_NORMAL = '111';
+    const TIPO_LIQ_CORRECTIVA_NORMAL = '112';
+    const TIPO_LIQ_ORIG_SAC = '211';
+    const TIPO_LIQ_CORRECTIVA_SAC = '212';
+    const TIPO_LIQ_COMP_1 = '301';
+    const TIPO_LIQ_COMP_2 = '302';
+    const TIPO_LIQ_COMP_3 = '303';
+    const TIPO_LIQ_COMP_4 = '304';
+
+
+    public static function getEstados() {
+        return array(
+            self::ESTADO_PENDIENTE => 'Pendiente',
+            self::ESTADO_PROCESANDO => 'Procesando',
+            self::ESTADO_APROBADA => 'Aprobada',
+            self::ESTADO_RECHAZADA => 'Rechazada'
+        );
+    }
+
+
+    public static function getNomEstado($cod) {
+        $estados = self::getEstados();
+        if (isset($estados[$cod])) {
+            return $estados[$cod];
+        }
+        return false;
+    }
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -79,7 +112,12 @@ class Declaracionjurada {
     /**
      * @ORM\Column(type="float", scale=2, nullable=true)
      */
-    protected $importeRemunerativo;
+    protected $importePersonal;
+
+    /**
+     * @ORM\Column(type="float", scale=2, nullable=true)
+     */
+    protected $importePatronal;
 
     /**
      * @ORM\Column(type="float", scale=2, nullable=true)
@@ -89,8 +127,12 @@ class Declaracionjurada {
     /**
      * @ORM\Column(type="float", scale=2, nullable=true)
      */
-    protected $importeOtros;
+    protected $importeRemunerativo;
 
+    /**
+     * @ORM\Column(type="float", scale=2, nullable=true)
+     */
+    protected $importeOtros;
 
     /**
      * @ORM\ManyToOne(targetEntity="Organismo", inversedBy="declaracionesjuradas")
@@ -98,15 +140,12 @@ class Declaracionjurada {
      */
     protected $organismo;
 
-
-
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -117,8 +156,7 @@ class Declaracionjurada {
      *
      * @return Declaracionjurada
      */
-    public function setPeriodoAnio($periodoAnio)
-    {
+    public function setPeriodoAnio($periodoAnio) {
         $this->periodoAnio = $periodoAnio;
 
         return $this;
@@ -129,8 +167,7 @@ class Declaracionjurada {
      *
      * @return string
      */
-    public function getPeriodoAnio()
-    {
+    public function getPeriodoAnio() {
         return $this->periodoAnio;
     }
 
@@ -141,8 +178,7 @@ class Declaracionjurada {
      *
      * @return Declaracionjurada
      */
-    public function setPeriodoMes($periodoMes)
-    {
+    public function setPeriodoMes($periodoMes) {
         $this->periodoMes = $periodoMes;
 
         return $this;
@@ -153,11 +189,9 @@ class Declaracionjurada {
      *
      * @return string
      */
-    public function getPeriodoMes()
-    {
+    public function getPeriodoMes() {
         return $this->periodoMes;
     }
-
 
     /**
      * Set tipoLiquidacion
@@ -166,8 +200,7 @@ class Declaracionjurada {
      *
      * @return Declaracionjurada
      */
-    public function setTipoLiquidacion($tipoLiquidacion)
-    {
+    public function setTipoLiquidacion($tipoLiquidacion) {
         $this->tipoLiquidacion = $tipoLiquidacion;
 
         return $this;
@@ -178,8 +211,7 @@ class Declaracionjurada {
      *
      * @return string
      */
-    public function getTipoLiquidacion()
-    {
+    public function getTipoLiquidacion() {
         return $this->tipoLiquidacion;
     }
 
@@ -190,8 +222,7 @@ class Declaracionjurada {
      *
      * @return Declaracionjurada
      */
-    public function setFechaEntrega($fechaEntrega)
-    {
+    public function setFechaEntrega($fechaEntrega) {
         $this->fechaEntrega = $fechaEntrega;
 
         return $this;
@@ -202,8 +233,7 @@ class Declaracionjurada {
      *
      * @return \DateTime
      */
-    public function getFechaEntrega()
-    {
+    public function getFechaEntrega() {
         return $this->fechaEntrega;
     }
 
@@ -214,8 +244,7 @@ class Declaracionjurada {
      *
      * @return Declaracionjurada
      */
-    public function setFechaIngreso($fechaIngreso)
-    {
+    public function setFechaIngreso($fechaIngreso) {
         $this->fechaIngreso = $fechaIngreso;
 
         return $this;
@@ -226,8 +255,7 @@ class Declaracionjurada {
      *
      * @return \DateTime
      */
-    public function getFechaIngreso()
-    {
+    public function getFechaIngreso() {
         return $this->fechaIngreso;
     }
 
@@ -238,8 +266,7 @@ class Declaracionjurada {
      *
      * @return Declaracionjurada
      */
-    public function setComentarios($comentarios)
-    {
+    public function setComentarios($comentarios) {
         $this->comentarios = $comentarios;
 
         return $this;
@@ -250,8 +277,7 @@ class Declaracionjurada {
      *
      * @return string
      */
-    public function getComentarios()
-    {
+    public function getComentarios() {
         return $this->comentarios;
     }
 
@@ -262,8 +288,7 @@ class Declaracionjurada {
      *
      * @return Declaracionjurada
      */
-    public function setEstado($estado)
-    {
+    public function setEstado($estado) {
         $this->estado = $estado;
 
         return $this;
@@ -274,8 +299,7 @@ class Declaracionjurada {
      *
      * @return string
      */
-    public function getEstado()
-    {
+    public function getEstado() {
         return $this->estado;
     }
 
@@ -286,8 +310,7 @@ class Declaracionjurada {
      *
      * @return Declaracionjurada
      */
-    public function setJubidat($jubidat)
-    {
+    public function setJubidat($jubidat) {
         $this->jubidat = $jubidat;
 
         return $this;
@@ -298,8 +321,7 @@ class Declaracionjurada {
      *
      * @return string
      */
-    public function getJubidat()
-    {
+    public function getJubidat() {
         return $this->jubidat;
     }
 
@@ -310,8 +332,7 @@ class Declaracionjurada {
      *
      * @return Declaracionjurada
      */
-    public function setJubi1ind($jubi1ind)
-    {
+    public function setJubi1ind($jubi1ind) {
         $this->jubi1ind = $jubi1ind;
 
         return $this;
@@ -322,8 +343,7 @@ class Declaracionjurada {
      *
      * @return string
      */
-    public function getJubi1ind()
-    {
+    public function getJubi1ind() {
         return $this->jubi1ind;
     }
 
@@ -334,8 +354,7 @@ class Declaracionjurada {
      *
      * @return Declaracionjurada
      */
-    public function setOrganismo(\Jubilaciones\DeclaracionesBundle\Entity\Organismo $organismo = null)
-    {
+    public function setOrganismo(\Jubilaciones\DeclaracionesBundle\Entity\Organismo $organismo = null) {
         $this->organismo = $organismo;
 
         return $this;
@@ -346,57 +365,8 @@ class Declaracionjurada {
      *
      * @return \Jubilaciones\DeclaracionesBundle\Entity\Organismo
      */
-    public function getOrganismo()
-    {
+    public function getOrganismo() {
         return $this->organismo;
-    }
-
-    /**
-     * Set importeRemunerativo
-     *
-     * @param float $importeRemunerativo
-     *
-     * @return Declaracionjurada
-     */
-    public function setImporteRemunerativo($importeRemunerativo)
-    {
-        $this->importeRemunerativo = $importeRemunerativo;
-
-        return $this;
-    }
-
-    /**
-     * Get importeRemunerativo
-     *
-     * @return float
-     */
-    public function getImporteRemunerativo()
-    {
-        return $this->importeRemunerativo;
-    }
-
-    /**
-     * Set importeNoRemunerativo
-     *
-     * @param float $importeNoRemunerativo
-     *
-     * @return Declaracionjurada
-     */
-    public function setImporteNoRemunerativo($importeNoRemunerativo)
-    {
-        $this->importeNoRemunerativo = $importeNoRemunerativo;
-
-        return $this;
-    }
-
-    /**
-     * Get importeNoRemunerativo
-     *
-     * @return float
-     */
-    public function getImporteNoRemunerativo()
-    {
-        return $this->importeNoRemunerativo;
     }
 
     /**
@@ -406,8 +376,7 @@ class Declaracionjurada {
      *
      * @return Declaracionjurada
      */
-    public function setImporteOtros($importeOtros)
-    {
+    public function setImporteOtros($importeOtros) {
         $this->importeOtros = $importeOtros;
 
         return $this;
@@ -418,8 +387,96 @@ class Declaracionjurada {
      *
      * @return float
      */
-    public function getImporteOtros()
-    {
+    public function getImporteOtros() {
         return $this->importeOtros;
     }
+
+    /**
+     * Set importePersonal
+     *
+     * @param float $importePersonal
+     *
+     * @return Declaracionjurada
+     */
+    public function setImportePersonal($importePersonal) {
+        $this->importePersonal = $importePersonal;
+
+        return $this;
+    }
+
+    /**
+     * Get importePersonal
+     *
+     * @return float
+     */
+    public function getImportePersonal() {
+        return $this->importePersonal;
+    }
+
+    /**
+     * Set importePatronal
+     *
+     * @param float $importePatronal
+     *
+     * @return Declaracionjurada
+     */
+    public function setImportePatronal($importePatronal) {
+        $this->importePatronal = $importePatronal;
+
+        return $this;
+    }
+
+    /**
+     * Get importePatronal
+     *
+     * @return float
+     */
+    public function getImportePatronal() {
+        return $this->importePatronal;
+    }
+
+    /**
+     * Set importeNoRemunerativo
+     *
+     * @param float $importeNoRemunerativo
+     *
+     * @return Declaracionjurada
+     */
+    public function setImporteNoRemunerativo($importeNoRemunerativo) {
+        $this->importeNoRemunerativo = $importeNoRemunerativo;
+
+        return $this;
+    }
+
+    /**
+     * Get importeNoRemunerativo
+     *
+     * @return float
+     */
+    public function getImporteNoRemunerativo() {
+        return $this->importeNoRemunerativo;
+    }
+
+    /**
+     * Set importeRemunerativo
+     *
+     * @param float $importeRemunerativo
+     *
+     * @return Declaracionjurada
+     */
+    public function setImporteRemunerativo($importeRemunerativo) {
+        $this->importeRemunerativo = $importeRemunerativo;
+
+        return $this;
+    }
+
+    /**
+     * Get importeRemunerativo
+     *
+     * @return float
+     */
+    public function getImporteRemunerativo() {
+        return $this->importeRemunerativo;
+    }
+
 }

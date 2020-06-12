@@ -34,6 +34,10 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
+    Jubilaciones\DeclaracionesBundle\Services\DeclaracionesJuradasService:
+        public: true
+        arguments: ["@doctrine.orm.entity_manager", "@filesystem", "@kernel"]
+        
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
     #     arguments:

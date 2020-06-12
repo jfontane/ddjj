@@ -2,21 +2,17 @@
 
 namespace Jubilaciones\DeclaracionesBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Jubilaciones\DeclaracionesBundle\Entity\Declaracionjurada;
-use Jubilaciones\DeclaracionesBundle\Form\DeclaracionjuradaType;
-use Jubilaciones\DeclaracionesBundle\Entity\Organismo;
+use Jubilaciones\DeclaracionesBundle\Classes\OrganismoDeclaracionListarPdf;
 use Jubilaciones\DeclaracionesBundle\Classes\Util;
 use Jubilaciones\DeclaracionesBundle\Controller\AbstractBaseController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Jubilaciones\DeclaracionesBundle\Entity\Declaracionjurada;
+use Jubilaciones\DeclaracionesBundle\Form\DeclaracionjuradaType;
+use Jubilaciones\DeclaracionesBundle\Services\DeclaracionesJuradasService;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Jubilaciones\DeclaracionesBundle\Classes\OrganismoDeclaracionListarPdf;
 
 //use Symfony\Component\Validator\Constraints\Length;
 
@@ -78,6 +74,20 @@ class OrganismoDeclaracionjuradaController extends Controller {
         return $this->render('@JubilacionesDeclaraciones/OrganismoDeclaracionjurada/ver.html.twig', array(
                     'valores' => $valores, 'declaracion' => $declaracion
         ));
+    }
+    
+    public function pruebaAction(Request $request) {
+        
+        $em = $this->getDoctrine()->getManager();
+        $ddjjs = $em->getRepository(Declaracionjurada::class)->findAll();
+        
+        $ddjjService = $this->get(DeclaracionesJuradasService::class);
+        
+        $res = $ddjjService->setTotalizadores();
+        
+        dump($ddjjService, $res);exit;
+        
+        
     }
 
 public function nuevoAction(Request $request, UserInterface $user) {
@@ -141,13 +151,19 @@ public function nuevoAction(Request $request, UserInterface $user) {
             $fileName = $declaracionjurada->getJubidat();
             $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
             $valores = Util::totaliza($archivo);
+            
+            //Importes:            
+            $importePersonal=$valores['totalApPersonal'];
+            $importePatronal=$valores['totalApPatronal'];
             $importeRemunerativo=$valores['totalRemunerativo'];
             $importeNoRemunerativo=$valores['totalNoRemunerativo'];
             $importeOtros=$valores['totalImportesOtros']; //CAMBIAR ESTE VALOR COMO CORRESPONDA
+            $declaracionjurada->setImportePersonal($importePersonal);
+            $declaracionjurada->setImportePatronal($importePatronal);
             $declaracionjurada->setImporteRemunerativo($importeRemunerativo);
             $declaracionjurada->setImporteNoRemunerativo($importeNoRemunerativo);
             $declaracionjurada->setImporteOtros($importeOtros);
-            $em->persist($declaracionjurada);
+            //$em->persist($declaracionjurada);
             $em->flush();
 
             AbstractBaseController::addWarnMessage("La Declaracion Jurada  '" . $declaracionjurada->getPeriodoAnio()

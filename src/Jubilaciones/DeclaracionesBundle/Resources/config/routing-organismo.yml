@@ -16,6 +16,11 @@ organismo_declaracion_ver:
     requirements:
         id: \d+
 
+
+organismo_declaracion_prueba:
+    path:     /declaracion/prueba
+    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:prueba }
+
 organismo_declaracion_nuevo:
     path:     /declaracion/nuevo
     defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:nuevo }

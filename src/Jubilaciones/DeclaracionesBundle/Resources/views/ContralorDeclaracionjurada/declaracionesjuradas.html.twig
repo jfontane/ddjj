@@ -2,43 +2,43 @@
 {% block title %}Listado de Declaraciones Juradas{% endblock %}
 {% block pageid 'admin' %}
 
-{% block header %}
+    {% block header %}
 
-<ul class="navbar-nav mr-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="{{ path('principal_logueado') }}">Home <span class="sr-only">(current)</span></a>
-  </li>
-<li class="nav-item">
-<a class="nav-link" href="{{ path('contralor_organismo_listar') }}">Organismos <span class="sr-only">(current)</span></a>
-</li>
-<li class="nav-item">
-<a class="nav-link" href="{{ path('contralor_representante_listar') }}">Representantes</a>
-</li>
-<li class="nav-item active">
-<a class="nav-link" href="{{ path('contralor_declaracion_opciones') }}">Declaraciones</a>
-</li>
-<li class="nav-item">
-   <a class="nav-link" href="{{ path('admin_importacion_listar') }}">Importacion</a>
-</li>
-<li class="nav-item">
-   <a class="nav-link" href="{{ path('contralor_usuario_listar') }}">Usuarios</a>
-</li>
-</ul>
-<ul class="list-inline custom-icon-middle">
-<li class="list-inline-item">
-<a href="#" class="dropdown-toggle" id="dropdownMenuLinkPerson" data-toggle="dropdown"
-aria-haspopup="true"
-aria-expanded="false" title="Usuario logeado"><i class="material-icons">person</i></a>
-<div class="dropdown-menu custom-dropdown-menu-right" aria-labelledby="dropdownMenuLinkPerson">
-<a class="dropdown-item" href="{{ path('organismo_usuario_editar') }}">Cambiar Contraseña</a>
-</div>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('principal_logueado') }}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('contralor_organismo_listar') }}">Organismos <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('contralor_representante_listar') }}">Representantes</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('contralor_declaracion_opciones') }}">Declaraciones</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('admin_importacion_listar') }}">Importacion</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('contralor_usuario_listar') }}">Usuarios</a>
+            </li>
+        </ul>
+        <ul class="list-inline custom-icon-middle">
+            <li class="list-inline-item">
+                <a href="#" class="dropdown-toggle" id="dropdownMenuLinkPerson" data-toggle="dropdown"
+                   aria-haspopup="true"
+                   aria-expanded="false" title="Usuario logeado"><i class="material-icons">person</i></a>
+                <div class="dropdown-menu custom-dropdown-menu-right" aria-labelledby="dropdownMenuLinkPerson">
+                    <a class="dropdown-item" href="{{ path('organismo_usuario_editar') }}">Cambiar Contraseña</a>
+                </div>
 
-</li>
-<li class="list-inline-item"><a href="{{ path('logout') }}" title="Salir"><i class="material-icons">exit_to_app</i></a>
-</li>
-</ul>
+            </li>
+            <li class="list-inline-item"><a href="{{ path('logout') }}" title="Salir"><i class="material-icons">exit_to_app</i></a>
+            </li>
+        </ul>
 
-{% endblock %}
+    {% endblock %}
 
 
     {% block body %}
@@ -51,15 +51,82 @@ aria-expanded="false" title="Usuario logeado"><i class="material-icons">person</
         </nav>
 
         <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
+        {#        <div>
+                    <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/rojo.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Rechazadas&nbsp;&nbsp;</b><a href="#">Click Aquí</a></p>
+                </div>
+                <div>
+                    <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/amarillo.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Pendientes&nbsp;&nbsp;</b><a href="{{ path('contralor_declaracion_listar_pendientes') }}">Click Aquí</a></p>
+                </div>
+                <div>
+                    <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/verde.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Aprobadas&nbsp;&nbsp;</b><a href="#">Click Aquí</a></p>
+                </div>#}
+
+
+        <h2>Filtrar resultados</h2>
         <div>
-            <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/rojo.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Rechazadas&nbsp;&nbsp;</b><a href="#">Click Aquí</a></p>
+            {{ form(form_filtro) }}
         </div>
-         <div>
-            <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/amarillo.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Pendientes&nbsp;&nbsp;</b><a href="{{ path('contralor_declaracion_listar_pendientes') }}">Click Aquí</a></p>
+        <div class="mt-4">            
+            Se encontraron {{ pagination.getTotalItemCount() }} declaracion(es).
         </div>
-         <div>
-            <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/verde.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Aprobadas&nbsp;&nbsp;</b><a href="#">Click Aquí</a></p>
+
+        <div class="table-responsive mt-4">
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Organismo</th>
+                        <th>Zona</th>
+                        <th>Periodo</th>
+                        <th>T.Liq.</th>
+                        <th>F.Entrega</th>
+                        <th>F.Ingreso</th>
+
+                        <th>Estado</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for declaracion in pagination %}
+                        <tr>
+                            <td>{{ declaracion.organismo.codigo }}</td>
+                            <td>
+                                {{ declaracion.organismo.zona }}
+                            </td>
+                            <td>
+                                {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}
+                            </td>
+                            <td>{{ declaracion.tipoLiquidacion }}</td>
+                            <td>
+                                {{  declaracion.fechaEntrega is empty ? "" : declaracion.fechaEntrega | date('Y-m-d H:i') }}
+                            </td>
+                            <td>
+                                {{  declaracion.fechaIngreso is empty ? "" : declaracion.fechaIngreso | date('Y-m-d H:i') }}
+                            </td>
+                            <td>{{ declaracion.estado }}</td>
+                            <td>
+                                <a href="{{path('contralor_declaracion_ver',{'id' : declaracion.id })}}" class="btn btn-primary">Ver</a>&nbsp;&nbsp;
+                                {% if declaracion.estado == 'Pendiente' %}
+                                    <a href="{{path('contralor_mostrar_totales',{'id' : declaracion.id })}}" style="color:#0275d8!important"><u>Cargar</u></a>
+                                        {% endif %}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8">No existe ninguna Declaracion Jurada</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>
         </div>
+
+
+
+
+
     {% endblock %}
     {% block javascripts %}
         <script>
