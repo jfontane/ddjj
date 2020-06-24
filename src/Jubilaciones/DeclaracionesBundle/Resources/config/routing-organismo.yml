@@ -2,9 +2,9 @@ organismo_representante_registrar:
     path: /representante/nuevo
     defaults: { _controller: JubilacionesDeclaracionesBundle:Default:nuevoRepresentante }
 
-organismo_declaracion_listar:
-    path:     /declaracion/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:listar }
+#organismo_declaracion_listar:
+#    path:     /declaracion/listar
+#    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:listar }
 
 organismo_declaracion_listar_pdf:
     path:     /declaracion/listarPdf

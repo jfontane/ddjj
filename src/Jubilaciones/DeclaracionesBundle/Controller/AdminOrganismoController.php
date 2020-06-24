@@ -31,4 +31,4 @@ class AdminOrganismoController extends Controller {
         ));
     }
 
-}
+  }

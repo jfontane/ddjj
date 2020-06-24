@@ -29,3 +29,7 @@ representante_ver:
 principal_logueado:
     path: /principal
     defaults: { _controller: JubilacionesDeclaracionesBundle:Default:principal }
+
+declaraciones_juradas:
+    resource: "@JubilacionesDeclaracionesBundle/Resources/config/declaracion-jurada.yml"
+    prefix:   /

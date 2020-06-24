@@ -22,7 +22,14 @@ class ContralorDeclaracionjuradaController extends Controller {
         return $this->render('JubilacionesDeclaracionesBundle:Default:index.html.twig');
     }
 
-    public function opcionesAction(Request $request) {
+    /**
+     * 
+     * @param Request $request
+     * @return type
+     * 
+     * @deprecated
+     */
+   /* public function opcionesAction(Request $request) {
 
         $user = $this->getUser();
         $zona = $user->getZona();
@@ -30,7 +37,9 @@ class ContralorDeclaracionjuradaController extends Controller {
         $em = $this->getDoctrine()->getManager();
         //$declaraciones = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findAllDeclaracionesPorPeriodo();
 
-        $formFiltro = $this->createForm(FiltroDeclaracionjuradaType::class, null);
+        $formFiltro = $this->createForm(FiltroDeclaracionjuradaType::class, null, array(
+            'method' => 'GET'
+        ));
         $formFiltro->handleRequest($request);
         $filtros = array();
         if ($formFiltro->isSubmitted() && $formFiltro->isValid()) {
@@ -63,7 +72,7 @@ class ContralorDeclaracionjuradaController extends Controller {
                     'pagination' => $pagination,
                     'form_filtro' => $formFiltro->createView()
         ));
-    }
+    }*/
 
     public function listarAction(Request $request, UserInterface $user) {
 //        try {

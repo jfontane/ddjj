@@ -70,7 +70,7 @@ class DeclaracionesJuradasService {
      * 
      * @param array $filtros
      */
-    public function filtrar($filtros, $zona = null) {
+    public function filtrar($filtros, $zona = null, $organismo = null) {
 
         //Instanciar
         $qbLiq = $this->em->createQueryBuilder();
@@ -105,6 +105,12 @@ class DeclaracionesJuradasService {
 //            dump($zona);exit;
             $andX->add($qbLiq->expr()->eq(self::ALIAS_ORG . '.zona', ':zona'));
             $qbLiq->setParameter(':zona', $zona);
+        }
+//        dump($organismo);exit;
+         if($organismo instanceof Organismo){
+//            dump($zona);exit;
+            $andX->add($qbLiq->expr()->eq(self::ALIAS_ORG . '.codigo', ':codigo'));
+            $qbLiq->setParameter(':codigo', $organismo->getCodigo());
         }
         
         /**

@@ -13,31 +13,32 @@
         {# CONTENIDO ORIGINAL DEL ARCHIVO Y SIN LAS ETIQUETAS <html><body> � </body></html> #}
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ path('principal_logueado') }}">Home</a></li>
-                <li class="breadcrumb-item" aria-current="page"><a href="{{ path('contralor_declaracion_opciones') }}">Declaraciones Juradas</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Declaraciones Pendientes</li>
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Declaraciones Juradas</li>
             </ol>
         </nav>
 
         <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
+        {#        <div>
+                    <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/rojo.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Rechazadas&nbsp;&nbsp;</b><a href="#">Click Aquí</a></p>
+                </div>
+                <div>
+                    <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/amarillo.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Pendientes&nbsp;&nbsp;</b><a href="{{ path('contralor_declaracion_listar_pendientes') }}">Click Aquí</a></p>
+                </div>
+                <div>
+                    <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/verde.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas Aprobadas&nbsp;&nbsp;</b><a href="#">Click Aquí</a></p>
+                </div>#}
+
+
+        <h2>Filtrar resultados</h2>
         <div>
-            {% if tipo == 'Pendientes' %}
-                <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/amarillo.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas {{ tipo }}&nbsp;&nbsp;</b></p>
-                {% elseif tipo == 'Rechazadas' %}
-                <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/rojo.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas {{ tipo }}&nbsp;&nbsp;</b></p>
-                {% elseif tipo == 'Aprobadas' %}
-                <p><img src="{{ asset('bundles/jubilacionesdeclaraciones/img/verde.png') }}"><b>&nbsp;&nbsp;Declaraciones Juradas {{ tipo }}&nbsp;&nbsp;</b></p>
-                {% endif %}
-
+            {{ form(form_filtro) }}
+        </div>
+        <div class="mt-4">            
+            Se encontraron {{ pagination.getTotalItemCount() }} declaracion(es).
         </div>
 
-        <div class="flash_admin">
-            {% for mensaje in app.session.flashbag.get('warn') %}
-                <p class="warn">{{ mensaje }}</p>
-            {% endfor %}
-        </div>
-
-        <div class="grid_16">
+        <div class="table-responsive mt-4">
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
@@ -47,9 +48,8 @@
                         <th>T.Liq.</th>
                         <th>F.Entrega</th>
                         <th>F.Ingreso</th>
-
                         <th>Estado</th>
-                        <th></th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,10 +71,13 @@
                             </td>
                             <td>{{ declaracion.estado }}</td>
                             <td>
-                                <a href="{{path('contralor_declaracion_ver',{'id' : declaracion.id })}}" class="btn btn-primary">Ver</a>&nbsp;&nbsp;
-                                {% if tipo == 'Pendientes' %}
-                                    <a href="{{path('contralor_mostrar_totales',{'id' : declaracion.id })}}" style="color:#0275d8!important"><u>Cargar</u></a>
-                                        {% endif %}
+                                <a href="{{path('contralor_declaracion_ver',{'id' : declaracion.id })}}" class="btn btn-sm btn-primary">Ver</a>
+                                {% if declaracion.estado == 'Pendiente' or declaracion.estado == 'Procesando' %}
+                                    <a href="{{path('contralor_mostrar_totales',{'id' : declaracion.id })}}" class="btn btn-sm btn-secondary">Cargar</a>
+                                {% endif %}
+                                 {% if declaracion.estado == 'Pendiente' %}
+                                    <a href="#" class="btn btn-sm btn-danger">Borrar</a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% else %}
@@ -89,6 +92,11 @@
                 {{ knp_pagination_render(pagination) }}
             </div>
         </div>
+
+
+
+
+
     {% endblock %}
     {% block javascripts %}
         <script>
