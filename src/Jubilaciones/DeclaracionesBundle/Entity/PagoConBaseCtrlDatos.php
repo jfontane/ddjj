@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * PagoConBase
+ * PagoConBaseCtrl
  *
- * @ORM\Table(name="PagoConBaseDatos")
+ * @ORM\Table(name="PagoConBaseCtrlDatos")
  * @ORM\Entity()
  */
-class PagoConBaseDatos {
+class PagoConBaseCtrlDatos {
 
     /**
      * @ORM\Id
@@ -25,69 +25,47 @@ class PagoConBaseDatos {
      * @Assert\NotBlank()
      * @Assert\Length(min="5",max="5")
      */
-    protected $identificadorDeuda;
+    protected $identificadorDatos="LOTES";
 
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
-     * @Assert\Length(min="3",max="3")
+     * @Assert\Length(min="5",max="5")
      */
-    protected $identificadorConcepto;
+    protected $numeroLote;
 
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
-     * @Assert\Length(min="19",max="19")
+     * @Assert\Length(min="8",max="8")
      */
-    protected $identificadorUsuario;
+    protected $cantidadRegistrosLote;
 
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
-     * @Assert\Length(min="6",max="6")
-     */
-    protected $fechaPrimerVencimiento;
-
-    /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     * @Assert\Length(min="12",max="12")
+     * @Assert\Length(min="18",max="18")
      */
     protected $importePrimerVencimiento;
 
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
-     * @Assert\Length(min="6",max="6")
-     */
-    protected $fechaSegundoVencimiento;
-
-    /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     * @Assert\Length(min="12",max="12")
+     * @Assert\Length(min="18",max="18")
      */
     protected $importeSegundoVencimiento;
 
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
-     * @Assert\Length(min="6",max="6")
-     */
-    protected $fechaTercerVencimiento;
-
-    /**
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     * @Assert\Length(min="12",max="12")
+     * @Assert\Length(min="18",max="18")
      */
     protected $importeTercerVencimiento;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PagoConBase", inversedBy="pagosConBaseDatos")
+     * @ORM\ManyToOne(targetEntity="PagoConBaseCtrl", inversedBy="pagosConBaseCtrlDatos")
      * @ORM\JoinColumn(name="PagoConBase_id", referencedColumnName="id")
      */
-    private $pagoConBaseDatos;
-
+    private $pagoConBaseCtrlDatos;
 
 }

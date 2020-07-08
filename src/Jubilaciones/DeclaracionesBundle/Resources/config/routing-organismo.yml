@@ -6,16 +6,19 @@ organismo_representante_registrar:
 #    path:     /declaracion/listar
 #    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:listar }
 
+organismo_declaracion_listar:
+    path:     /declaracion/listar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:index }
+
 organismo_declaracion_listar_pdf:
     path:     /declaracion/listarPdf
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:listarPdf }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:listarPdf }
 
 organismo_declaracion_ver:
     path:     /declaracion/ver/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:ver }
     requirements:
         id: \d+
-
 
 organismo_declaracion_prueba:
     path:     /declaracion/prueba

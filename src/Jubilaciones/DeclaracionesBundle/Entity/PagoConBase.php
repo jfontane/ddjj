@@ -20,6 +20,7 @@ class PagoConBase {
      */
     protected $id;
 
+  
     /**
      * @ORM\Column(type="string")
      * @Assert\NotBlank()

@@ -29,7 +29,9 @@ class DeclaracionjuradaType extends AbstractType {
                 ->add('periodoAnio', ChoiceType::class, array(
                     'choices' => array('2020' => '2020', '2019' => '2019',
                         '2018' => '2018', '2017' => '2017',
-                        '2016' => '2016', '2015' => '2015')
+                        '2016' => '2016', '2015' => '2015',
+                        '2014' => '2014', '2013' => '2013',
+                        '2012' => '2012', '2011' => '2011')
                 ))
                 ->add('periodoMes', ChoiceType::class, array(
                     'choices' => array('Ene' => '01', 'Feb' => '02',
@@ -56,15 +58,15 @@ class DeclaracionjuradaType extends AbstractType {
                         'maxSize' => '1548k',
                         ])
                 ],));
-                
-        
+
+
         /*
                  ->add('jubi1ind', FileType::class,array(
                 "label" => "Jubi1.IND",
                 "attr" =>array("class" => "form-control")
             ));*/
 
-                
+
                 /*
                 ->add('jubidat', FileType::class, [
                     'label' => 'Jubi.dat',

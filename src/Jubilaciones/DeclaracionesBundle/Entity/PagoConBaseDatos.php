@@ -84,6 +84,13 @@ class PagoConBaseDatos {
     protected $importeTercerVencimiento;
 
     /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="50",max="50")
+     */
+    protected $discrecional;
+
+    /**
      * @ORM\ManyToOne(targetEntity="PagoConBase", inversedBy="pagosConBaseDatos")
      * @ORM\JoinColumn(name="PagoConBase_id", referencedColumnName="id")
      */

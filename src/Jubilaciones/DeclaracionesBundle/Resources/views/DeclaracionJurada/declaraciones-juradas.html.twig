@@ -34,7 +34,7 @@
         <div>
             {{ form(form_filtro) }}
         </div>
-        <div class="mt-4">            
+        <div class="mt-4">
             Se encontraron {{ pagination.getTotalItemCount() }} declaracion(es).
         </div>
 
@@ -43,7 +43,6 @@
                 <thead class="thead-dark">
                     <tr>
                         <th>Organismo</th>
-                        <th>Zona</th>
                         <th>Periodo</th>
                         <th>T.Liq.</th>
                         <th>F.Entrega</th>
@@ -56,9 +55,6 @@
                     {% for declaracion in pagination %}
                         <tr>
                             <td>{{ declaracion.organismo.codigo }}</td>
-                            <td>
-                                {{ declaracion.organismo.zona }}
-                            </td>
                             <td>
                                 {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}
                             </td>
@@ -88,6 +84,7 @@
                 </tbody>
 
             </table>
+            <br><a href = '{{ path('organismo_declaracion_listar_pdf') }}' target='_blank'> Listado de Declaraciones Juradas </a>
             <div class="navigation">
                 {{ knp_pagination_render(pagination) }}
             </div>

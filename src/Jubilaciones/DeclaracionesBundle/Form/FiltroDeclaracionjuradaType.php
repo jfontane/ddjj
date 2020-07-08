@@ -28,14 +28,14 @@ class FiltroDeclaracionjuradaType extends AbstractType {
 
         // =================================================================================
         //Periodo año
-        $rango = range(2015, date('Y')); // de 2015 al año actual
+        $rango = range(2011, date('Y')); // de 2015 al año actual
 //        $periodo_anio = array('No aplicar');
-        
+
         $periodo_anio = array_merge(array(0 => 'No aplicar'), $rango);
-        
+
         //dump($periodo_anio);exit;
-        
-        $builder->add('periodoAnio', ChoiceType::class, 
+
+        $builder->add('periodoAnio', ChoiceType::class,
                 array('choices' => array_flip($periodo_anio), 'data' => 0));
 
         // =================================================================================

@@ -53,6 +53,7 @@
                         <th>Codigo</th>
                         <th>Nombre</th>
                         <th>Domicilio</th>
+                        <th>Email</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -63,6 +64,7 @@
                             <td>{{ organismo.codigo }}</td>
                             <td>{{ organismo.nombre }}</td>
                             <td>{{ organismo.domicilioCalle }} {{ organismo.domicilioNumero }}</td>
+                            <td>{{ organismo.email }}</td>
                             <td>
                                 <a href="{{ path('organismo_organismo_ver',{ "id": organismo.id }) }}">Ver</a>&nbsp;&nbsp;
                                 <a href="{{ path('organismo_organismo_editar') }}">Editar</a>&nbsp;&nbsp;
