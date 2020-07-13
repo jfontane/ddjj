@@ -39,6 +39,15 @@
         </div>
 
         <div class="table-responsive mt-4">
+        <!-- MENSAJES FLASH ADMIN AQUÍ (utilizar <div class=”flash_admin”> </div>) -->
+        <div class="alert alert-warning" role="alert">
+            {% for mensaje in app.session.flashbag.get('warn') %}
+                <p class="warn">{{ mensaje }}</p>
+            {% endfor %}
+        </div>
+        <p>
+          <a href="{{path('organismo_declaracion_nuevo')}}" class="btn btn-sm btn-primary">Nueva</a>&nbsp;&nbsp;
+        </p>
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
@@ -67,12 +76,10 @@
                             </td>
                             <td>{{ declaracion.estado }}</td>
                             <td>
-                                <a href="{{path('contralor_declaracion_ver',{'id' : declaracion.id })}}" class="btn btn-sm btn-primary">Ver</a>
-                                {% if declaracion.estado == 'Pendiente' or declaracion.estado == 'Procesando' %}
-                                    <a href="{{path('contralor_mostrar_totales',{'id' : declaracion.id })}}" class="btn btn-sm btn-secondary">Cargar</a>
-                                {% endif %}
-                                 {% if declaracion.estado == 'Pendiente' %}
-                                    <a href="#" class="btn btn-sm btn-danger">Borrar</a>
+                                <a href="{{ path ('organismo_declaracion_ver',{'id' : declaracion.id }) }}" class="btn btn-sm btn-primary">Ver</a>&nbsp;
+                                {% if declaracion.estado == 'Pendiente' or declaracion.estado == 'Rechazada' %}
+                                    <a href="{{ path ('organismo_declaracion_editar',{'id' : declaracion.id }) }}" class="btn btn-sm btn-primary">Editar</a>&nbsp;
+                                    <a href="" class="btn btn-sm btn-danger" id="btn_borrar" data-id="{{ declaracion.id }}">Borrar</a>
                                 {% endif %}
                             </td>
                         </tr>
@@ -96,11 +103,19 @@
 
     {% endblock %}
     {% block javascripts %}
+        {{ parent() }}
         <script>
-            function confirmaBorrar() {
-                if (confirm("Desea Eliminar un Evento???")) {
-                    //location.href
-                }
-            }
+            $(document).ready(function () {
+                $('a[id=btn_borrar]').on('click', function () {
+                    event.preventDefault();
+                    id = $(this).data("id");
+                    //var url = "../admin/declaracion/listar";
+                    var url = "./borrar/" + id;
+                    if (confirm('Esta seguro de Eliminar la Declaracion Jurada??')) {
+                        $(location).attr('href', url);
+                    }
+                });
+            });
         </script>
+
     {% endblock %}

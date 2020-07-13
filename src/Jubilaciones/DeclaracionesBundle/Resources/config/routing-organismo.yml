@@ -2,10 +2,6 @@ organismo_representante_registrar:
     path: /representante/nuevo
     defaults: { _controller: JubilacionesDeclaracionesBundle:Default:nuevoRepresentante }
 
-#organismo_declaracion_listar:
-#    path:     /declaracion/listar
-#    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:listar }
-
 organismo_declaracion_listar:
     path:     /declaracion/listar
     defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:index }
@@ -16,33 +12,33 @@ organismo_declaracion_listar_pdf:
 
 organismo_declaracion_ver:
     path:     /declaracion/ver/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:ver }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:ver }
     requirements:
         id: \d+
 
 organismo_declaracion_prueba:
     path:     /declaracion/prueba
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:prueba }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:prueba }
 
 organismo_declaracion_nuevo:
     path:     /declaracion/nuevo
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:nuevo }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:nuevo }
 
 organismo_declaracion_editar:
     path:     /declaracion/editar/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:editar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:editar }
     requirements:
         id: \d+
 
 organismo_declaracion_borrar:
     path:     /declaracion/borrar/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:borrar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:borrar }
     requirements:
         id: \d+
 
 organismo_declaracion_error:
     path:     /declaracion/error/{error}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoDeclaracionjurada:error }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:error }
 
 organismo_organismo_listar:
     path:     /organismo/listar
@@ -54,7 +50,7 @@ organismo_organismo_editar:
 
 organismo_organismo_ver:
     path:     /organismo/ver/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoOrganismo:ver }
+    defaults: { _controller: DeclaracionesBundle:OrganismoOrganismo:ver }
     requirements:
         id: \d+
 
