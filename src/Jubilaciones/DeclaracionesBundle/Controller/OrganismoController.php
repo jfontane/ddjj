@@ -13,11 +13,13 @@ use Jubilaciones\DeclaracionesBundle\Classes\Util;
 use Jubilaciones\DeclaracionesBundle\Controller\AbstractBaseController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Jubilaciones\DeclaracionesBundle\Form\OrganismoType;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 
 
 //use Symfony\Component\Validator\Constraints\Length;
 
-class ContralorOrganismoController extends Controller {
+class OrganismoController extends Controller {
 
   public function listarAction() {
     $em = $this->getDoctrine()->getManager();
@@ -28,13 +30,36 @@ class ContralorOrganismoController extends Controller {
     ));
   }
 
+public function detallesAction(UserInterface $user) {
+      $user = $this->getUser();
+      $organismo_codigo = $user->getUsername();
+      $em = $this->getDoctrine()->getManager();
+      $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array("codigo"=>$organismo_codigo));
+      //dump($declaraciones);die;
+      return $this->render('@JubilacionesDeclaraciones/OrganismoOrganismo/listar.html.twig', array(
+                  'organismo' => $organismo
+      ));
+  }
+
   public function verAction($id) {
+    $user = $this->getUser();
     $em = $this->getDoctrine()->getManager();
     $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->find($id);
-    return $this->render('@JubilacionesDeclaraciones/ContralorOrganismo/ver.html.twig', array(
-      'organismo' => $organismo
-    ));
+
+    //$declaraciones = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findAllDeclaracionesPorPeriodo();
+    if($user->hasRole('ROLE_USER')){
+        return $this->render('@JubilacionesDeclaraciones/OrganismoOrganismo/ver.html.twig', array(
+                    'organismo' => $organismo
+        ));
+        //filtrar declaraciones para este usuario
+        //dump($user);exit;
+    } else {
+      return $this->render('@JubilacionesDeclaraciones/ContralorOrganismo/ver.html.twig', array(
+        'organismo' => $organismo
+      ));
+    };
   }
+
 
   public function listarDeclaracionesPorOrganismoAction($id) {
     $em = $this->getDoctrine()->getManager();

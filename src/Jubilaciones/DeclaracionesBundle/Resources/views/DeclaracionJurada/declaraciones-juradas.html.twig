@@ -51,7 +51,9 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
+                      {% if organismo == null %}
                         <th>Organismo</th>
+                      {% endif %}
                         <th>Periodo</th>
                         <th>T.Liq.</th>
                         <th>F.Entrega</th>
@@ -63,7 +65,9 @@
                 <tbody>
                     {% for declaracion in pagination %}
                         <tr>
+                         {% if organismo == null %}
                             <td>{{ declaracion.organismo.codigo }}</td>
+                         {% endif %}
                             <td>
                                 {{ declaracion.periodoAnio }}/{{ declaracion.periodoMes }}
                             </td>
@@ -78,7 +82,11 @@
                             <td>
                                 <a href="{{ path ('organismo_declaracion_ver',{'id' : declaracion.id }) }}" class="btn btn-sm btn-primary">Ver</a>&nbsp;
                                 {% if declaracion.estado == 'Pendiente' or declaracion.estado == 'Rechazada' %}
-                                    <a href="{{ path ('organismo_declaracion_editar',{'id' : declaracion.id }) }}" class="btn btn-sm btn-primary">Editar</a>&nbsp;
+                                    {% if organismo == null %}
+                                       <a href="{{ path('contralor_mostrar_totales',{'id' : declaracion.id }) }} " class="btn btn-sm btn-primary">Procesar</a>&nbsp;
+                                    {% else %}
+                                       <a href="{{ path ('organismo_declaracion_editar',{'id' : declaracion.id }) }}" class="btn btn-sm btn-primary">Editar</a>&nbsp;
+                                    {% endif %}
                                     <a href="" class="btn btn-sm btn-danger" id="btn_borrar" data-id="{{ declaracion.id }}">Borrar</a>
                                 {% endif %}
                             </td>

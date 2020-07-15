@@ -5,7 +5,7 @@ contralor_portada:
 #contralor_declaracion_opciones:
 #    path: /declaracion/opciones
 #    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:opciones }
-contralor_declaracion_opciones:    
+contralor_declaracion_opciones:
     path: /declaraciones-juradas
     defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:index }
 
@@ -27,7 +27,7 @@ contralor_jubi1ind:
 
 contralor_mostrar_totales:
     path:     /declaracion/totales/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:mostrarTotales }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:mostrarTotales }
     requirements:
         id: \d+
 
@@ -61,23 +61,23 @@ contralor_representante_ver:
 
 contralor_organismo_listar:
     path:     /organismo/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorOrganismo:listar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Organismo:listar }
 
 contralor_organismo_ver:
     path:     /organismo/ver/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorOrganismo:ver }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Organismo:ver }
     requirements:
         id: \d+
 
 contralor_organismo_editar:
     path:     /organismo/editar/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorOrganismo:editar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Organismo:editar }
     requirements:
         id: \d+
 
 contralor_organismo_declaraciones_por_organismo:
     path: /organismo/{id}/ddjj
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorOrganismo:listarDeclaracionesPorOrganismo }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Organismo:listarDeclaracionesPorOrganismo }
 
 contralor_usuario_listar:
     path:     /usuario/listar

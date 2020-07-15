@@ -23,7 +23,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class DeclaracionjuradaController extends Controller {
 
     public function indexAction(Request $request) {
-
         $user = $this->getUser();
         $zona = $user->getZona();
         $em = $this->getDoctrine()->getManager();
@@ -46,16 +45,15 @@ class DeclaracionjuradaController extends Controller {
         $ddjjService = $this->get(DeclaracionesJuradasService::class);
         $query = $ddjjService->filtrar($filtros, $zona, $organismo);
         $items_por_pagina = $this->getParameter('knp_paginator_items_por_pagina');
-
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
                 $query, $request->query->getInt('page', 1), $items_por_pagina
         );
-
 //All Files	/home/esangoi/vagrant/www/predeju/src/Jubilaciones/DeclaracionesBundle/Resources/views/DeclaracionJurada/declaraciones-juradas.html.twig
 
         return $this->render('@JubilacionesDeclaraciones/DeclaracionJurada/declaraciones-juradas.html.twig', array(
                     'pagination' => $pagination,
+                    'organismo' => $organismo,
                     'form_filtro' => $formFiltro->createView()
         ));
     }
@@ -299,12 +297,67 @@ class DeclaracionjuradaController extends Controller {
             $ddjjs = $em->getRepository(Declaracionjurada::class)->findAll();
 
             $ddjjService = $this->get(DeclaracionesJuradasService::class);
-
             $res = $ddjjService->setTotalizadores();
-
             dump($ddjjService, $res);exit;
+        }
 
+        public function aprobarDeclaracionAction($id) {
+            $user = $this->getUser();
+            $zona = $user->getZona();
+            $em = $this->getDoctrine()->getManager();
+            //$declaraciones = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findAllDeclaracionesPorPeriodo();
+            $organismo = null;
+            if($user->hasRole('ROLE_ADMIN')){
+                $organismo = $user->getOrganismo();
+                //filtrar declaraciones para este usuario
+                //dump($user);exit;
+            }
 
+            $em = $this->getDoctrine()->getManager();
+            $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findOneBy(array('id' => $id));
+            //dump($declaraciones);die;
+            $declaracion->setEstado('Aprobada');
+            $declaracion->setFechaIngreso(new DateTime('now'));
+            // aca borrar los archivos
+            $fileNamejubidat = $declaracion->getJubidat();
+            $fileNamejubi1ind = $declaracion->getJubi1ind();
+            // Para borrar el archivo
+            $fs = new Filesystem();
+            $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNamejubidat);
+            $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNamejubi1ind);
+            //Por ultimo hacer el redirect a Listar
+            $em->persist($declaracion);
+            $em->flush();
+
+            AbstractBaseController::addWarnMessage("La Declaracion Jurada de: '"
+                    . $declaracion->getOrganismo()->getNombre()
+                    . "' en el periodo: " . $declaracion->getPeriodoAnio()
+                    . '/' . $declaracion->getPeriodoMes() . "' se ha APROBADO correctamente.");
+            return $this->redirect($this->generateUrl('contralor_declaracion_listar_pendientes'));
+        }
+
+        public function rechazarDeclaracionAction($id) {
+            $em = $this->getDoctrine()->getManager();
+            $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findOneBy(array('id' => $id));
+            $declaracion->setEstado('Rechazada');
+            // aca borrar los archivos
+            $fileNamejubidat = $declaracion->getJubidat();
+            $fileNamejubi1ind = $declaracion->getJubi1ind();
+            $declaracion->setJubidat(NULL);
+            $declaracion->setJubi1ind(NULL);
+            // Para borrar el archivo
+            $fs = new Filesystem();
+            $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNamejubidat);
+            $fs->remove($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileNamejubi1ind);
+            //Por ultimo hacer el redirect a Listar
+            $em->persist($declaracion);
+            $em->flush();
+
+            AbstractBaseController::addWarnMessage("La Declaracion Jurada de: '"
+                    . $declaracion->getOrganismo()->getNombre()
+                    . "' en el periodo: " . $declaracion->getPeriodoAnio()
+                    . '/' . $declaracion->getPeriodoMes() . "' se ha RECHAZADO !!!.");
+            return $this->redirect($this->generateUrl('contralor_declaracion_listar_pendientes'));
         }
 
 

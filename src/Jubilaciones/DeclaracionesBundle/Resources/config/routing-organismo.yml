@@ -42,7 +42,7 @@ organismo_declaracion_error:
 
 organismo_organismo_listar:
     path:     /organismo/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoOrganismo:listar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Organismo:detalles }
 
 organismo_organismo_editar:
     path:     /organismo/editar
@@ -50,7 +50,7 @@ organismo_organismo_editar:
 
 organismo_organismo_ver:
     path:     /organismo/ver/{id}
-    defaults: { _controller: DeclaracionesBundle:OrganismoOrganismo:ver }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Organismo:ver }
     requirements:
         id: \d+
 
