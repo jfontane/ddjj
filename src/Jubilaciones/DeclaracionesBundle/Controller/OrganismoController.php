@@ -95,6 +95,35 @@ public function detallesAction(UserInterface $user) {
   ));
 }
 
+public function modificarAction(Request $request, UserInterface $user) {
+  $user = $this->getUser();
+  $organismo_codigo = $user->getUsername();
+  $em = $this->getDoctrine()->getManager();
+  $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array("codigo"=>$organismo_codigo));
+
+  /*if (null == $organismo = $em->find('JubilacionesDeclaracionesBundle:User', $id)) {
+    throw $this->createNotFoundException('No existe el Usuario solicitado.');
+  }*/
+  $form = $this->createForm(OrganismoType::class, $organismo)
+  ->add('Guardar', SubmitType::class);
+  $form->remove('codigo');$form->remove('nombre');$form->remove('entregoFormulario');
+  $form->remove('zona');$form->remove('amparo');$form->remove('departamento');
+  $form->remove('habilitado');
+  $form->handleRequest($request);
+  if ($form->isSubmitted() && $form->isValid()) {
+    //$evento->setDescripcion($this->get('eventos.util')->autoLinkText($evento->getDescripcion()));
+    $em->persist($organismo);
+    $em->flush();
+    AbstractBaseController::addWarnMessage('El Usuario "' . $organismo->getNombre()
+    . '" se ha modificado correctamente.');
+    //  $this->get('eventos.notificacion')->sendToAll('Symfony 2020!', 'Se ha actualizado el evento '.$organismo->getNombre().'.');
+    return $this->redirect($this->generateUrl('principal_logueado'));
+  }
+  return $this->render('@JubilacionesDeclaraciones/OrganismoOrganismo/editar.html.twig'
+  , array('form' => $form->createView(), 'organismo' => $organismo
+));
+}
+
 public function borrarAction($id) {
 
 }

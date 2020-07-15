@@ -41,12 +41,12 @@ organismo_declaracion_error:
     defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:error }
 
 organismo_organismo_listar:
-    path:     /organismo/listar
+    path:     /detalle
     defaults: { _controller: JubilacionesDeclaracionesBundle:Organismo:detalles }
 
 organismo_organismo_editar:
     path:     /organismo/editar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoOrganismo:editar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Organismo:modificar }
 
 organismo_organismo_ver:
     path:     /organismo/ver/{id}
@@ -56,15 +56,15 @@ organismo_organismo_ver:
 
 organismo_representante_listar:
     path:     /representante/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoRepresentante:listar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Representante:listar }
 
 organismo_representante_editar:
     path:     /representante/editar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoRepresentante:editar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Representante:editar }
 
 organismo_representante_ver:
     path:     /representante/ver/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoRepresentante:ver }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Representante:ver }
 
 organismo_convenio_cuota_listar:
     path:     /conveniocuota/listar

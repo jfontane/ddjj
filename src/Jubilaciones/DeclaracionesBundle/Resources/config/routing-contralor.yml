@@ -5,23 +5,24 @@ contralor_portada:
 #contralor_declaracion_opciones:
 #    path: /declaracion/opciones
 #    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:opciones }
+
 contralor_declaracion_opciones:
     path: /declaraciones-juradas
     defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:index }
 
-contralor_declaracion_listar_pendientes:
-    path: /declaracion/pendientes
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:listarPendientes }
+#contralor_declaracion_listar_pendientes:
+#    path: /declaracion/pendientes
+#    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:listarPendientes }
 
 contralor_jubidat:
     path:     /declaracion/jubidat/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:getJubidat }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:getJubidat }
     requirements:
         id: \d+
 
 contralor_jubi1ind:
     path:     /declaracion/jubi1ind/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:getJubi1ind }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:getJubi1ind }
     requirements:
         id: \d+
 
@@ -33,7 +34,7 @@ contralor_mostrar_totales:
 
 contralor_declaracion_ver:
     path:     /declaracion/ver/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:ver }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:ver }
     requirements:
         id: \d+
 

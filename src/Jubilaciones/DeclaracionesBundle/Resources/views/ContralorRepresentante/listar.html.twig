@@ -73,9 +73,9 @@ aria-expanded="false" title="Usuario logeado"><i class="material-icons">person</
                             <td>
                                 {{ representante.cuil }}
                             </td>
-                            <td>{{ representante.apellido }}</td>
+                            <td>{{ representante.apellido|capitalize }}</td>
                             <td>
-                                {{  representante.nombres }}
+                                {{  representante.nombres|capitalize }}
                             </td>
                             <td>{{ representante.email }}</td>
                             <td>

@@ -18,17 +18,25 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 //use Symfony\Component\Validator\Constraints\Length;
 
-class OrganismoRepresentanteController extends Controller {
+class RepresentanteController extends Controller {
+
+  public function listarAction() {
+      $em = $this->getDoctrine()->getManager();
+      $representantes = $em->getRepository('JubilacionesDeclaracionesBundle:Representante')->findAllRepresentantesAlfabeticamente();
+      //dump($declaraciones);die;
+      return $this->render('@JubilacionesDeclaraciones/ContralorRepresentante/listar.html.twig', array(
+                  'representantes' => $representantes
+      ));
+  }
+
 
   public function verAction($id) {
     $em = $this->getDoctrine()->getManager();
     $representante = $em->getRepository('JubilacionesDeclaracionesBundle:Representante')->find($id);
-    return $this->render('@JubilacionesDeclaraciones/OrganismoRepresentante/ver.html.twig', array(
+    return $this->render('@JubilacionesDeclaraciones/Representante/ver.html.twig', array(
       'representante' => $representante
     ));
   }
-
-
 
   public function editarAction(Request $request, UserInterface $user) {
     $user = $this->getUser();
@@ -44,8 +52,7 @@ class OrganismoRepresentanteController extends Controller {
   }*/
 
 
-    $form = $this->createForm(RepresentanteType::class, $representante)
-    ->add('Guardar', SubmitType::class);
+    $form = $this->createForm(RepresentanteType::class, $representante);
 
     $form->remove('cuil');$form->remove('apellido');$form->remove('nombres');
     $form->remove('sexo');$form->remove('fechaActualizacion');$form->remove('confirmoDatos');

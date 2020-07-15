@@ -121,7 +121,6 @@ class DeclaracionjuradaController extends Controller {
                 $declaracionjurada->setOrganismo($organismo);
                 $declaracionjurada->setTipoLiquidacion($tipoLiq);
                 $em = $this->getDoctrine()->getManager();
-
                 try {
                     $em->persist($declaracionjurada);
                     $em->flush();
@@ -129,13 +128,11 @@ class DeclaracionjuradaController extends Controller {
                     AbstractBaseController::addErrorMessage("No se puede ingresar, clave compuesta Duplicada.");
                     return $this->redirect($this->generateUrl('organismo_declaracion_error', array('error' => 'Clave Duplicada')));
                 }
-
                 $fileJubidat->move("uploads", $file_name_jubidat);
                 $fileJubi1ind->move("uploads", $file_name_jubi1ind);
                 $fileName = $declaracionjurada->getJubidat();
                 $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
                 $valores = Util::totaliza($archivo);
-
                 //Importes:
                 $importePersonal=$valores['totalApPersonal'];
                 $importePatronal=$valores['totalApPatronal'];
@@ -225,7 +222,6 @@ class DeclaracionjuradaController extends Controller {
                     //Cargamos los Nuevos Archivos Jubi.dat y Jubi1.ind
                     $fileJubidat->move("uploads", $file_name_jubidat);
                     $fileJubi1ind->move("uploads", $file_name_jubi1ind);
-
                     $fileName=$declaracionjurada->getJubidat();
                     $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
                     $valores = Util::totaliza($archivo);
@@ -237,7 +233,6 @@ class DeclaracionjuradaController extends Controller {
                     $declaracionjurada->setImporteOtros($importeOtros);
                     $em->persist($declaracionjurada);
                     $em->flush();
-
                     AbstractBaseController::addWarnMessage("La Declaracion Jurada  '" . $declaracionjurada->getPeriodoAnio()
                             . '/' . $declaracionjurada->getPeriodoMes() . "' se ha Actualizado correctamente.");
                 } else {
@@ -248,6 +243,7 @@ class DeclaracionjuradaController extends Controller {
             return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/editar.html.twig', array('form' => $form->createView(), 'declaracionjurada' => $declaracionjurada
             ));
         }
+
 
         public function borrarAction($id) {
             $em = $this->getDoctrine()->getManager();
@@ -276,6 +272,7 @@ class DeclaracionjuradaController extends Controller {
             return $this->redirect($this->generateUrl('organismo_declaracion_listar'));
         }
 
+
         public function verAction($id) {
             $em = $this->getDoctrine()->getManager();
             $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
@@ -287,12 +284,13 @@ class DeclaracionjuradaController extends Controller {
             ));
         }
 
+
         public function errorAction($error) {
             return $this->render('@JubilacionesDeclaraciones/ErrorOrganismo/claveDuplicada.html.twig', array('Error' => $error));
         }
 
-        public function pruebaAction(Request $request) {
 
+        public function pruebaAction(Request $request) {
             $em = $this->getDoctrine()->getManager();
             $ddjjs = $em->getRepository(Declaracionjurada::class)->findAll();
 
@@ -300,6 +298,7 @@ class DeclaracionjuradaController extends Controller {
             $res = $ddjjService->setTotalizadores();
             dump($ddjjService, $res);exit;
         }
+
 
         public function aprobarDeclaracionAction($id) {
             $user = $this->getUser();
@@ -359,6 +358,69 @@ class DeclaracionjuradaController extends Controller {
                     . '/' . $declaracion->getPeriodoMes() . "' se ha RECHAZADO !!!.");
             return $this->redirect($this->generateUrl('contralor_declaracion_listar_pendientes'));
         }
+
+        public function mostrarTotalesAction($id) {
+            $em = $this->getDoctrine()->getManager();
+            $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
+            //$declaracion->setEstado('Procesando');
+            $em->persist($declaracion);
+            $em->flush();
+            $fileName = $declaracion->getJubidat();
+
+            //$file = fopen($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName, 'r');
+            //Output lines until EOF is reached
+            $archivo = file($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
+
+
+            //dump(Util::totaliza($archivo));
+            //die;
+            $valores = Util::totaliza($archivo);
+            return $this->render('@JubilacionesDeclaraciones/ContralorDeclaracionjurada/valoresTotales.html.twig', array(
+                        'valores' => $valores, 'declaracion' => $declaracion
+            ));
+        }
+
+
+        public function getJubidatAction($id) {
+            $em = $this->getDoctrine()->getManager();
+            $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
+            $fileName = $declaracion->getJubidat();
+            // Para borrar el archivo
+            //    $fs = new Filesystem();
+            //    $fs->remove($this->get('kernel')->getRootDir().'/../web/uploads/'.$file_name);
+            $arch = new File($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
+
+            return $this->file($arch, 'jubi.dat');
+
+            /* $file = stream_get_contents($declaracion->getJubidat(), -1, 0);
+              //dump(strlen($file));die;
+              $size = strlen($file);
+
+              $response = new Response($file, 200, array(
+              'Content-Type' => 'application/octet-stream',
+              'Content-Length' => $size,
+              'Content-Disposition' => 'attachment; filename="jubi.dat"',
+              ));
+              return $response; */
+        }
+
+        public function getJubi1indAction($id) {
+            $em = $this->getDoctrine()->getManager();
+            $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->find($id);
+            $fileName = $declaracion->getJubi1ind();
+            $arch = new File($this->get('kernel')->getRootDir() . '/../web/uploads/' . $fileName);
+            return $this->file($arch, 'jubi1.ind');
+        }
+
+        public function declaracionAction($id) {
+            $em = $this->getDoctrine()->getManager();
+            $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findOneBy(array('id' => $id));
+            //dump($declaraciones);die;
+            return $this->render('@JubilacionesDeclaraciones/ContralorDeclaracionjurada/declaracionjurada.html.twig', array(
+                        'declaracion' => $declaracion
+            ));
+        }
+
 
 
 }
