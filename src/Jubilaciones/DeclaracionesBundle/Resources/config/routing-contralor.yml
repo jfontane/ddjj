@@ -1,6 +1,6 @@
 contralor_portada:
     path: /
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:listar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:listar }
 
 #contralor_declaracion_opciones:
 #    path: /declaracion/opciones
@@ -40,23 +40,23 @@ contralor_declaracion_ver:
 
 contralor_declaracion_aprobar:
     path:     /declaracion/aprobar/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:aprobarDeclaracion }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:aprobarDeclaracion }
     requirements:
         id: \d+
 
 contralor_declaracion_rechazar:
     path:     /declaracion/rechazar/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorDeclaracionjurada:rechazarDeclaracion }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:rechazarDeclaracion }
     requirements:
         id: \d+
 
 contralor_representante_listar:
     path:     /representante/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorRepresentante:listar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Representante:listar }
 
 contralor_representante_ver:
     path:     /representante/ver/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorRepresentante:ver }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Representante:ver }
     requirements:
         id: \d+
 
@@ -82,8 +82,8 @@ contralor_organismo_declaraciones_por_organismo:
 
 contralor_usuario_listar:
     path:     /usuario/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorUsuario:listar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Usuario:listar }
 
 contralor_usuario_editar:
     path:     /usuario/editar/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:ContralorUsuario:editar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Usuario:editarContralor }

@@ -84,4 +84,4 @@ organismo_convenio_imprimir_boleta:
 
 organismo_usuario_editar:
     path:     /usuario/editar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoUsuario:editar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Usuario:editar }

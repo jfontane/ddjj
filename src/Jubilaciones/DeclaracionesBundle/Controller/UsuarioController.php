@@ -10,8 +10,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Jubilaciones\DeclaracionesBundle\Controller\AbstractBaseController;
 use Jubilaciones\DeclaracionesBundle\Form\UserType;
 use Jubilaciones\DeclaracionesBundle\Entity\User;
+use Symfony\Component\Security\Core\User\UserInterface;
 
-class ContralorUsuarioController extends Controller {
+class UsuarioController extends Controller {
 
   public function listarAction(Request $request) {
     $em = $this->getDoctrine()->getManager();
@@ -63,9 +64,35 @@ class ContralorUsuarioController extends Controller {
     }
     return $this->render('@JubilacionesDeclaraciones/AdminUsuario/nuevo.html.twig', array('form' => $form->createView()
   ));
+  }
+
+public function editarAction(Request $request, UserInterface $user) {
+  //dump($user);die;
+
+  $passwordEncoder = $this->get('security.password_encoder');
+
+  $form = $this->createForm(UserType::class, $user)
+  ->add('Guardar', SubmitType::class);
+  $form->remove('roles');$form->remove('zona');$form->remove('username');
+  $form->handleRequest($request);
+  if ($form->isSubmitted() && $form->isValid()) {
+    //$evento->setDescripcion($this->get('eventos.util')->autoLinkText($evento->getDescripcion()));
+    $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+    $user->setPassword($password);
+    $em = $this->getDoctrine()->getManager();
+    $em->persist($user);
+    $em->flush();
+    AbstractBaseController::addWarnMessage('El Usuario "' . $user->getUsername()
+    . '" se ha modificado correctamente.');
+    //  $this->get('eventos.notificacion')->sendToAll('Symfony 2020!', 'Se ha actualizado el evento '.$organismo->getNombre().'.');
+    return $this->redirect($this->generateUrl('principal_logueado'));
+  }
+  return $this->render('@JubilacionesDeclaraciones/OrganismoUsuario/editar.html.twig'
+  , array('form' => $form->createView(), 'usuario' => $user
+));
 }
 
-public function editarAction(Request $request, $id) {
+public function editarContralorAction(Request $request, $id) {
   $passwordEncoder = $this->get('security.password_encoder');
   $em = $this->getDoctrine()->getManager();
   if (null == $usuario = $em->find('JubilacionesDeclaracionesBundle:User', $id)) {
@@ -91,7 +118,7 @@ public function editarAction(Request $request, $id) {
 ));
 }
 
-public function borrarAction($id) {
+public function borrarContralorAction($id) {
   $em = $this->getDoctrine()->getManager();
   $usuario = $em->getRepository('JubilacionesDeclaracionesBundle:User')->findOneBy(array('id' => $id));
   // Para borrar el archivo
@@ -104,5 +131,8 @@ public function borrarAction($id) {
 
   return $this->redirect($this->generateUrl('admin_usuario_listar'));
 }
+
+
+
 
 }
