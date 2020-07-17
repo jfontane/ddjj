@@ -30,6 +30,47 @@ class RepresentanteController extends Controller {
   }
 
 
+  public function nuevoAction(Request $request) {
+      $representante = new Representante();
+      $form = $this->createForm(RepresentanteType::class, $representante);
+      $form->handleRequest($request);
+      if ($form->isSubmitted() && $form->isValid()) {
+          //Saco el organismo del Formulario de Alta de Representante
+          $representanteOrganismo = $form->get('organismo')->getData();
+          //Saco el ID del Organismo del Formulario de Alta de Representante
+          $idRepresentanteOrganismo = $representanteOrganismo->getId();
+
+          //Localizo el Organisno por ID para ver si tiene o no Representante Vinculado
+          $em = $this->getDoctrine()->getManager();
+          $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('id' => $idRepresentanteOrganismo));
+  //            dump($organismo);
+  //            die;
+          //$nroDocumento = $representante->getDocumentoNumero();
+          //$representante->setDocumentoTipo('Dni');
+          $representante->setConfirmoDatos('No');
+          //$representante->setDocumentoNumero(substr($nroDocumento, 2, 8));
+          $representante->setFechaSolicitud(new \DateTime('now'));
+
+          $em->persist($representante);
+          $em->flush();
+          AbstractBaseController::addWarnMessage("El Representante '" . $representante . "' se ha creado correctamente.");
+
+          if (!$organismo->getRepresentante()) {
+              $organismo->setRepresentante($representante);
+              $em->persist($organismo);
+              $em->flush();
+              AbstractBaseController::addWarnMessage("El Representante fue vinculado al Organismo '.$organismo.' correctamente.");
+          } else {
+              AbstractBaseController::addWarnMessage("El Representante NO se ha vinculado al organismo. El Organismo podria ya tener un Representante");
+          }
+          //return $this->redirect($this->generateUrl('representante_ver'));
+         return  $this->get('router')->generate('representante_ver', array('id' => $organismo->getId()));
+
+      }
+      return $this->render('@JubilacionesDeclaraciones/Representante/nuevoRepresentanteConOrganismo.html.twig', array('form' => $form->createView(),
+      ));
+  }
+
   public function verAction($id) {
     $em = $this->getDoctrine()->getManager();
     $representante = $em->getRepository('JubilacionesDeclaracionesBundle:Representante')->find($id);

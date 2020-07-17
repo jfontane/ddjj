@@ -1,7 +1,3 @@
-organismo_representante_registrar:
-    path: /representante/nuevo
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Default:nuevoRepresentante }
-
 organismo_declaracion_listar:
     path:     /declaracion/listar
     defaults: { _controller: JubilacionesDeclaracionesBundle:Declaracionjurada:index }
@@ -57,6 +53,10 @@ organismo_organismo_ver:
 organismo_representante_listar:
     path:     /representante/listar
     defaults: { _controller: JubilacionesDeclaracionesBundle:Representante:listar }
+
+organismo_representante_nuevo:
+    path:     /representante/nuevo
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Representante:nuevo }
 
 organismo_representante_editar:
     path:     /representante/editar

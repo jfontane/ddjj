@@ -36,7 +36,7 @@ public function detallesAction(UserInterface $user) {
       $em = $this->getDoctrine()->getManager();
       $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array("codigo"=>$organismo_codigo));
       //dump($declaraciones);die;
-      return $this->render('@JubilacionesDeclaraciones/OrganismoOrganismo/listar.html.twig', array(
+      return $this->render('@JubilacionesDeclaraciones/OrganismoOrganismo/detalle.html.twig', array(
                   'organismo' => $organismo
       ));
   }

@@ -1,0 +1,89 @@
+{% extends "@JubilacionesDeclaraciones/layout-organismo.html.twig" %}
+{% block pageid 'pagina' %}
+
+{% block header %}
+<ul class="navbar-nav mr-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="{{ path('principal_logueado') }}">Home <span class="sr-only">(current)</span></a>
+  </li>
+  <li class="nav-item active">
+    <a class="nav-link" href="{{ path('organismo_organismo_listar') }}">Organismo <span class="sr-only">(current)</span></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ path('organismo_convenio_cuota_listar') }}">Convenios</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ path('organismo_declaracion_listar') }}">Declaraciones</a>
+  </li>
+</ul>
+<ul class="list-inline custom-icon-middle">
+  <li class="list-inline-item">
+    <a href="#" class="dropdown-toggle" id="dropdownMenuLinkPerson" data-toggle="dropdown"
+    aria-haspopup="true"
+    aria-expanded="false" title="Usuario logeado"><i class="material-icons">person</i></a>
+    <div class="dropdown-menu custom-dropdown-menu-right" aria-labelledby="dropdownMenuLinkPerson">
+      <a class="dropdown-item" href="{{ path('organismo_usuario_editar') }}">Cambiar Contraseña</a>
+    </div>
+  </li>
+
+  <li class="list-inline-item"><a href="{{ path('logout') }}" title="Salir"><i class="material-icons">exit_to_app</i></a>
+  </li>
+
+</ul>
+{% endblock %}
+
+    {% block body %}
+         <H1>REGISTRO DE REPRESENTANTE</H1>
+         <br>
+        <!-- AGREGAR CÓDIGO FALTANTE -->
+        {{ form_errors(form) }}
+        {{ form_start(form) }}
+<table class="table">
+<tr>
+  <th>  {{ form_label(form.cuil) }}</th><td>{{ form_widget(form.cuil) }}</td>
+</tr>
+
+<tr colspan="2">
+  <th>  {{ form_errors(form.cuil) }} </th></td>
+</tr>
+
+<tr>
+  <th>  {{ form_label(form.apellido) }} </th><td>{{ form_widget(form.apellido) }} </td>
+</tr>
+
+<tr colspan="2">
+  <th>  {{ form_errors(form.apellido) }} </th></td>
+</tr>
+
+<tr>
+  <th>  {{ form_label(form.nombres) }} </th><td>{{ form_widget(form.nombres) }} </td>
+</tr>
+
+<tr colspan="2">
+  <th>  {{ form_errors(form.nombres) }} </th></td>
+</tr>
+
+<tr>
+  <th>  {{ form_label(form.email) }}</th><td>{{ form_widget(form.email) }}</td>
+</tr>
+
+<tr colspan="2">
+  <th>  {{ form_errors(form.email) }} </th></td>
+</tr>
+
+<tr>
+  <th>  {{ form_label(form.organismo) }}</th><td>{{ form_widget(form.organismo) }}</td>
+</tr>
+
+<tr colspan="2">
+  <th>  {{ form_errors(form.organismo) }} </th></td>
+</tr>
+
+<tr colspan="2">
+  <th>  {{ form_widget(form.guardar) }} </th></td>
+</tr>
+</table>
+{{ form_end(form) }}
+
+
+    {% endblock %}
