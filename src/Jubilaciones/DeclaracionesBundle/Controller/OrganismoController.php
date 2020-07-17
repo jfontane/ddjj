@@ -104,6 +104,7 @@ public function modificarAction(Request $request, UserInterface $user) {
   /*if (null == $organismo = $em->find('JubilacionesDeclaracionesBundle:User', $id)) {
     throw $this->createNotFoundException('No existe el Usuario solicitado.');
   }*/
+
   $form = $this->createForm(OrganismoType::class, $organismo)
   ->add('Guardar', SubmitType::class);
   $form->remove('codigo');$form->remove('nombre');$form->remove('entregoFormulario');
@@ -117,7 +118,7 @@ public function modificarAction(Request $request, UserInterface $user) {
     AbstractBaseController::addWarnMessage('El Usuario "' . $organismo->getNombre()
     . '" se ha modificado correctamente.');
     //  $this->get('eventos.notificacion')->sendToAll('Symfony 2020!', 'Se ha actualizado el evento '.$organismo->getNombre().'.');
-    return $this->redirect($this->generateUrl('principal_logueado'));
+    return $this->redirect($this->generateUrl('organismo_organismo_listar'));
   }
   return $this->render('@JubilacionesDeclaraciones/OrganismoOrganismo/editar.html.twig'
   , array('form' => $form->createView(), 'organismo' => $organismo

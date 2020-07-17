@@ -31,40 +31,48 @@ class RepresentanteController extends Controller {
 
 
   public function nuevoAction(Request $request) {
+      $user = $this->getUser();
+      $codigo_organismo = $user->getUsername();
+      //dump($user);die;
+      $em = $this->getDoctrine()->getManager();
+      $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' => $codigo_organismo));
+
       $representante = new Representante();
       $form = $this->createForm(RepresentanteType::class, $representante);
+      $form->remove('organismo');
       $form->handleRequest($request);
       if ($form->isSubmitted() && $form->isValid()) {
           //Saco el organismo del Formulario de Alta de Representante
-          $representanteOrganismo = $form->get('organismo')->getData();
+          //$representanteOrganismo = $form->get('organismo')->getData();
           //Saco el ID del Organismo del Formulario de Alta de Representante
-          $idRepresentanteOrganismo = $representanteOrganismo->getId();
+          //$idRepresentanteOrganismo = $representanteOrganismo->getId();
 
           //Localizo el Organisno por ID para ver si tiene o no Representante Vinculado
-          $em = $this->getDoctrine()->getManager();
-          $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('id' => $idRepresentanteOrganismo));
+
   //            dump($organismo);
   //            die;
           //$nroDocumento = $representante->getDocumentoNumero();
           //$representante->setDocumentoTipo('Dni');
+          $representante->addOrganismo($organismo);
           $representante->setConfirmoDatos('No');
           //$representante->setDocumentoNumero(substr($nroDocumento, 2, 8));
-          $representante->setFechaSolicitud(new \DateTime('now'));
+          $representante->setFechaActualizacion(new \DateTime('now'));
 
           $em->persist($representante);
           $em->flush();
           AbstractBaseController::addWarnMessage("El Representante '" . $representante . "' se ha creado correctamente.");
 
-          if (!$organismo->getRepresentante()) {
+          if ( !$organismo->getRepresentante() ) {
               $organismo->setRepresentante($representante);
+              $organismo->setEntregoFormulario('No');
               $em->persist($organismo);
               $em->flush();
               AbstractBaseController::addWarnMessage("El Representante fue vinculado al Organismo '.$organismo.' correctamente.");
           } else {
               AbstractBaseController::addWarnMessage("El Representante NO se ha vinculado al organismo. El Organismo podria ya tener un Representante");
           }
-          //return $this->redirect($this->generateUrl('representante_ver'));
-         return  $this->get('router')->generate('representante_ver', array('id' => $organismo->getId()));
+          return $this->redirect($this->generateUrl('organismo_organismo_listar'));
+        // return  $this->get('router')->generate('organismo_organismo_listar');
 
       }
       return $this->render('@JubilacionesDeclaraciones/Representante/nuevoRepresentanteConOrganismo.html.twig', array('form' => $form->createView(),
@@ -84,17 +92,13 @@ class RepresentanteController extends Controller {
     $organismo_codigo = $user->getUsername();
     $em = $this->getDoctrine()->getManager();
     $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array("codigo"=>$organismo_codigo));
-
     $representante=$organismo->getRepresentante();
-
     //dump($representante);die;
     /*if (null == $organismo = $em->find('JubilacionesDeclaracionesBundle:User', $id)) {
     throw $this->createNotFoundException('No existe el Usuario solicitado.');
   }*/
 
-
     $form = $this->createForm(RepresentanteType::class, $representante);
-
     $form->remove('cuil');$form->remove('apellido');$form->remove('nombres');
     $form->remove('sexo');$form->remove('fechaActualizacion');$form->remove('confirmoDatos');
     $form->remove('organismo');
@@ -107,7 +111,7 @@ class RepresentanteController extends Controller {
       AbstractBaseController::addWarnMessage('El Email del Representante "' . $representante
       . '" se ha modificado correctamente.');
       //  $this->get('eventos.notificacion')->sendToAll('Symfony 2020!', 'Se ha actualizado el evento '.$organismo->getNombre().'.');
-      return $this->redirect($this->generateUrl('principal_logueado'));
+      return $this->redirect($this->generateUrl('organismo_organismo_listar'));
     }
     return $this->render('@JubilacionesDeclaraciones/OrganismoRepresentante/editar.html.twig'
     , array('form' => $form->createView(), 'representante' => $representante

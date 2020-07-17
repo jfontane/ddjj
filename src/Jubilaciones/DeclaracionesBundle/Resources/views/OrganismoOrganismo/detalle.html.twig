@@ -43,6 +43,13 @@
                 <li class="breadcrumb-item active" aria-current="page">Organismo</li>
             </ol>
         </nav>
+
+        <div class="alert alert-primary">
+            {% for mensaje in app.session.flashbag.get('warn') %}
+                <p class="warn">{{ mensaje }}</p>
+            {% endfor %}
+        </div>
+
         <div class="container-fluid">
 
 
@@ -62,7 +69,7 @@
                     {% if organismo %}
                         <tr>
                             <td>{{ organismo.codigo }}</td>
-                            <td>{{ organismo.nombre }}</td>
+                            <td>{{ organismo.nombre|capitalize }}</td>
                             <td>{{ organismo.domicilioCalle }} {{ organismo.domicilioNumero }}</td>
                             <td>{{ organismo.email }}</td>
                             <td>
@@ -94,7 +101,7 @@
                     {% if organismo %}
                         <tr>
                             <td>{{ organismo.representante.cuil }}</td>
-                            <td>{{ organismo.representante }}</td>
+                            <td>{{ organismo.representante.apellido|capitalize }}, {{ organismo.representante.nombres|capitalize }}</td>
                             <td>{{ organismo.representante.email }}</td>
                             <td>{{ organismo.entregoFormulario }}</td>
                             <td>
