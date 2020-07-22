@@ -50,10 +50,6 @@ organismo_organismo_ver:
     requirements:
         id: \d+
 
-organismo_representante_listar:
-    path:     /representante/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Representante:listar }
-
 organismo_representante_nuevo:
     path:     /representante/nuevo
     defaults: { _controller: JubilacionesDeclaracionesBundle:Representante:nuevo }
@@ -66,22 +62,34 @@ organismo_representante_ver:
     path:     /representante/ver/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:Representante:ver }
 
+organismo_representante_desvincular:
+    path:     /representante/desvincular
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Representante:desvincular }
+
+organismo_representante_existente:
+    path:     /representante/{cuil}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Representante:mostrarRepresentanteExistente }
+
+organismo_representante_existente_vincular:
+    path:     /representante/vincular/{cuil}
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Representante:vincular }
+
 organismo_convenio_cuota_listar:
     path:     /conveniocuota/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoConveniocuota:listar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Conveniocuota:listar }
 
 organismo_convenio_cuota_ver:
     path:     /conveniocuota/ver/{codigo_convenio}/{tramo}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoConveniocuota:ver }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Conveniocuota:ver }
     requirements:
         id: \d+
 
 organismo_convenio_imprimir_boleta:
     path:     /conveniocuota/imprimir/{codigo_convenio}/{tramo}/{cuota}/{vencimiento}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:OrganismoConveniocuota:boletaPdf }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Conveniocuota:boletaPdf }
     requirements:
         id: \d+
 
 organismo_usuario_editar:
     path:     /usuario/editar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Usuario:editar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Usuario:editarOrganismo }

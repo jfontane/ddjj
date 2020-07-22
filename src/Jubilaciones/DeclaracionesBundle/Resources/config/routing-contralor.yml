@@ -52,7 +52,7 @@ contralor_declaracion_rechazar:
 
 contralor_representante_listar:
     path:     /representante/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Representante:listar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Representante:listarContralor }
 
 contralor_representante_ver:
     path:     /representante/ver/{id}
@@ -82,7 +82,7 @@ contralor_organismo_declaraciones_por_organismo:
 
 contralor_usuario_listar:
     path:     /usuario/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:Usuario:listar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Usuario:listarContralor }
 
 contralor_usuario_editar:
     path:     /usuario/editar/{id}

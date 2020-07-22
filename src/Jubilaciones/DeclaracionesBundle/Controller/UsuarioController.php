@@ -14,7 +14,26 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class UsuarioController extends Controller {
 
-  public function listarAction(Request $request) {
+  public function listarAdminAction(Request $request) {
+      $em = $this->getDoctrine()->getManager();
+      $usuarios = $em->getRepository('JubilacionesDeclaracionesBundle:User')->findAll();
+
+      //dump($usuarios[0]->getRoles());die;
+
+      $paginator = $this->get('knp_paginator');
+      $pagination = $paginator->paginate(
+                     $usuarios,
+                     $request->query->getInt('page', 1),
+                     10
+             );
+
+      //dump($pagination);die;
+      return $this->render('@JubilacionesDeclaraciones/Usuario/listarAdmin.html.twig', array(
+                  'pagination' => $pagination
+      ));
+  }
+
+  public function listarContralorAction(Request $request) {
     $em = $this->getDoctrine()->getManager();
     //$usuarios = $em->getRepository('JubilacionesDeclaracionesBundle:User')->findAll();
 
@@ -32,41 +51,43 @@ class UsuarioController extends Controller {
     );
 
     //dump($pagination);die;
-    return $this->render('@JubilacionesDeclaraciones/ContralorUsuario/listar.html.twig', array(
+    return $this->render('@JubilacionesDeclaraciones/Usuario/listarContralor.html.twig', array(
       'pagination' => $pagination
     ));
   }
 
-  public function nuevoAction(Request $request) {
-    $passwordEncoder = $this->get('security.password_encoder');
-    $usuario = new User();
-    $form = $this->createForm(UserType::class, $usuario);
 
-    $form->handleRequest($request);
-    if ($form->isSubmitted() && $form->isValid()) {
-      // 3) Encode the password (you could also do this via Doctrine listener)
-      $password = $passwordEncoder->encodePassword($usuario, $usuario->getPlainPassword());
-      $usuario->setPassword($password);
-      //$rol[0] = $form->get('roles')->getData();
-      $roles=$form->get('roles')->getData();
-      $usuario->setRoles($roles);
-      // 4) save the User!
-      $em = $this->getDoctrine()->getManager();
-      $em->persist($usuario);
-      $em->flush();
+  public function nuevoAdminAction(Request $request) {
+      $passwordEncoder = $this->get('security.password_encoder');
+      $usuario = new User();
+      $form = $this->createForm(UserType::class, $usuario);
 
-      // ... do any other work - like sending them an email, etc
-      // maybe set a "flash" success message for the user
+      $form->handleRequest($request);
+      if ($form->isSubmitted() && $form->isValid()) {
+        // 3) Encode the password (you could also do this via Doctrine listener)
+          $password = $passwordEncoder->encodePassword($usuario, $usuario->getPlainPassword());
+          $usuario->setPassword($password);
+          //$rol[0] = $form->get('roles')->getData();
+          $roles=$form->get('roles')->getData();
+          $usuario->setRoles($roles);
+          // 4) save the User!
+          $em = $this->getDoctrine()->getManager();
+          $em->persist($usuario);
+          $em->flush();
 
-      // Mensaje para notificar al usuario que todo ha salido bien
-      AbstractBaseController::addInfoMessage('El Usuario <b>' .$usuario->getUsername() .' </b> sido Creado.');
-      return $this->redirectToRoute('admin_usuario_listar');
-    }
-    return $this->render('@JubilacionesDeclaraciones/AdminUsuario/nuevo.html.twig', array('form' => $form->createView()
-  ));
+          // ... do any other work - like sending them an email, etc
+          // maybe set a "flash" success message for the user
+
+          // Mensaje para notificar al usuario que todo ha salido bien
+          AbstractBaseController::addInfoMessage('El Usuario <b>' .$usuario->getUsername() .' </b> sido Creado.');
+          return $this->redirectToRoute('admin_usuario_listar');
+      }
+      return $this->render('@JubilacionesDeclaraciones/Usuario/nuevoAdmin.html.twig', array('form' => $form->createView()
+      ));
   }
 
-public function editarAction(Request $request, UserInterface $user) {
+
+public function editarOrganismoAction(Request $request, UserInterface $user) {
   //dump($user);die;
 
   $passwordEncoder = $this->get('security.password_encoder');
@@ -87,7 +108,7 @@ public function editarAction(Request $request, UserInterface $user) {
     //  $this->get('eventos.notificacion')->sendToAll('Symfony 2020!', 'Se ha actualizado el evento '.$organismo->getNombre().'.');
     return $this->redirect($this->generateUrl('principal_logueado'));
   }
-  return $this->render('@JubilacionesDeclaraciones/OrganismoUsuario/editar.html.twig'
+  return $this->render('@JubilacionesDeclaraciones/Usuario/editarOrganismo.html.twig'
   , array('form' => $form->createView(), 'usuario' => $user
 ));
 }
@@ -110,25 +131,22 @@ public function editarContralorAction(Request $request, $id) {
     $em->flush();
     AbstractBaseController::addWarnMessage('El Usuario "' . $usuario->getUsername()
     . '" se ha modificado correctamente.');
-    //  $this->get('eventos.notificacion')->sendToAll('Symfony 2020!', 'Se ha actualizado el evento '.$organismo->getNombre().'.');
     return $this->redirect($this->generateUrl('contralor_usuario_listar'));
   }
-  return $this->render('@JubilacionesDeclaraciones/ContralorUsuario/editar.html.twig'
+  return $this->render('@JubilacionesDeclaraciones/Usuario/editarContralor.html.twig'
   , array('form' => $form->createView(), 'usuario' => $usuario
 ));
 }
 
-public function borrarContralorAction($id) {
+public function borrarAdminAction($id) {
   $em = $this->getDoctrine()->getManager();
   $usuario = $em->getRepository('JubilacionesDeclaracionesBundle:User')->findOneBy(array('id' => $id));
-  // Para borrar el archivo
 
   $em->remove($usuario);
   $em->flush();
   AbstractBaseController::addInfoMessage('El Usuario ' .
   $usuario .
   ' se ha borrado correctamente.');
-
   return $this->redirect($this->generateUrl('admin_usuario_listar'));
 }
 

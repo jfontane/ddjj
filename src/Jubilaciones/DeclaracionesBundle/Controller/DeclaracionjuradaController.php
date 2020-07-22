@@ -74,7 +74,6 @@ class DeclaracionjuradaController extends Controller {
 
 
     public function nuevoAction(Request $request, UserInterface $user) {
-
             $organismo_codigo = $user->getUsername();
             $em = $this->getDoctrine()->getManager();
             $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' => $organismo_codigo));
@@ -375,7 +374,7 @@ class DeclaracionjuradaController extends Controller {
             //dump(Util::totaliza($archivo));
             //die;
             $valores = Util::totaliza($archivo);
-            return $this->render('@JubilacionesDeclaraciones/ContralorDeclaracionjurada/valoresTotales.html.twig', array(
+            return $this->render('@JubilacionesDeclaraciones/Declaracionjurada/valoresTotalesContralor.html.twig', array(
                         'valores' => $valores, 'declaracion' => $declaracion
             ));
         }
@@ -412,14 +411,14 @@ class DeclaracionjuradaController extends Controller {
             return $this->file($arch, 'jubi1.ind');
         }
 
-        public function declaracionAction($id) {
+        /*public function declaracionAction($id) {
             $em = $this->getDoctrine()->getManager();
             $declaracion = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findOneBy(array('id' => $id));
             //dump($declaraciones);die;
             return $this->render('@JubilacionesDeclaraciones/ContralorDeclaracionjurada/declaracionjurada.html.twig', array(
                         'declaracion' => $declaracion
             ));
-        }
+        }*/
 
 
 

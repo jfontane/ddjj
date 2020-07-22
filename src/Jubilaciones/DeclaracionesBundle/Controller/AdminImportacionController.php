@@ -311,9 +311,7 @@ class AdminImportacionController extends Controller {
             $declaracion_tipo_liquidacion = explode(';', $archivo[$i])[3];
             $declaracion_fecha_entrega = new \DateTime(explode(';', $archivo[$i])[4]);
             $declaracion_fecha_ingreso = explode(';', $archivo[$i])[5];
-
             $fecha_ingreso = ($declaracion_fecha_ingreso != 'NULL') ? new \DateTime($declaracion_fecha_ingreso) : '';
-
             $declaracion_estado = explode(';', $archivo[$i])[6];
             $dj_estado="";
             if ($declaracion_estado=='C') {

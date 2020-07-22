@@ -1,14 +1,14 @@
 admin_usuario_listar:
     path: /usuario/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminUsuario:listar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Usuario:listarAdmin }
 
 admin_usuario_nuevo:
     path: /usuario/nuevo
-    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminUsuario:nuevo }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Usuario:nuevoAdmin }
 
 admin_usuario_borrar:
     path: /usuario/borrar/{id}
-    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminUsuario:borrar }
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Usuario:borrarAdmin }
 
 admin_importacion_listar:
     path: /importacion/listar
@@ -28,4 +28,4 @@ admin_importacion_borrar:
 
 admin_organismo_listar:
     path: /organismo/listar
-    defaults: { _controller: JubilacionesDeclaracionesBundle:AdminOrganismo:listar }    
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Organismo:listar }

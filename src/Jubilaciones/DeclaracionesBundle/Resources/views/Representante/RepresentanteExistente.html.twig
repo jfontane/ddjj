@@ -52,39 +52,6 @@
 
         <div class="container-fluid">
 
-
-            <br/>
-            <table class="table table-bordered">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Codigo</th>
-                        <th>Nombre</th>
-                        <th>Domicilio</th>
-                        <th>Email</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {# table body #}
-                    {% if organismo %}
-                        <tr>
-                            <td>{{ organismo.codigo }}</td>
-                            <td>{{ organismo.nombre|capitalize }}</td>
-                            <td>{{ organismo.domicilioCalle }} {{ organismo.domicilioNumero }}</td>
-                            <td>{{ organismo.email }}</td>
-                            <td>
-                                <a href="{{ path('organismo_organismo_ver',{ "id": organismo.id }) }}">Ver</a>&nbsp;&nbsp;
-                                <a href="{{ path('organismo_organismo_editar') }}">Editar</a>&nbsp;&nbsp;
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="4">No Existe Organismo Asociado al Usuario.</td>
-                        </tr>
-                    {% endif %}
-                <tbody>
-            </table>
-            <br>
             <hr>
             <table class="table table-bordered">
                 <thead class="thead-dark">
@@ -92,31 +59,21 @@
                         <th>CUIL</th>
                         <th>Nombre</th>
                         <th>Email</th>
-                        <th>Entrego FR020</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {# table body #}
-                    {% if organismo %}
                         <tr>
-                            <td>{{ organismo.representante.cuil }}</td>
-                            <td>{{ organismo.representante.apellido|capitalize }}, {{ organismo.representante.nombres|capitalize }}</td>
-                            <td>{{ organismo.representante.email }}</td>
-                            <td>{{ organismo.entregoFormulario }}</td>
+                            <td>{{ representante.cuil }}</td>
+                            <td>{{ representante.apellido|capitalize }}, {{ representante.nombres|capitalize }}</td>
+                            <td>{{ representante.email }}</td>
                             <td>
-                                <a href="">Desvincular</a>&nbsp;&nbsp;
-                                <a href="{{ path('organismo_representante_editar') }}">Editar</a>&nbsp;&nbsp;
+                                <a href="{{ path('organismo_representante_existente_vincular',{'cuil' : representante.cuil }) }}">Vincular</a>&nbsp;&nbsp;
                             </td>
                         </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="4">No Existe Organismo Asociado al Usuario.</td>
-                        </tr>
-                    {% endif %}
                 <tbody>
             </table>
-        <a href="{{ path('organismo_representante_nuevo') }}" class="btn">Nuevo Representante</a>
         </div>
 
 

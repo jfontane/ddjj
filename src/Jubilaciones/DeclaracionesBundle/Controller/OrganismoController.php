@@ -36,7 +36,7 @@ public function detallesAction(UserInterface $user) {
       $em = $this->getDoctrine()->getManager();
       $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array("codigo"=>$organismo_codigo));
       //dump($declaraciones);die;
-      return $this->render('@JubilacionesDeclaraciones/OrganismoOrganismo/detalle.html.twig', array(
+      return $this->render('@JubilacionesDeclaraciones/Organismo/detalle.html.twig', array(
                   'organismo' => $organismo
       ));
   }
@@ -48,13 +48,13 @@ public function detallesAction(UserInterface $user) {
 
     //$declaraciones = $em->getRepository('JubilacionesDeclaracionesBundle:Declaracionjurada')->findAllDeclaracionesPorPeriodo();
     if($user->hasRole('ROLE_USER')){
-        return $this->render('@JubilacionesDeclaraciones/OrganismoOrganismo/ver.html.twig', array(
+        return $this->render('@JubilacionesDeclaraciones/Organismo/verOrganismo.html.twig', array(
                     'organismo' => $organismo
         ));
         //filtrar declaraciones para este usuario
         //dump($user);exit;
     } else {
-      return $this->render('@JubilacionesDeclaraciones/ContralorOrganismo/ver.html.twig', array(
+      return $this->render('@JubilacionesDeclaraciones/Organismo/verContralor.html.twig', array(
         'organismo' => $organismo
       ));
     };
@@ -95,6 +95,7 @@ public function detallesAction(UserInterface $user) {
   ));
 }
 
+
 public function modificarAction(Request $request, UserInterface $user) {
   $user = $this->getUser();
   $organismo_codigo = $user->getUsername();
@@ -120,10 +121,11 @@ public function modificarAction(Request $request, UserInterface $user) {
     //  $this->get('eventos.notificacion')->sendToAll('Symfony 2020!', 'Se ha actualizado el evento '.$organismo->getNombre().'.');
     return $this->redirect($this->generateUrl('organismo_organismo_listar'));
   }
-  return $this->render('@JubilacionesDeclaraciones/OrganismoOrganismo/editar.html.twig'
+  return $this->render('@JubilacionesDeclaraciones/Organismo/editar.html.twig'
   , array('form' => $form->createView(), 'organismo' => $organismo
 ));
 }
+
 
 public function borrarAction($id) {
 

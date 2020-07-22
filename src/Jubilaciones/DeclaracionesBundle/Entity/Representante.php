@@ -4,6 +4,7 @@ namespace Jubilaciones\DeclaracionesBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Jubilaciones\DeclaracionesBundle\Validator\Constraints as BaseAssert;
 
 /**
  * Representante
@@ -21,9 +22,11 @@ class Representante {
     protected $id;
 
     /**
-     * @ORM\Column(type="string", unique=true)
-     * @Assert\NotBlank()
-     * @Assert\Length(min="11",max="11")
+     * @ORM\Column(type="string", length=11, unique=true)
+     * @BaseAssert\CUILValido
+     * @Assert\NotBlank(
+     *    message="El numero de CUIL no puede quedar vacio."
+     * )
      */
     protected $cuil;
 

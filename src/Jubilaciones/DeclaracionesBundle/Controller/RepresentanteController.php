@@ -20,11 +20,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class RepresentanteController extends Controller {
 
-  public function listarAction() {
+  public function listarContralorAction() {
       $em = $this->getDoctrine()->getManager();
       $representantes = $em->getRepository('JubilacionesDeclaracionesBundle:Representante')->findAllRepresentantesAlfabeticamente();
-      //dump($declaraciones);die;
-      return $this->render('@JubilacionesDeclaraciones/ContralorRepresentante/listar.html.twig', array(
+      return $this->render('@JubilacionesDeclaraciones/Representante/listarContralor.html.twig', array(
                   'representantes' => $representantes
       ));
   }
@@ -33,35 +32,28 @@ class RepresentanteController extends Controller {
   public function nuevoAction(Request $request) {
       $user = $this->getUser();
       $codigo_organismo = $user->getUsername();
-      //dump($user);die;
       $em = $this->getDoctrine()->getManager();
       $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array('codigo' => $codigo_organismo));
-
       $representante = new Representante();
       $form = $this->createForm(RepresentanteType::class, $representante);
       $form->remove('organismo');
       $form->handleRequest($request);
       if ($form->isSubmitted() && $form->isValid()) {
-          //Saco el organismo del Formulario de Alta de Representante
-          //$representanteOrganismo = $form->get('organismo')->getData();
-          //Saco el ID del Organismo del Formulario de Alta de Representante
-          //$idRepresentanteOrganismo = $representanteOrganismo->getId();
-
-          //Localizo el Organisno por ID para ver si tiene o no Representante Vinculado
-
-  //            dump($organismo);
-  //            die;
-          //$nroDocumento = $representante->getDocumentoNumero();
-          //$representante->setDocumentoTipo('Dni');
           $representante->addOrganismo($organismo);
           $representante->setConfirmoDatos('No');
-          //$representante->setDocumentoNumero(substr($nroDocumento, 2, 8));
           $representante->setFechaActualizacion(new \DateTime('now'));
 
-          $em->persist($representante);
-          $em->flush();
-          AbstractBaseController::addWarnMessage("El Representante '" . $representante . "' se ha creado correctamente.");
+          try {
+              $em->persist($representante);
+              $em->flush();
+          } catch (\Doctrine\DBAL\DBALException $e) {
+              AbstractBaseController::addWarnMessage("Atencion!!!: El Representante ya estaba creado con anterioridad.");
+              //return $this->redirect($this->generateUrl('organismo_declaracion_error', array('error' => 'Clave Duplicada')));
+              return $this->redirect($this->generateUrl('organismo_representante_existente', array('cuil' => $representante->getCuil())));
+          }
 
+
+          AbstractBaseController::addWarnMessage("El Representante '" . $representante . "' se ha creado correctamente.");
           if ( !$organismo->getRepresentante() ) {
               $organismo->setRepresentante($representante);
               $organismo->setEntregoFormulario('No');
@@ -72,8 +64,6 @@ class RepresentanteController extends Controller {
               AbstractBaseController::addWarnMessage("El Representante NO se ha vinculado al organismo. El Organismo podria ya tener un Representante");
           }
           return $this->redirect($this->generateUrl('organismo_organismo_listar'));
-        // return  $this->get('router')->generate('organismo_organismo_listar');
-
       }
       return $this->render('@JubilacionesDeclaraciones/Representante/nuevoRepresentanteConOrganismo.html.twig', array('form' => $form->createView(),
       ));
@@ -93,16 +83,10 @@ class RepresentanteController extends Controller {
     $em = $this->getDoctrine()->getManager();
     $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array("codigo"=>$organismo_codigo));
     $representante=$organismo->getRepresentante();
-    //dump($representante);die;
-    /*if (null == $organismo = $em->find('JubilacionesDeclaracionesBundle:User', $id)) {
-    throw $this->createNotFoundException('No existe el Usuario solicitado.');
-  }*/
-
     $form = $this->createForm(RepresentanteType::class, $representante);
     $form->remove('cuil');$form->remove('apellido');$form->remove('nombres');
     $form->remove('sexo');$form->remove('fechaActualizacion');$form->remove('confirmoDatos');
     $form->remove('organismo');
-
     $form->handleRequest($request);
     if ($form->isSubmitted() && $form->isValid()) {
       //$evento->setDescripcion($this->get('eventos.util')->autoLinkText($evento->getDescripcion()));
@@ -110,17 +94,54 @@ class RepresentanteController extends Controller {
       $em->flush();
       AbstractBaseController::addWarnMessage('El Email del Representante "' . $representante
       . '" se ha modificado correctamente.');
-      //  $this->get('eventos.notificacion')->sendToAll('Symfony 2020!', 'Se ha actualizado el evento '.$organismo->getNombre().'.');
       return $this->redirect($this->generateUrl('organismo_organismo_listar'));
     }
-    return $this->render('@JubilacionesDeclaraciones/OrganismoRepresentante/editar.html.twig'
+    return $this->render('@JubilacionesDeclaraciones/Representante/editar.html.twig'
     , array('form' => $form->createView(), 'representante' => $representante
   ));
 }
 
-
-public function borrarAction($id) {
-
+public function desvincularAction() {
+    $user = $this->getUser();
+    $organismo_codigo = $user->getUsername();
+    $em = $this->getDoctrine()->getManager();
+    $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array("codigo"=>$organismo_codigo));
+    $organismo->setRepresentante(Null);
+    $organismo->setEntregoFormulario('');
+    $em->persist($organismo);
+    $em->flush();
+    AbstractBaseController::addWarnMessage("El Representante se ha Desvinculado correctamente.");
+    return $this->redirect($this->generateUrl('organismo_organismo_listar'));
 }
+
+public function vincularAction($cuil) {
+    $user = $this->getUser();
+    $organismo_codigo = $user->getUsername();
+    $em = $this->getDoctrine()->getManager();
+    $representante = $em->getRepository('JubilacionesDeclaracionesBundle:Representante')->findOneBy(array("cuil"=>$cuil));
+    $organismo = $em->getRepository('JubilacionesDeclaracionesBundle:Organismo')->findOneBy(array("codigo"=>$organismo_codigo));
+    $organismo->setRepresentante($representante);
+    $organismo->setEntregoFormulario('No');
+    $em->persist($organismo);
+    $em->flush();
+    AbstractBaseController::addWarnMessage("El Representante se ha Vinculado correctamente.");
+    return $this->redirect($this->generateUrl('organismo_organismo_listar'));
+}
+
+
+public function mostrarRepresentanteExistenteAction($cuil) {
+    $user = $this->getUser();
+    $organismo_codigo = $user->getUsername();
+    $em = $this->getDoctrine()->getManager();
+    $representante = $em->getRepository('JubilacionesDeclaracionesBundle:Representante')->findOneBy(array("cuil"=>$cuil));
+    return $this->render('@JubilacionesDeclaraciones/Representante/RepresentanteExistente.html.twig'
+      , array('representante' => $representante
+  ));
+    //AbstractBaseController::addWarnMessage("El Representante se ha Desvinculado correctamente.");
+    //return $this->redirect($this->generateUrl('vincularRepresentanteConOrganismo'));
+}
+
+
+
 
 }

@@ -15,13 +15,13 @@ use Jubilaciones\DeclaracionesBundle\Controller\AbstractBaseController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class OrganismoConveniocuotaController extends Controller {
+class ConveniocuotaController extends Controller {
 
   public function listarAction(UserInterface $user) {
     $user = $this->getUser();
     $organismo_codigo = $user->getUsername();
     $arr = $this->obtenerConveniosVigentes($organismo_codigo);
-    return $this->render('@JubilacionesDeclaraciones/OrganismoConveniocuota/listar.html.twig', array('convenios' => $arr));
+    return $this->render('@JubilacionesDeclaraciones/Conveniocuota/listar.html.twig', array('convenios' => $arr));
   }
 
   function verAction($codigo_convenio, $tramo, UserInterface $user) {
@@ -55,7 +55,7 @@ class OrganismoConveniocuotaController extends Controller {
     // $representante = null;
     //$convenios=array("saludo"=>"hola");
     //return new Response("sasdasdasd");
-    return $this->render('@JubilacionesDeclaraciones/OrganismoConveniocuota/ver.html.twig', array(
+    return $this->render('@JubilacionesDeclaraciones/Conveniocuota/ver.html.twig', array(
       'cuotas_vencidas' => $arreglo_cuotas_vencidas,
       'cuotas_vigentes' => $arreglo_cuotas_vigentes,
       'cuotas_pagadas' => $arreglo_cuotas_pagadas,

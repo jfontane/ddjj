@@ -45,9 +45,11 @@
                 <p class="warn">{{ mensaje }}</p>
             {% endfor %}
         </div>
+        {% if is_granted('ROLE_USER') %}
         <p>
           <a href="{{path('organismo_declaracion_nuevo')}}" class="btn btn-sm btn-primary">Nueva</a>&nbsp;&nbsp;
         </p>
+        {% endif %}
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
@@ -79,8 +81,11 @@
                                 {{  declaracion.fechaIngreso is empty ? "" : declaracion.fechaIngreso | date('Y-m-d H:i') }}
                             </td>
                             <td>{{ declaracion.estado }}</td>
+
                             <td>
+                              {% if declaracion.estado != 'Aprobada' %}
                                 <a href="{{ path ('organismo_declaracion_ver',{'id' : declaracion.id }) }}" class="btn btn-sm btn-primary">Ver</a>&nbsp;
+                              {% endif %}
                                 {% if declaracion.estado == 'Pendiente' or declaracion.estado == 'Rechazada' %}
                                     {% if organismo == null %}
                                        <a href="{{ path('contralor_mostrar_totales',{'id' : declaracion.id }) }} " class="btn btn-sm btn-primary">Procesar</a>&nbsp;
