@@ -99,6 +99,16 @@ class Organismo {
     protected $amparo;
 
     /**
+     * @ORM\Column(type="string", columnDefinition="enum('Si', 'No')", nullable=true)
+     */
+    protected $pagaConBoleta;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $digitoVerificador;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Representante", inversedBy="organismos")
      * @ORM\JoinColumn(name="representante_id", referencedColumnName="id")
      */

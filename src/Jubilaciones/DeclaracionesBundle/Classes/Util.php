@@ -35,12 +35,12 @@ class Util {
             $totalNoRemunerativo = $totalNoRemunerativo + (float) (self::convierte(substr($archivo[$i], 117, 11)));
             $totalApIAPOS = $totalApIAPOS + (float) (self::convierte(substr($archivo[$i], 139, 11)));
             $totalApIAPOSsolidario = $totalApIAPOSsolidario + (float) (self::convierte(substr($archivo[$i], 150, 11)));
-            
+
             $totalApPersonal = $totalApPersonal + (float) (self::convierte(substr($archivo[$i], 161, 11)));
             $totalApPatronal = $totalApPatronal + (float) (self::convierte(substr($archivo[$i], 172, 11)));
             //Aca va el otros
-            
-            
+
+
             $totalAdicional = $totalAdicional + (float) (self::convierte(substr($archivo[$i], 183, 11)));
             $totalComputoPrivilegio = $totalComputoPrivilegio + (float) (self::convierte(substr($archivo[$i], 194, 8)));
             $totalRecCPriv = $totalRecCPriv + (float) (self::convierte(substr($archivo[$i], 202, 8)));
@@ -59,7 +59,10 @@ class Util {
             $totalCompDif = $totalCompDif + (float) (self::convierte(substr($archivo[$i], 320, 8)));
         }; // end for
         $cantidad_empleados = $i - 1;
-        $importesOtros=$totalInasisSusp+$totalLicSinSueldo;
+        $importesOtros=$totalAdicional+$totalComputoPrivilegio+$totalRecCPriv+$totalRecSer+
+                       $totalDispPol+$totalPasividad+$totalLicEnf+$totalLicSinSueldo+
+                       $totalLicMayor30Dias+$totalInasisSusp+$totalMultasTardanzas+$totalOrgDeficit+
+                       $totalTareasRiesgoza+$totalOtrosAp+$totalUnifAportes+$totalCompDif;
         return Array('totalRemunerativo' => $totalRemunerativo, 'totalNoRemunerativo' => $totalNoRemunerativo, 'totalApPersonal' => $totalApPersonal,
             'totalApPatronal' => $totalApPatronal, 'totalApIAPOS' => $totalApIAPOS, 'totalApIAPOSsolidario' => $totalApIAPOSsolidario,
             'totalAdicional' => $totalAdicional, 'totalComputoPrivilegio' => $totalComputoPrivilegio, 'totalRecCPriv' => $totalRecCPriv,
