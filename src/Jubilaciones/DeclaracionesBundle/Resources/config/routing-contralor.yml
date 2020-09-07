@@ -87,3 +87,7 @@ contralor_usuario_listar:
 contralor_usuario_editar:
     path:     /usuario/editar/{id}
     defaults: { _controller: JubilacionesDeclaracionesBundle:Usuario:editarContralor }
+
+contralor_pagoconbase_listar:
+    path:     /pagoconbase/listar
+    defaults: { _controller: JubilacionesDeclaracionesBundle:Pagoconbase:listar }

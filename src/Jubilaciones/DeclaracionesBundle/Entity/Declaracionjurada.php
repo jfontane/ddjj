@@ -22,7 +22,7 @@ class Declaracionjurada {
     const ESTADO_PROCESANDO = 2;
     const ESTADO_APROBADA = 3;
     const ESTADO_RECHAZADA = 4;
-    
+
     const TIPO_LIQ_ORIG_NORMAL = '111';
     const TIPO_LIQ_CORRECTIVA_NORMAL = '112';
     const TIPO_LIQ_ORIG_SAC = '211';
@@ -139,6 +139,12 @@ class Declaracionjurada {
      * @ORM\JoinColumn(name="organismo_id", referencedColumnName="id")
      */
     protected $organismo;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Pagoconbase", inversedBy="declaracionesjuradas")
+     * @ORM\JoinColumn(name="pagoconbase_id", referencedColumnName="id")
+     */
+    protected $pagoconbase;
 
     /**
      * Get id
